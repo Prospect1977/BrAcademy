@@ -105,15 +105,12 @@
                 </div>
                 <div class="modal-body" style="height:500px">
 
-                    @*<img id="imgPreview" style="width:500px" />
+                    
         <div id="divPreview" style="width:600px"></div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>*@
+       
 
 
-                    @*<div style="width: 900px">
+                    <div style="width: 900px">
             <div class="row">
                 <div class="col-md-7">
                     <div>
@@ -177,35 +174,11 @@
 
                 </div>
             </div>
-        </div>*@
+        </div>
 
 
-                    @*<div id="upload-demo">
-
-        </div>*@
-                    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Save">
-                        <input type="file" id="FileUpload1" />
-                        <br />
-                        <br />
-                        <table border="0" cellpadding="0" cellspacing="5">
-                            <tr>
-                                <td>
-                                    <img id="Image1" src="" alt="" style="display: none" />
-                                </td>
-                                <td>
-                                    <canvas id="canvas" height="5" width="5"></canvas>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <input type="button" id="btnCrop" value="Crop" style="display: none" />
-                        <input type="submit" id="btnUpload" value="Upload" asp-action="SaveCroppedImage" style="display: none" />
-                        <input type="hidden" name="imgX1" id="imgX1" />
-                        <input type="hidden" name="imgY1" id="imgY1" />
-                        <input type="hidden" name="imgWidth" id="imgWidth" />
-                        <input type="hidden" name="imgHeight" id="imgHeight" />
-                        <input type="hidden" name="imgCropped" id="imgCropped" />
-                    </form>
+                   
+                    
 
 
                 </div>
@@ -217,10 +190,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
-
+    <script src="~/lib/cropperjs-master/dist/cropper.js"></script>
    @*<script src="~/lib/croppie.min.js"></script>*@
     <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
-    <script src="https://unpkg.com/jcrop"></script>
+    @*<script src="https://unpkg.com/jcrop"></script>*@
     <script>
         $(function () {
 
@@ -303,108 +276,109 @@
 
 
             //---------------------------------------------My Green Line------------------------------------------------------------------------//
-            //$("#CourseImage").change(function () {
-            //    var files = $('#CourseImage')[0].files;
-            //    console.log(files[0]);
-            //    var formData = new FormData();
-            //    alert();
-            //    formData.append(files[0].name, files[0]);
-            //    $.ajax({
-            //        url: '../../Courses/UploadCourseImage',
-            //        type: 'POST',
-            //        data: formData,
-            //        dataType: "json",
-            //        contentType: false,
-            //        processData: false,
-            //        complete: function (result) {
-            //            $("#imgCrop").attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
-            //            $("#hiddenImageName").val($.parseJSON(JSON.stringify(result)).responseText);
-            //            $('#cropModal').modal({ backdrop: "static", keyboard: false });
-            //            console.log(result);
-            //            //var aspect = 1;
-            //            //var image = $('#imgCrop')[0];
-            //            //setTimeout(function () {
-            //            //    if (aspect != "") {
-            //            //        var cropper = new Cropper(image, {
-            //            //            preview: "#divPreview",
-            //            //            aspectRatio: aspect,
-            //            //            crop: function (e) {
-            //            //                $('#TxtX').val(e.detail.x);
-            //            //                $('#TxtY').val(e.detail.y);
-            //            //                $('#TxtW').val(e.detail.width);
-            //            //                $('#TxtH').val(e.detail.height);
+            $("#CourseImage").change(function () {
+                var files = $('#CourseImage')[0].files;
+                console.log(files[0]);
+                var formData = new FormData();
+              
+                formData.append(files[0].name, files[0]);
+                $.ajax({
+                    url: '../../Courses/UploadCourseImage',
+                    type: 'POST',
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    complete: function (result) {
+                        $("#imgCrop").attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
+                        $("#hiddenImageName").val($.parseJSON(JSON.stringify(result)).responseText);
+                        $('#cropModal').modal({ backdrop: "static", keyboard: false });
+                        console.log(result);
+                        var aspect = 1;
+                        var image = $('#imgCrop')[0];
+                        setTimeout(function () {
+                            if (aspect != "") {
+                                var cropper = new Cropper(image, {
+                                    preview: "#divPreview",
+                                    aspectRatio: aspect,
+                                    crop: function (e) {
+                                        $('#TxtX').val(e.detail.x);
+                                        $('#TxtY').val(e.detail.y);
+                                        $('#TxtW').val(e.detail.width);
+                                        $('#TxtH').val(e.detail.height);
 
-            //            //            }
-            //            //        });
-            //            //    } else {
-            //            //        var cropper = new Cropper(image, {
-            //            //            preview: "#divPreview",
-            //            //            crop: function (e) {
-            //            //                $('#TxtX').val(e.detail.x);
-            //            //                $('#TxtY').val(e.detail.y);
-            //            //                $('#TxtW').val(e.detail.width);
-            //            //                $('#TxtH').val(e.detail.height);
+                                    }
+                                });
+                            } else {
+                                var cropper = new Cropper(image, {
+                                    preview: "#divPreview",
+                                    crop: function (e) {
+                                        $('#TxtX').val(e.detail.x);
+                                        $('#TxtY').val(e.detail.y);
+                                        $('#TxtW').val(e.detail.width);
+                                        $('#TxtH').val(e.detail.height);
 
-            //            //            }
-            //            //        });
+                                    }
+                                });
 
-            //            //    }
-            //            //}, 2000);
+                            }
+                        }, 2000);
 
 
-            //        }, error: function (ex) {
-            //            // console.log($.parseJSON(JSON.stringify(ex)).responseText);
-            //            $("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
-            //            $("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
-            //            $("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                    }, error: function (ex) {
+                        // console.log($.parseJSON(JSON.stringify(ex)).responseText);
+                        $("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                        $("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                        $("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                    }
+
+                });
+            });
+            //---------------------------------------------End My Green Line------------------------------------------------------------------------//
+
+
+            //    $('#CourseImage').change(function () {
+            //        $('#cropModal').modal({ backdrop: "static" })
+            //        $('#Image1').hide();
+            //        var reader = new FileReader();
+            //        reader.onload = function (e) {
+            //            $('#Image1').show();
+            //            $('#Image1').attr("src", e.target.result);
+            //            $('#Image1').Jcrop({
+            //                onChange: SetCoordinates,
+            //                onSelect: SetCoordinates
+            //            });
             //        }
-
+            //        reader.readAsDataURL($(this)[0].files[0]);
             //    });
+
+            //    $('#btnCrop').click(function () {
+            //        var x1 = $('#imgX1').val();
+            //        var y1 = $('#imgY1').val();
+            //        var width = $('#imgWidth').val();
+            //        var height = $('#imgHeight').val();
+            //        var canvas = $("#canvas")[0];
+            //        var context = canvas.getContext('2d');
+            //        var img = new Image();
+            //        img.onload = function () {
+            //            canvas.height = height;
+            //            canvas.width = width;
+            //            context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
+            //            $('#imgCropped').val(canvas.toDataURL());
+            //            $('#btnUpload').show();
+            //        };
+            //        img.src = $('#Image1').attr("src");
+            //    });
+
+
             //});
-             //---------------------------------------------End My Green Line------------------------------------------------------------------------//
-
-
-            $('#CourseImage').change(function () {
-                $('#cropModal').modal({ backdrop: "static" })
-                $('#Image1').hide();
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#Image1').show();
-                    $('#Image1').attr("src", e.target.result);
-                    $('#Image1').Jcrop({
-                        onChange: SetCoordinates,
-                        onSelect: SetCoordinates
-                    });
-                }
-                reader.readAsDataURL($(this)[0].files[0]);
-            });
-
-            $('#btnCrop').click(function () {
-                var x1 = $('#imgX1').val();
-                var y1 = $('#imgY1').val();
-                var width = $('#imgWidth').val();
-                var height = $('#imgHeight').val();
-                var canvas = $("#canvas")[0];
-                var context = canvas.getContext('2d');
-                var img = new Image();
-                img.onload = function () {
-                    canvas.height = height;
-                    canvas.width = width;
-                    context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
-                    $('#imgCropped').val(canvas.toDataURL());
-                    $('#btnUpload').show();
-                };
-                img.src = $('#Image1').attr("src");
-            });
-
-
+            //function SetCoordinates(c) {
+            //    $('#imgX1').val(c.x);
+            //    $('#imgY1').val(c.y);
+            //    $('#imgWidth').val(c.w);
+            //    $('#imgHeight').val(c.h);
+            //    $('#btnCrop').show();
+            //};
         });
-        function SetCoordinates(c) {
-            $('#imgX1').val(c.x);
-            $('#imgY1').val(c.y);
-            $('#imgWidth').val(c.w);
-            $('#imgHeight').val(c.h);
-            $('#btnCrop').show();
-        };
     </script>
-}
+    }

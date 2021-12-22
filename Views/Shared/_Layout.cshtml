@@ -1,0 +1,574 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="SovWare" />
+    <meta name="description" content="Study any topic, anytime. explore thousands of courses for the lowest price ever!" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/images/system/favicon.png">
+
+    <link rel="stylesheet" href="~/assets/css/jquery.webui-popover.min.css" />
+    <link href="~/lib/jquery-ui-1.13.0.custom/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/slick.css" />
+    <link rel="stylesheet" href="~/assets/css/slick-theme.css" />
+
+    <!-- font awesome 5 -->
+    <link rel="stylesheet" href="~/assets/css/fontawesome-all.min.css" />
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/css/main.css" />
+    <link rel="stylesheet" href="~/assets/css/responsive.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/assets/css/custom.css" />
+
+    
+</head>
+<body>
+    <header>
+        <div class="menu-area bg-white">
+            <div class="container-xl">
+                <nav class="navbar navbar-expand-lg navbar-light" style="position:relative">
+                    <ul class="mobile-header-buttons">
+                        <li>
+                            <a class="mobile-nav-trigger" href="#mobile-primary-nav">Menu<span></span></a>
+                        </li>
+                        <li>
+                            <a class="mobile-search-trigger" href="#mobile-search">Search<span></span></a>
+                        </li>
+                    </ul>
+
+                    <a href="~/" class="navbar-brand" style="position:relative;bottom:5px">
+                        <img src="~/assets/images/system/BrightEgyptLogo.png" alt="logo" height="40">
+                    </a>
+
+                    <div class="main-nav-wrap" style="float: right;">
+                        <div class="mobile-overlay"></div>
+
+                        <ul class="mobile-main-nav">
+                            <li class="mobile-menu-helper-top"></li>
+                            <li class="has-children text-nowrap fw-bold">
+                                <a>
+                                    <i class="fas fa-th d-inline text-20px" style="float: right;"></i>
+                                    <span class="fw-500">التخصصات</span><span class="has-sub-category"><i class="fas fa-angle-right"></i></span>
+
+                                </a>
+
+                                <ul class="category corner-triangle top-right is-hidden pb-0" style="">
+                                    <li class="all-category-devided mb-0 p-0" style="border-top: none;">
+                                        <a href="course-grid.html" class="py-2"><span>الدبلومات الفنية التخصصية</span></a>
+                                        <a href="course-list.html" class="py-2"><span>الإدارة والقيادة وتطوير الذات</span></a>
+                                        <a href="course-details.html" class="py-2"><span>الإبتكار والتحول الرقمي</span></a>
+                                        <a href="compare.html" class="py-2"><span>الأمن السيبراني وأمن المعلومات </span></a>
+                                        <a href="instructor.html" class="py-2"><span>المشتريات والمخازن اللوجيستية</span></a>
+                                        <a href="my_courses.html" class="py-2"><span>الصيانة والتشغيل والهندسة الفنية</span></a>
+                                        <a href="purchase_history.html" class="py-2"><span>النفط والغاز</span></a>
+                                        <a href="cart.html" class="py-2"><span>الهندسة الكهربائية</span></a>
+                                        <a href="wishlist.html" class="py-2"><span>المراجعة والتدقيق والرقابة المصرفية</span></a>
+                                        <a href="lesson.html" class="py-2"><span>المحاسبة والمالية </span></a>
+                                        <a href="user_profile.html" class="py-2"><span>المحاسبة والمالية</span></a>
+                                        <a href="user_credentials.html" class="py-2"><span>الموارد البشرية والجدارات والتدريب</span></a>
+
+                                        <a href="login.html" class="py-2"><span>القانوني والقضائي </span></a>
+                                        <a href="sign_up.html" class="py-2"><span>إدارة المشاريع والعقود </span></a>
+                                        <a href="login.html" class="py-2"><span>إدارة المشتريات وسلسلة التوريد</span></a>
+                                        <a href="sign_up.html" class="py-2"><span>الأمن والسلامة والصحة المهنية والبيئية</span></a>
+                                        <a href="login.html" class="py-2"><span>العلاقات العامة والإعلام الرقمي</span></a>
+                                        <a href="sign_up.html" class="py-2"><span>العقود والمناقصات</span></a>
+                                        <a href="login.html" class="py-2"><span>تكنولوجيا المعلومات</span></a>
+                                        <a href="sign_up.html" class="py-2"><span>البنوك والتأمين والخدمات المالية</span></a>
+                                        <a href="login.html" class="py-2"><span>تخطيط الصيانة وإدارة الأصول</span></a>
+                                        <a href="sign_up.html" class="py-2"><span>النقل والعمليات اللوجيستية</span></a>
+                                        <a href="login.html" class="py-2"><span>إدارة المكاتب والسكرتارية التنفيذية</span></a>
+                                        <a href="sign_up.html" class="py-2"><span>القطاع الأمني</span></a>
+
+
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mobile-menu-helper-bottom"></li>
+                        </ul>
+                    </div>
+
+
+
+                    @if (SignInManager.IsSignedIn(User))
+
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+
+
+                            {
+                                <ul class="navbar-nav" style="color:black">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" style="color:black" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                                            Admin Tools
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="top: 53px;">
+                                            <a class="dropdown-item" href="~/Courses/CoursesAdmin">Courses</a>
+                                            @*<a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>*@
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                    }
+
+                    <partial name="_LoginPartial" />
+
+                    @*<div class="wishlist-box menu-icon-box" id="wishlist_items">
+                            <div class="icon">
+                                <a href=""><i class="far fa-heart"></i></a>
+                                <span class="number">3</span>
+                            </div>
+                            <div class="dropdown course-list-dropdown corner-triangle top-right">
+                                <div class="list-wrapper">
+                                    <div class="item-list">
+                                        <ul>
+                                            <li>
+                                                <div class="item clearfix">
+                                                    <div class="item-image">
+                                                        <a href="">
+                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_4.jpg" alt="" class="img-fluid">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-details">
+                                                        <a href="course-details.html">
+                                                            <div class="course-name">Character Art School: Complete Character Drawing Course</div>
+                                                            <div class="instructor-name">
+                                                                By John David , By Olivia Emily
+                                                            </div>
+
+                                                            <div class="item-price">
+                                                                <span class="current-price">$70</span>
+                                                            </div>
+                                                        </a>
+                                                        <button type="button" onclick="handleCartItems(this)" class="addedToCart">
+                                                            Added to cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="item clearfix">
+                                                    <div class="item-image">
+                                                        <a href="">
+                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_5.jpg" alt="" class="img-fluid">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-details">
+                                                        <a href="course-details.html">
+                                                            <div class="course-name">The Complete Sketch 5 Course - Design Apps &amp; Websites 2021</div>
+                                                            <div class="instructor-name">
+                                                                By John David
+                                                            </div>
+
+                                                            <div class="item-price">
+                                                                <span class="current-price">$90</span>
+                                                            </div>
+                                                        </a>
+                                                        <button type="button" onclick="handleCartItems(this)" class="addedToCart">
+                                                            Added to cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="item clearfix">
+                                                    <div class="item-image">
+                                                        <a href="">
+                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_7.jpg" alt="" class="img-fluid">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-details">
+                                                        <a href="course-details.html">
+                                                            <div class="course-name">UI/UX design with Adobe XD: Design &amp; Prototype a Mobile App</div>
+                                                            <div class="instructor-name">
+                                                                By John David
+                                                            </div>
+
+                                                            <div class="item-price">
+                                                                <span class="current-price">$199</span>
+                                                            </div>
+                                                        </a>
+                                                        <button type="button" onclick="handleCartItems(this)" class="">
+                                                            Add to cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown-footer">
+                                        <a href="wishlist.html">Go to wishlist</a>
+                                    </div>
+                                </div>
+                                <div class="empty-box text-center d-none">
+                                    <p>Your wishlist is empty.</p>
+                                    <a href="">Explore courses</a>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="cart-box menu-icon-box" id="cart_items">
+
+
+                        <!-- Cart Dropdown goes here -->
+                        <div class="dropdown course-list-dropdown corner-triangle top-right" style="display: none;">
+                            <!-- Just remove the display none from the css to make it work -->
+                            <div class="list-wrapper">
+                                <div class="item-list">
+                                    <ul>
+                                        <li>
+                                            <div class="item clearfix">
+                                                <div class="item-image">
+                                                    <a href="">
+                                                        <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_4.jpg" alt="" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="item-details">
+                                                    <a href="">
+                                                        <div class="course-name">Character Art School: Complete Character Drawing Course</div>
+                                                        <div class="instructor-name">John David</div>
+                                                        <div class="item-price">
+                                                            <span class="current-price">$70</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="item clearfix">
+                                                <div class="item-image">
+                                                    <a href="">
+                                                        <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_5.jpg" alt="" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="item-details">
+                                                    <a href="">
+                                                        <div class="course-name">The Complete Sketch 5 Course - Design Apps &amp; Websites 2021</div>
+                                                        <div class="instructor-name">John David</div>
+                                                        <div class="item-price">
+                                                            <span class="current-price">$90</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="item clearfix">
+                                                <div class="item-image">
+                                                    <a href="">
+                                                        <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_11.jpg" alt="" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="item-details">
+                                                    <a href="">
+                                                        <div class="course-name">Adobe After Effects CC: Complete Course - Novice to Expert</div>
+                                                        <div class="instructor-name">John David</div>
+                                                        <div class="item-price">
+                                                            <span class="current-price">$30</span>
+                                                            <span class="original-price">$130</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-footer">
+                                    <div class="cart-total-price clearfix">
+                                        <span>Total:</span>
+                                        <div class="float-end">
+                                            <span class="current-price">$190</span>
+                                            <!-- <span class="original-price">$94.99</span> -->
+                                        </div>
+                                    </div>
+                                    <a href="cart.html">Go to cart</a>
+                                </div>
+                            </div>
+                            <div class="empty-box text-center d-none">
+                                <p>Your cart is empty.</p>
+                                <a href="">Keep Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <span class="signin-box-move-desktop-helper"></span>
+                    <div class="sign-in-box btn-group d-none">
+                        <button type="button" class="btn btn-sign-in" data-toggle="modal" data-target="#signInModal">Log In</button>
+
+                        <button type="button" class="btn btn-sign-up" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+                    </div>
+
+                    <!--  sign-in-box end -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="gray-bg">
+        @RenderBody()
+    </div>
+
+
+    <footer class="border-top footer text-muted" style="background-color:#333333; ">
+        @*<div class="container">
+                &copy; 2021 - BrAcademy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>*@
+
+
+        <div class="container-xl" style="display: none;">
+            <div class="row mb-3">
+                <div class="col-6 col-sm-6 col-md-3">
+                    <h5 class="text-muted">Top categories</h5>
+                    <ul class="list-unstyled text-small">
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                Responsive Design
+                                <span class="fw-700 text-end">(2)</span>
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                WordPress Theme
+                                <span class="fw-700 text-end">(1)</span>
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                Adobe Illustrator
+                                <span class="fw-700 text-end">(1)</span>
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                Drawing
+                                <span class="fw-700 text-end">(1)</span>
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                Mobile App Design
+                                <span class="fw-700 text-end">(1)</span>
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="link-secondary footer-hover-link" href="#">
+                                Design Thinking
+                                <span class="fw-700 text-end">(1)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <h5 class="text-muted">Useful links</h5>
+                    <ul class="list-unstyled text-small">
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="course-grid.html">Courses</a></li>
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="sign_up.html">Sign up</a></li>
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <h5 class="text-muted">Help</h5>
+                    <ul class="list-unstyled text-small">
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="about_us.html">About us</a></li>
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="privacy_policy.html">Privacy policy</a></li>
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="terms_and_condition.html">Terms and condition</a></li>
+                        <li class="mb-1"><a class="link-secondary footer-hover-link" href="refund_policy.html">Refund policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-3 order-sm-first">
+                    <img src="~/assets/images/system/logo-dark.png" alt="logo" width="130">
+                    <small class="d-block mb-3 fw-600">Study any topic, anytime. explore thousands of courses for the lowest price ever!</small>
+
+                    <ul class="footer-social-link"></ul>
+                </div>
+            </div>
+        </div>
+        <div style="background-color: #333333;padding-top:15px;padding-bottom:15px;">
+            <div class="container container-xl" style="text-align:center;padding-bottom:0">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.9065767479597!2d31.34235331511567!3d30.06821228187354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x74c413327780adb7!2zMzDCsDA0JzA1LjYiTiAzMcKwMjAnNDAuNCJF!5e0!3m2!1sen!2seg!4v1639212905464!5m2!1sen!2seg" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+            </div>
+        </div>
+        <div class="container container-xl" style="border-top:1px dotted white">
+
+        </div>
+        <div style="background-color: #333333;padding-top:24px">
+            <div class="container container-xl" style="text-align:center;padding-bottom:0">
+
+
+                <div class="row" style="direction:rtl;color:white;margin-bottom:15px">
+                    <div class="col-md-3" style="text-align:right">
+                        <a href="/">
+                            <img src="/assets/images/system/logo-white.png" alt="logo" height="40">
+                        </a>
+                    </div>
+                    <div class="col-md-3" style="text-align:right">
+                        <div class="footerTitle">
+                            <i class="fa fa-phone"></i>&nbsp;
+                            الهواتف
+                        </div>
+                        <div>
+                            <ul style="direction: ltr; list-style: none;">
+                                <li>
+                                    +2 011-2222-6532
+
+                                </li>
+                                <li>
+
+                                    +2 011-1477-1155
+
+                                </li>
+                                <li>
+
+                                    +2 010-6403-3606
+
+
+                                </li>
+                                <li>
+
+                                    +2 010-1081-3688
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align:right">
+                        <div class="footerTitle">
+                            <i class="fa fa-mail-bulk"></i>&nbsp;
+                            البريد الإلكتروني
+                        </div>
+
+                        <div>
+                            <ul style="list-style: none;direction: rtl;text-align: right;padding-right: 0;">
+                                <li>
+                                    Nermin.fawzy@brightacademyeg.com
+
+                                </li>
+                                <li>
+
+                                    Somaia.mohamed@brightacademyeg.com
+
+                                </li>
+                                <li>
+
+                                    Training@brightacademyeg.com
+
+
+                                </li>
+                                <li>
+
+                                    brightacademyeg.training@gmail.com
+
+
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align:right">
+                        <div class="footerTitle">
+                            <i class="fa fa-map-marker"></i>&nbsp;
+                            المقر الرئيسي
+                        </div>
+
+                        <div style="direction: ltr;">
+                            جمهورية مصر العربية – القاهرة ، 55 ش مكرم عبيد الرئيسي – مدينة نصر
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top">
+            <div class="container-xl">
+                <div class="row mt-3 py-1">
+                    <div class="col-6 col-sm-6 col-md-3 text-muted text-13px" style="color:white !important;margin-bottom:15px">
+                        © 2021 Bright Egypt, All rights reserved
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3 d-none d-md-block"></div>
+                    <div class="col-6 col-sm-6 col-md-3 d-none d-md-block"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui-1.13.0.custom/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                if ($(window).width() >= 840) {
+                    $("a.has-popover").webuiPopover({
+                        trigger: "hover",
+                        animation: "pop",
+                        placement: "horizontal",
+                        delay: {
+                            show: 500,
+                            hide: null,
+                        },
+                        width: 330,
+                    });
+                } else {
+                    $("a.has-popover").webuiPopover({
+                        trigger: "hover",
+                        animation: "pop",
+                        placement: "vertical",
+                        delay: {
+                            show: 100,
+                            hide: null,
+                        },
+                        width: 335,
+                    });
+                    //$(".user").hide();
+                }
+            }
+
+            if ($(".course-carousel")[0]) {
+                $(".course-carousel").slick({
+                    dots: false,
+                    infinite: false,
+                    speed: 300,
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    swipe: false,
+                    touchMove: false,
+                    responsive: [
+                        { breakpoint: 840, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+                        { breakpoint: 620, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+                        { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+                    ],
+                });
+            }
+
+            if ($(".top-istructor-slick")[0]) {
+                $(".top-istructor-slick").slick({
+                    dots: false,
+                });
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

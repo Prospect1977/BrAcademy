@@ -1,0 +1,732 @@
+﻿@model IndexVM;
+@{
+    ViewData["Title"] = "Bright Egypt";
+}
+
+<section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
+
+    <div class="container-xl">
+        <div class="row">
+            <div class="col position-relative">
+                <div class="home-banner-wrap">
+                    <h2 class="fw-bold">برايت إيجيبت لتنمية القدرات والحلول المتكاملة</h2>
+                    <p style="font-size:22px">
+                        شركة تدريب مصرية ذات مسؤلية محدودة  مُرخصة حسب القوانين والتعليمات الناظمة في جمهورية مصر العربية ، خاضعة لأحكام القانون رقم 159 لسنة 1981
+                        <a class="btn btn-primary btn-lg" href="home/about_us" style="border-color:white">المزيد عن برايت إيجيبت</a>
+                    </p>
+
+                    <form class="" action="assets/images/home/search" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="query" placeholder="ماذا تريد أن تتعلم؟">
+                            <div class="input-group-append p-6px bg-white" style="
+    position: relative;
+    left: 15px;
+">
+                                <button class="btn" type="submit" style="z-index:100"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var border_bottom = $(".home-banner-wrap").height() + 242;
+        $(".cropped-home-banner").css("border-bottom", border_bottom + "px solid #f1f7f8");
+
+        mRight = Number("1.5") * $(".home-banner-area").outerHeight();
+        $(".cropped-home-banner").css("right", mRight - 65 + "px");
+    </script>
+</section>
+
+<section class="home-fact-area">
+    <div class="container-lg" style="
+    direction: rtl;
+">
+        <div class="row" style="
+">
+            <div class="col-md-3 d-flex" style="">
+                <div class="home-fact-box mr-md-auto mr-auto" style="position: relative;">
+                    <i class="fas fa-bullseye float-start" style="/* position: absolute; */"></i>
+                    <div class="text-box" style="position: absolute;width: 300px; right: 60px;">
+                        <h4>
+                            أكثر من 1000 دورة تدريبية
+
+                        </h4>
+                        <p>في جميع التخصصات ومجالات العمل</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-md-3 d-flex" style="">
+                <div class="home-fact-box mr-md-auto mr-auto" style="position: relative;">
+                    <i class="fa fa-check float-start" style="/* position: absolute; */"></i>
+                    <div class="text-box" style="position: absolute;width: 320px;right: 60px;">
+                        <h4>محاضرون وخبراء محترفون</h4>
+                        <p>لديهم شهادات دولية معتمدة</p>
+                    </div>
+                </div>
+            </div><div class="col-md-3 d-flex" style="">
+                <div class="home-fact-box mr-md-auto mr-auto" style="position: relative;">
+                    <i class="fa fa-globe float-start" style="/* position: absolute; */"></i>
+                    <div class="text-box" style="position: absolute;width: 340px;right: 55px;">
+                        <h4>تُعقد الدورات التدريبية في اكثر من بلد</h4>
+                        <p>مصر، ليبيا، تركيا، ... الخ</p>
+                    </div>
+                </div>
+            </div><div class="col-md-3 d-flex" style="">
+                <div class="home-fact-box mr-md-auto mr-auto" style="position: relative;">
+                    <i class="fa fa-wifi float-start" style="/* position: absolute; */"></i>
+                    <div class="text-box" style="position: absolute;width: 390px;right: 70px;">
+                        <h4>دورات Online</h4>
+                        <p>وفقا لاحتياجات بيئة العمل</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="container-lg">
+        <h3 class="course-carousel-title my-4" style="
+    direction: rtl;
+">
+            المجالات التدريبية
+        </h3>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الدبلومات الفنية التخصصية <p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الإبتكار والتحول الرقمي<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الإدارة والقيادة وتطوير الذات<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الأمن السيبراني وأمن المعلومات <p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        المشتريات والمخازن اللوجيستية<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الصيانة والتشغيل والهندسة الفنية<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        النفط والغاز<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الهندسة الكهربائية <p style="
+    direction: rtl;
+">3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        المراجعة والتدقيق والرقابة المصرفية <p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        المحاسبة والمالية <p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        الموارد البشرية والجدارات والتدريب<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                <a href="#" class="top-categories" style="
+    direction: rtl;
+">
+
+                    <div class="category-title">
+                        القانوني والقضائي<p>3 دورات</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="course-carousel-area">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col">
+                <h3 class="course-carousel-title mb-4" style="direction: rtl;">
+                    الدورات التدريبية الأكثر طلباً
+                </h3>
+            </div>
+            <div class="row" style="direction:rtl">
+                @*<div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+            <a href="course-details-4.html" class="" tabindex="0">
+                <div class="course-box">
+                    <div class="course-image" style="text-align:center">
+                        <img src="assets/images/Auditing.jpg" alt="Auditing Stratigies" class="img-fluid">
+                    </div>
+                    <div class="course-details">
+                        <h5 class="title" style="text-align: right;">إستراتيجيات التدقيق ومعايير المراجعة الداخلية</h5>
+                        <div class="rating" style="text-align: right;">
+                            <i style="transform: scale(-1,1);" class="fas fa-star-half-alt filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+                            <i class="fas fa-star filled"></i>
+
+
+                            <div class="d-inline-block" style="float: left;">
+                                <span class="text-dark ms-1 text-15px" style="float: right;">(4.5)</span>
+                                <span class="text-dark text-12px text-muted ms-2">(51 Reviews)</span>
+                            </div>
+                        </div>
+                        <div class="d-flex text-dark" style="direction: rtl;">
+                            <div class="">
+                                <i class="far fa-clock text-14px"></i>
+                                <span class="text-muted text-12px">من الأحد إلى الخميس</span>
+                            </div>
+                            <div class="ms-3">
+                                <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                <span class="text-muted text-12px">5 محاضرات</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </a>
+
+        </div>*@
+
+                @foreach (var Course in Model.HomeCourses)
+                {
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a asp-action="CourseDetails" asp-controller="Courses" asp-route-id="@Course.Id">
+                        <div class="course-box">
+
+                            <div class="course-image" style="text-align:center">
+                                <img src="~/images/Courses/@Course.CourseImageUrl" alt="@Course.CourseName" asp-append-version="true" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">@Course.CourseName</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <img class="imgRate" src="~/images/Stars/@(String.Format("{0:0.0}", Course.Review)).png" style="width:83px" />
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">@(String.Format("{0:0.0}", Course.Review))</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(@Course.CountReviewers Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px">@Course.Duration1</span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">@Course.Duration2</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </a>
+                    </div>
+                }
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+</section>
+
+<section class="course-carousel-area">
+    <div class="container-lg">
+
+
+
+
+
+
+        <div class="row">
+            <div class="col">
+                <h3 class="course-carousel-title mb-4" style="direction: rtl;">
+                    دورات تدريبية ستُعقد قريباً
+                </h3>
+            </div>
+            <div class="row" style="direction:rtl">
+
+                @*<div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                        <a href="course-details.html" class="" tabindex="0">
+                        </a><div class="course-box">
+                            <a href="course-details-1.html" class="" tabindex="0">
+                                <div class="course-image" style="text-align:center">
+                                    <img src="assets/images/Industry safe.jpg" alt="" class="img-fluid">
+                                </div>
+                                <div class="course-details">
+                                    <h5 class="title" style="text-align: right;">البرنامج المُتخصص في مجال : الأمن الصناعي</h5>
+                                    <div class="rating" style="text-align: right;">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+
+
+                                        <div class="d-inline-block" style="float: left;">
+                                            <span class="text-dark ms-1 text-15px" style="float: right;">(4.0)</span>
+                                            <span class="text-dark text-12px text-muted ms-2">(43 Reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex text-dark" style="direction: rtl;">
+                                        <div class="">
+                                            <i class="far fa-clock text-14px"></i>
+                                            <span class="text-muted text-12px"> 30- يناير-2022 </span>
+                                        </div>
+                                        <div class="ms-3">
+                                            <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                            <span class="text-muted text-12px">لمدة 13 اسبوع (65 محاضرة)</span>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex text-dark" style="direction: rtl;position:relative">
+                                        <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد: جمهورية مصر العربية</span>
+                                        <img src="assets/images/flags/Egypt.png" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+
+                    </div>*@
+
+
+
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a href="course-details.html" class="" tabindex="0">
+                    </a><div class="course-box">
+                        <a href="course-details-1.html" class="" tabindex="0">
+                            <div class="course-image" style="text-align:center">
+                                <img src="assets/images/Industry safe.jpg" alt="" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">البرنامج المُتخصص في مجال : الأمن الصناعي</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">(4.0)</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(43 Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px"> 30- يناير-2022 </span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">لمدة 13 اسبوع (65 محاضرة)</span>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;position:relative">
+                                    <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد: جمهورية مصر العربية</span>
+                                    <img src="assets/images/flags/Egypt.png" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a href="course-details.html" class="" tabindex="0">
+                    </a><div class="course-box">
+                        <a href="course-details-2.html" class="" tabindex="0">
+                            <div class="course-image" style="text-align:center">
+                                <img src="assets/images/Leadership.jpg" alt="" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">إتقان المنظومة القيادية الفعالة في ظل عصر التحول الرقمي</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">(5.0)</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(67 Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px"> 30- يناير-2022 </span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">لمدة اسبوع (5 محاضرات)</span>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;position:relative">
+                                    <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد: جمهورية مصر العربية</span>
+                                    <img src="assets/images/flags/Egypt.png" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a href="course-details.html" class="" tabindex="0">
+                    </a><div class="course-box">
+                        <a href="course-details-3.html" class="" tabindex="0">
+                            <div class="course-image" style="text-align:center">
+                                <img src="assets/images/money Laundering.jpg" alt="Auditing Stratigies" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">ورشة عمل تخصصية في: الإمتثال وغسيل الأموال</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">(4.0)</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(38 Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px"> 30- يناير-2022 </span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">لمدة اسبوع (5 محاضرات)</span>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;position:relative">
+                                    <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد: جمهورية مصر العربية</span>
+                                    <img src="assets/images/flags/Egypt.png" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a href="course-details.html" class="" tabindex="0">
+                    </a><div class="course-box">
+                        <a href="course-details-4.html" class="" tabindex="0">
+                            <div class="course-image" style="text-align:center">
+                                <img src="assets/images/Auditing.jpg" alt="Auditing Stratigies" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">إستراتيجيات التدقيق ومعايير المراجعة الداخلية</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <i style="transform: scale(-1,1);" class="fas fa-star-half-alt filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+                                    <i class="fas fa-star filled"></i>
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">(4.5)</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(51 Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px"> 23 – يناير – 2022</span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">لمدة اسبوع (5 محاضرات)</span>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;position:relative">
+                                    <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد: جمهورية مصر العربية</span>
+                                    <img src="assets/images/flags/Egypt.png" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="featured-instructor" style="
+    display: none;
+">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col">
+                <h3 class="text-center mb-5">Featured instructor</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="animated-loader" style="display: none;"><div class="spinner-border text-secondary" role="status"></div></div>
+                <div class="top-istructor-slick shown-after-loading slick-initialized slick-slider" style="">
+                    <button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button>
+                    <div class="slick-list draggable">
+                        <div class="slick-track" style="opacity: 1; width: 3920px; transform: translate3d(-784px, 0px, 0px);">
+                            <div class="d-sm-flex text-center text-md-start slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 784px;">
+                                <div class="top-instructor-img ms-auto me-auto">
+                                    <a href="instructor.html" tabindex="-1">
+                                        <img src="assets/images/uploads/user_image/48a153e87c587ffe79d6e8609e59124b.jpg" alt="user_image" style="width: 100%;">
+                                    </a>
+                                </div>
+                                <div class="top-instructor-details">
+                                    <a class="text-decoration-none" href="instructor.html" tabindex="-1">
+                                        <h4 class="mb-1 fw-700">John David</h4>
+                                        <span class="fw-500 text-muted text-14px"></span>
+                                        <p class="text-12px fw-500 text-muted my-3">Johns David has a BS and MS in Mechanical Engineering from Santa Clara University and years of exper...</p>
+
+                                        <!--                                                                           <span class="badge badge-sub-warning text-12px my-1 py-2"></span>
+                                        -->
+                                    </a>
+
+                                    <p class="top-instructor-arrow my-3">
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-prev').click();"><i class="fas fa-angle-left"></i></span>
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-next').click();"><i class="fas fa-angle-right"></i></span>
+                                    </p>
+                                </div>
+                            </div><div class="d-sm-flex text-center text-md-start slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="0" style="width: 784px;">
+                                <div class="top-instructor-img ms-auto me-auto">
+                                    <a href="instructor.html" tabindex="0">
+                                        <img src="assets/images/uploads/user_image/0269091217f95c25ac4f77c1bd69879a.jpg" alt="instructor" style="width: 100%;">
+                                    </a>
+                                </div>
+                                <div class="top-instructor-details">
+                                    <a class="text-decoration-none" href="instructor.html" tabindex="0">
+                                        <h4 class="mb-1 fw-700">Dave Franco</h4>
+                                        <span class="fw-500 text-muted text-14px"></span>
+                                        <p class="text-12px fw-500 text-muted my-3">Hi, I'm Dave! I have been identified as one of the Bright Egypt Top Instructors and all my premium co...</p>
+
+                                        <!--                                                                           <span class="badge badge-sub-warning text-12px my-1 py-2"></span>
+                                        -->
+                                    </a>
+
+                                    <p class="top-instructor-arrow my-3">
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-prev').click();"><i class="fas fa-angle-left"></i></span>
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-next').click();"><i class="fas fa-angle-right"></i></span>
+                                    </p>
+                                </div>
+                            </div><div class="d-sm-flex text-center text-md-start slick-slide" data-slick-index="1" aria-hidden="true" tabindex="-1" style="width: 784px;">
+                                <div class="top-instructor-img ms-auto me-auto">
+                                    <a href="instructor.html" tabindex="-1">
+                                        <img src="assets/images/uploads/user_image/48a153e87c587ffe79d6e8609e59124b.jpg" alt="user_image" style="width: 100%;">
+                                    </a>
+                                </div>
+                                <div class="top-instructor-details">
+                                    <a class="text-decoration-none" href="instructor.html" tabindex="-1">
+                                        <h4 class="mb-1 fw-700">John David</h4>
+                                        <span class="fw-500 text-muted text-14px"></span>
+                                        <p class="text-12px fw-500 text-muted my-3">Johns David has a BS and MS in Mechanical Engineering from Santa Clara University and years of exper...</p>
+
+                                        <!--                                                                           <span class="badge badge-sub-warning text-12px my-1 py-2"></span>
+                                        -->
+                                    </a>
+
+                                    <p class="top-instructor-arrow my-3">
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-prev').click();"><i class="fas fa-angle-left"></i></span>
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-next').click();"><i class="fas fa-angle-right"></i></span>
+                                    </p>
+                                </div>
+                            </div><div class="d-sm-flex text-center text-md-start slick-slide slick-cloned" data-slick-index="2" aria-hidden="true" tabindex="-1" style="width: 784px;">
+                                <div class="top-instructor-img ms-auto me-auto">
+                                    <a href="instructor.html" tabindex="-1">
+                                        <img src="assets/images/uploads/user_image/0269091217f95c25ac4f77c1bd69879a.jpg" alt="instructor" style="width: 100%;">
+                                    </a>
+                                </div>
+                                <div class="top-instructor-details">
+                                    <a class="text-decoration-none" href="instructor.html" tabindex="-1">
+                                        <h4 class="mb-1 fw-700">Dave Franco</h4>
+                                        <span class="fw-500 text-muted text-14px"></span>
+                                        <p class="text-12px fw-500 text-muted my-3">Hi, I'm Dave! I have been identified as one of the Bright Egypt Top Instructors and all my premium co...</p>
+
+                                        <!--                                                                           <span class="badge badge-sub-warning text-12px my-1 py-2"></span>
+                                        -->
+                                    </a>
+
+                                    <p class="top-instructor-arrow my-3">
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-prev').click();"><i class="fas fa-angle-left"></i></span>
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-next').click();"><i class="fas fa-angle-right"></i></span>
+                                    </p>
+                                </div>
+                            </div><div class="d-sm-flex text-center text-md-start slick-slide slick-cloned" data-slick-index="3" aria-hidden="true" tabindex="-1" style="width: 784px;">
+                                <div class="top-instructor-img ms-auto me-auto">
+                                    <a href="instructor.html" tabindex="-1">
+                                        <img src="assets/images/uploads/user_image/48a153e87c587ffe79d6e8609e59124b.jpg" alt="user_image" style="width: 100%;">
+                                    </a>
+                                </div>
+                                <div class="top-instructor-details">
+                                    <a class="text-decoration-none" href="instructor.html" tabindex="-1">
+                                        <h4 class="mb-1 fw-700">John David</h4>
+                                        <span class="fw-500 text-muted text-14px"></span>
+                                        <p class="text-12px fw-500 text-muted my-3">Johns David has a BS and MS in Mechanical Engineering from Santa Clara University and years of exper...</p>
+
+                                        <!--                                                                           <span class="badge badge-sub-warning text-12px my-1 py-2"></span>
+                                        -->
+                                    </a>
+
+                                    <p class="top-instructor-arrow my-3">
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-prev').click();"><i class="fas fa-angle-left"></i></span>
+                                        <span class="cursor-pointer" onclick="$('.top-istructor-slick .slick-next').click();"><i class="fas fa-angle-right"></i></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container-xl" style="
+    display: none;
+">
+    <div class="row py-3 mb-4">
+        <div class="col-md-6 mt-3 mt-md-0">
+            <div class="become-user-label text-center mt-3">
+                <h3 class="pb-4">Join now to start learning</h3>
+                <a href="sign_up.html">Get started</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="become-user-label text-center mt-3">
+                <h3 class="pb-4">Become instructor</h3>
+                <a href="sign_up.html">Join now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

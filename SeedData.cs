@@ -36,11 +36,11 @@ namespace BrAcademy
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (!roleManager.RoleExistsAsync("Admin").Result)
+            if (!roleManager.RoleExistsAsync("Revisor").Result)
             {
                 var role = new IdentityRole
                 {
-                    Name = "Admin"
+                    Name = "Revisor"
                 };
                 var result = roleManager.CreateAsync(role).Result;
             }

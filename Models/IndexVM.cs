@@ -11,5 +11,6 @@ namespace BrAcademy.Models
         public List<CourseCategory> CourseCategories { get; set; }
         public List<Course> HomeCourses { get; set; }
         public List<Event> Events { get; set; }
+        public IEnumerable<Carousel> Carousels { get; set; }
     }
 }

@@ -1,18 +1,112 @@
 ﻿@using BrAcademy.Data
-@model List<Event>
+@model IEnumerable<Event>
 @{
     ViewData["Title"] = "Events";
-  
+
 }
-<div class="container" style="background-color:white">
-    <h2 style="direction:rtl">@ViewBag.CourseName</h2>
+<div class="container" style="background-color:white;text-align:left">
+    <h2>@ViewBag.CourseName</h2>
+    @functions {
+        public static string FlagPath(string path)
+        {
+            return path.Replace("~/", "../../");
+        }
+        public static string FormatDate(DateTime date)
+        {
+            return ($"{date.Day}/{date.Month}/{date.Year}");
+        }
+    }
 
     <table class="table">
         <thead>
             <tr>
+                <th>Description</th>
+                <th>Country</th>
+                <th>HomePage</th>
+                <th>Starts</th>
+                <th>Ends</th>
+                <th>Actions</th>
             </tr>
+
         </thead>
+        <tbody>
+            @foreach (Event item in Model)
+            {
+                <tr data-id="@item.Id">
+                    <td>@item.Description</td>
+                    <td>
+
+
+                        <img style="height:21px;margin-right:5px;" src="@FlagPath(@item.Country.FlagURL)" />
+                        <span>@item.Country.CountryNameEnglish</span>
+                    </td>
+                    <td>
+                        <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                    </td>
+
+                    @if (@item.DisplayShortenedDate)
+                    {
+                        <td dir="rtl">
+                            @BrAcademy.Data.TransferDate.ToArabicDateShortened(@item.StartDate)
+                        </td>
+                    }
+                    else
+                    {
+                        <td dir="rtl">
+                            @BrAcademy.Data.TransferDate.ToArabicDate(@item.StartDate)
+                        </td>
+                    }
+
+
+                  
+                    <td>@FormatDate(item.EndDate)</td>
+
+                    <td style="width:100px">
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit text-primary"></i></a> |
+
+                        <a class="delete" style="cursor:pointer"><i class="fa fa-trash text-danger"></i></a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
-    <a asp-action="Create" >Create</a>
+
+
+
+    <a asp-action="Create" asp-route-CourseId="@ViewBag.CourseId">Create</a>
 
 </div>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".delete").click(function () {
+                if (!confirm("Are you sure that you want to delete this event")) return false;
+                var EventID = $(this).closest("tr").attr("data-id");
+                console.log(EventID);
+                var $this = $(this);
+                //$.post("/Events/Delete", { Id: EventID }, function () {
+                //    $this.closest("tr").remove();
+                //});
+
+                var formData = new FormData();
+                formData.append("Id", EventID)
+                $.ajax({
+                    url: '/Events/Delete',
+                    type: 'POST',
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    complete: function (result) {
+                        $this.closest("tr").remove();
+
+                    }, error: function (ex) {
+
+                    }
+
+                });
+            });
+        });
+    </script>
+}  

@@ -12,6 +12,8 @@ namespace BrAcademy.Data
         [Required]
         public string CategoryName { get; set; }
         public string CategoryImageUrl { get; set; }
+        public string CategoryWideImageUrl { get; set; }
+
         public int SortIndex { get; set; }
         public Boolean Active { get; set; }
     }

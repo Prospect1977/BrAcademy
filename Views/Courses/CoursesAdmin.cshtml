@@ -55,7 +55,7 @@
                     @Html.DisplayNameFor(model => model.Review)
                 </th>
                 <th>
-                   #Reviewers
+                    #Reviewers
                 </th>
                 <th></th>
             </tr>
@@ -67,7 +67,7 @@
                     <td>
                         <i class="fa fa-sort" style="cursor:grab"></i>
                     </td>
-<td>
+                    <td>
                         <span class="spanSortIndex">@item.SortIndex</span>
                     </td>
                     <td>
@@ -79,9 +79,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CourseCategory.CategoryName)
                     </td>
-                    
-                    
-                    
+
+
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Duration1)
                     </td>
@@ -89,8 +89,8 @@
                         @*@Html.DisplayFor(modelItem => item.Active)*@
                         <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i>
                     </td>
-<td>
-    <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                    <td>
+                        <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
                     </td>
                     <td style="width:230px">
 
@@ -136,7 +136,7 @@
                     orderList = orderList.substr(0, orderList.length - 1);
                     console.log(`OrderList=${orderList}`);
                     $.post("../../Courses/OrderCoursesList", { CourseList: orderList }, function () {
-                        
+
                     });
                 },
                 cursor: "move",

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BrAcademy.Controllers
@@ -21,7 +22,7 @@ namespace BrAcademy.Controllers
             _logger = logger;
             this.db = db;
         }
-        
+
         public IActionResult about_us()
         {
             return View();
@@ -30,9 +31,39 @@ namespace BrAcademy.Controllers
         {
             IndexVM model = new IndexVM();
             model.HomeCourses = db.Courses.Where(m => m.HomePage == true && m.Active == true).OrderBy(m => m.SortIndex).ToList();
-            model.CourseCategories = db.CourseCategories.Where(m => m.Active == true).ToList();
-            model.Events = db.Events.Include("Course").Where(m => m.StartDate >= DateTime.Now).OrderBy(m => m.StartDate).ToList();
+            model.CourseCategories = db.CourseCategories.Where(m => m.Active == true).OrderBy(m => m.SortIndex).ToList();
+            model.Events = db.Events.Include("Course").Include("Country").Where(m => m.StartDate >= DateTime.Now && m.HomePage == true).OrderBy(m => m.StartDate).ToList();
+            model.Carousels = db.Carousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
             return View(model);
+        }
+        public string CourseCategoriesMenu()
+        {
+            IEnumerable<CourseCategory> CourseCategories = db.CourseCategories.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
+            return JsonSerializer.Serialize(CourseCategories);
+        }
+        public string CoursesAndCategories()
+        {
+            IEnumerable<CourseCategory> CourseCategories = db.CourseCategories.Where(m => m.Active == true);
+            IEnumerable<Course> Courses = db.Courses.Where(m => m.Active == true);
+            List<SearchItem> SearchItems = new List<SearchItem>();
+
+            foreach (var item in CourseCategories)
+            {
+                SearchItem s = new SearchItem();
+                s.type = "Category";
+                s.ID = item.Id;
+                s.label = item.CategoryName;
+                SearchItems.Add(s);
+            }
+            foreach (var item in Courses)
+            {
+                SearchItem s = new SearchItem();
+                s.type = "Course";
+                s.ID = item.Id;
+                s.label = item.CourseName;
+                SearchItems.Add(s);
+            }
+            return JsonSerializer.Serialize(SearchItems);
         }
 
         public IActionResult Privacy()

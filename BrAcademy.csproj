@@ -22,6 +22,7 @@
     <Folder Include="obj\Debug\net5.0\" />
     <Folder Include="obj\Debug\net5.0\ref\" />
     <Folder Include="wwwroot\images\Courses\" />
+    <Folder Include="wwwroot\images\Categories\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,10 +21,11 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using BrAcademy.Models.Courses;
 using Microsoft.Extensions.FileProviders;
+using System.Text.Json;
 
 namespace BrAcademy.Controllers
 {
-
+    [Authorize(Roles = "Revisor,Admin")]
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,7 +39,11 @@ namespace BrAcademy.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-
+        public IActionResult ReviseVisitors()
+        {
+            IEnumerable<VisitorCourse> model = _context.VisitorCourses.Include(m => m.Visitor).Include(m => m.Visitor.Country).Include(m=>m.Course).OrderByDescending(m => m.InterestedDateTime);
+            return  View(model);
+        }
         // GET: Courses
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CoursesAdmin()
@@ -49,6 +54,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Courses/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
 
@@ -71,22 +77,29 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName");
             return View();
         }
-
-        // POST: Courses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseName,Description,CourseCategoryID,Duration,CourseImageUrl,Review,CountReviewers")] Course course)
+        public async Task<IActionResult> Create(Course course)
         {
             if (ModelState.IsValid)
             {
-                int lastsortIndex = _context.Courses.Max(m => m.SortIndex);
+                int lastsortIndex = 0;
+                try
+                {
+                    lastsortIndex = _context.Courses.Max(m => m.SortIndex);
+                }
+                catch (Exception)
+                {
+
+                }
+
                 course.SortIndex = lastsortIndex + 1;
                 course.Active = true;
 
@@ -100,6 +113,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,7 +133,7 @@ namespace BrAcademy.Controllers
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult OrderCoursesList(string CourseList)
         {
@@ -135,68 +149,101 @@ namespace BrAcademy.Controllers
             _context.SaveChanges();
             return Ok();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult UploadCourseImage()
         {
-
             try
             {
-                string uniqueFileName = null;
-
                 if (Request.Form.Files.Count != 0)
                 {
-
-                    for (int i = 0; i < Request.Form.Files.Count; i++)
-                    {
-                        var file = Request.Form.Files[i];
-                        uniqueFileName = Guid.NewGuid().ToString();
-
-
-                        var path = Path.Combine(_env.WebRootPath, "images", "Courses", uniqueFileName.Substring(0, 5) + "_" + file.FileName);
-
-
-                        using (var fs = new FileStream(path, FileMode.Create))
-                        {
-                            file.CopyTo(fs);
-                        }
-
-
-
-
-
-                        return Ok(uniqueFileName.Substring(0, 5) + "_" + file.FileName);
-                    }
-                    return Ok("Done!");
+                    var file = Request.Form.Files[0];
+                    var path = Path.Combine(_env.WebRootPath, "images", "Courses");
+                    return Ok(UploadImage.Save(file, path));
                 }
                 else
                 {
                     return BadRequest("Error!");
                 }
-
-
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult UploadWideCourseImage()
+        {
 
-
-
+            try
+            {
+                if (Request.Form.Files.Count != 0)
+                {
+                    var file = Request.Form.Files[0];
+                    var path = Path.Combine(_env.WebRootPath, "images", "Courses", "Wide");
+                    return Ok(UploadImage.Save(file, path));
+                }
+                else
+                {
+                    return BadRequest("Error!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public int SaveUserData(int VisitorId, string CountryCode, string Name, string PhoneNumber, string Email, string WorksAt, string Question, int CourseId)
+        {
+            Visitor Visitor;
+            if (VisitorId > 0)
+            {
+                Visitor = _context.Visitors.Find(VisitorId);
+            }
+            else
+            {
+                Visitor = new Visitor();
+                Visitor.RegisteredOn = DateTime.Now;
+                _context.Visitors.Add(Visitor);
+            }
+            int CountryId = _context.Countries.SingleOrDefault(m => m.Alias == CountryCode).Id;
+            Visitor.CountryID = CountryId;
+            Visitor.Name = Name;
+            Visitor.PhoneNumber = PhoneNumber;
+            Visitor.WorksAt = WorksAt;
+            if (!string.IsNullOrEmpty(Email))
+            {
+                Visitor.Email = Email;
+            }
+            else
+            {
+                Visitor.Email = null;
+            }
+            _context.SaveChanges();
+            VisitorCourse VC = new VisitorCourse();
+            VC.CourseID = CourseId;
+            VC.VisitorID = Visitor.Id;
+            VC.InterestedDateTime = DateTime.Now;
+            VC.Question = Question;
+            _context.VisitorCourses.Add(VC);
+            _context.SaveChanges();
+            return Visitor.Id;
 
         }
-        //[HttpGet]
-        //public ActionResult UploadCourseImage()
-        //{
-        //    return Ok("done");
-
-
-        //}
-
-
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public string GetUserData(int VisitorId)
+        {
+            Visitor V = _context.Visitors.Find(VisitorId);
+            return JsonSerializer.Serialize(V);
+        }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Description,CourseCategoryID,Duration1,Duration2,CourseImageUrl,Review,CountReviewers,HomePage,Active,SortIndex")] Course course)
+        public async Task<IActionResult> Edit(int id, Course course,string ReturnToCoursePage)
         {
             if (id != course.Id)
             {
@@ -243,15 +290,21 @@ namespace BrAcademy.Controllers
                         throw;
                     }
                 }
+                if (ReturnToCoursePage == "true")
+                {
+                    return RedirectToAction(nameof(CourseDetails), new {id = id });
+                }
                 return RedirectToAction(nameof(CoursesAdmin));
 
                 // return Ok();
             }
             ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
+           
             return View(course);
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -271,6 +324,7 @@ namespace BrAcademy.Controllers
         }
 
         // POST: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -303,8 +357,8 @@ namespace BrAcademy.Controllers
             int CategoryID = model.Course.CourseCategoryID;
             model.CourseCategory = _context.CourseCategories.Find(CategoryID).CategoryName;
             DateTime today = DateTime.Now;
-            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate>today).OrderBy(m=>m.StartDate).ToList();
-            model.RelatedCourses = _context.Courses.Where(m => m.CourseCategoryID == CategoryID && m.Id != id && m.Active==true).OrderBy(m => m.SortIndex).ToList();
+            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate > today).Include("Country").OrderBy(m => m.StartDate).ToList();
+            model.RelatedCourses = _context.Courses.Where(m => m.CourseCategoryID == CategoryID && m.Id != id && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             return View(model);
         }
 
@@ -313,63 +367,63 @@ namespace BrAcademy.Controllers
         //public IActionResult CropCourseImage_NotWorking(string ImageName, int width, int height, int x, int y)
 
         //{
-            // string ImageUrl = Request.QueryString("url");
-            // string NewFileName;
-            //if (ImageUrl.EndsWith("jpeg"))
-            //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 5) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
-            //else
-            //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 4) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
+        // string ImageUrl = Request.QueryString("url");
+        // string NewFileName;
+        //if (ImageUrl.EndsWith("jpeg"))
+        //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 5) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
+        //else
+        //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 4) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
 
 
 
 
 
 
-            //var file = Path.Combine(_env.WebRootPath, "images", "Courses", ImageName);
+        //var file = Path.Combine(_env.WebRootPath, "images", "Courses", ImageName);
 
-            //using (System.Drawing.Image image = System.Drawing.Image.FromFile(file))
-            //{
-
-
-            //    image.Save("bar.jpg");
-            //}
+        //using (System.Drawing.Image image = System.Drawing.Image.FromFile(file))
+        //{
 
 
-            //using (var inStream)
-            //using (var outStream = new MemoryStream())
-            //using (var image = Image.Load(inStream, out IImageFormat format))
-            //{
-            //    image.Mutate(
-            //        i => i.Resize(width, height)
-            //              .Crop(new Rectangle(x, y, cropWidth, cropHeight)));
-
-            //    image.Save(outStream, format);
-            //}
+        //    image.Save("bar.jpg");
+        //}
 
 
+        //using (var inStream)
+        //using (var outStream = new MemoryStream())
+        //using (var image = Image.Load(inStream, out IImageFormat format))
+        //{
+        //    image.Mutate(
+        //        i => i.Resize(width, height)
+        //              .Crop(new Rectangle(x, y, cropWidth, cropHeight)));
+
+        //    image.Save(outStream, format);
+        //}
 
 
-            //Console.WriteLine($"Loading {file}");
-            //using (FileStream pngStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-            //using (var image = new Bitmap(pngStream))
-            //{
-            //    var resized = new Bitmap(width, height);
-            //    using (var graphics = Graphics.FromImage(resized))
-            //    {
-            //        graphics.CompositingQuality = CompositingQuality.HighSpeed;
-            //        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //        graphics.CompositingMode = CompositingMode.SourceCopy;
-            //        graphics.DrawImage(image, 0, 0, width, height);
-            //        resized.Save(file);
-            //        Console.WriteLine($"Saving resized-{file} thumbnail");
-            //        return Ok();
-            //    }
-            //}
+
+
+        //Console.WriteLine($"Loading {file}");
+        //using (FileStream pngStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+        //using (var image = new Bitmap(pngStream))
+        //{
+        //    var resized = new Bitmap(width, height);
+        //    using (var graphics = Graphics.FromImage(resized))
+        //    {
+        //        graphics.CompositingQuality = CompositingQuality.HighSpeed;
+        //        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        //        graphics.CompositingMode = CompositingMode.SourceCopy;
+        //        graphics.DrawImage(image, 0, 0, width, height);
+        //        resized.Save(file);
+        //        Console.WriteLine($"Saving resized-{file} thumbnail");
+        //        return Ok();
+        //    }
+        //}
         //    return Ok();
 
         //}
 
-        
+
 
 
 
@@ -384,7 +438,7 @@ namespace BrAcademy.Controllers
         //           // var path = Path.Combine(_env.WebRootPath, "images", "Courses", uniqueFileName.Substring(0, 5) + "_" + file.FileName);
         //            string systemFileExtenstion = filename.Substring(filename.LastIndexOf('.'));
 
-                   
+
         //            var newfileName180 = filename+"_" +uniqueFileName.Substring(0, 5);
         //            var filepath160 = Path.Combine(_env.WebRootPath, "images", "Courses", newfileName180);
         //            image.Mutate(x => x.Resize(600, 600));

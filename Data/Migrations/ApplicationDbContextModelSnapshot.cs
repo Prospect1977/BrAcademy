@@ -19,6 +19,39 @@ namespace BrAcademy.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("BrAcademy.Data.Carousel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carousels");
+                });
+
             modelBuilder.Entity("BrAcademy.Data.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -59,6 +92,9 @@ namespace BrAcademy.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("CarouselVMId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CountReviewers")
                         .HasColumnType("int");
 
@@ -72,6 +108,9 @@ namespace BrAcademy.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("CourseWideImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -99,6 +138,8 @@ namespace BrAcademy.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CarouselVMId");
+
                     b.HasIndex("CourseCategoryID");
 
                     b.ToTable("Courses");
@@ -114,6 +155,9 @@ namespace BrAcademy.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("CarouselVMId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CategoryImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -121,10 +165,15 @@ namespace BrAcademy.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CategoryWideImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SortIndex")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarouselVMId");
 
                     b.ToTable("CourseCategories");
                 });
@@ -143,14 +192,19 @@ namespace BrAcademy.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DisplayShortenedDate")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("HomePage")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -281,6 +335,9 @@ namespace BrAcademy.Data.Migrations
                     b.Property<DateTime>("InterestedDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("VisitorID")
                         .HasColumnType("int");
 
@@ -311,6 +368,45 @@ namespace BrAcademy.Data.Migrations
                     b.HasIndex("VisitorCourseID");
 
                     b.ToTable("VisitorCourseSpeeches");
+                });
+
+            modelBuilder.Entity("BrAcademy.Models.CarouselVM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CourseImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarouselVM");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -515,6 +611,10 @@ namespace BrAcademy.Data.Migrations
 
             modelBuilder.Entity("BrAcademy.Data.Course", b =>
                 {
+                    b.HasOne("BrAcademy.Models.CarouselVM", null)
+                        .WithMany("CoursesList")
+                        .HasForeignKey("CarouselVMId");
+
                     b.HasOne("BrAcademy.Data.CourseCategory", "CourseCategory")
                         .WithMany()
                         .HasForeignKey("CourseCategoryID")
@@ -522,6 +622,13 @@ namespace BrAcademy.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("CourseCategory");
+                });
+
+            modelBuilder.Entity("BrAcademy.Data.CourseCategory", b =>
+                {
+                    b.HasOne("BrAcademy.Models.CarouselVM", null)
+                        .WithMany("CategoriesList")
+                        .HasForeignKey("CarouselVMId");
                 });
 
             modelBuilder.Entity("BrAcademy.Data.Event", b =>
@@ -671,6 +778,13 @@ namespace BrAcademy.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BrAcademy.Models.CarouselVM", b =>
+                {
+                    b.Navigation("CategoriesList");
+
+                    b.Navigation("CoursesList");
                 });
 #pragma warning restore 612, 618
         }

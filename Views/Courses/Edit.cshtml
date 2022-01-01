@@ -41,11 +41,36 @@
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseImageUrl" />
+                    @if (Model.CourseImageUrl!=null)
+                    {
+                        <img id="imgPreview" src="~/images/Courses/@Model.CourseImageUrl" style="width:100%" />
+                    }
+                    else
+                    {
+                        <img id="imgPreview" style="display:none;width:100%" />
+                    }
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseWideImageUrl" class="control-label"></label>
+                   
+                    <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
+                    <input type="hidden" asp-for="CourseWideImageUrl" />
+                    @if (Model.CourseWideImageUrl!=null)
+                    {
+                        <img id="imgWidePreview" src="~/images/Courses/Wide/@Model.CourseWideImageUrl" style="width:100%" />
+                    }
+                    else
+                    {
+                        <img id="imgWidePreview" style="display:none;width:100%" />
+                    }
 
                 </div>
                 <div class="form-group">
                     <label asp-for="CourseCategoryID" class="control-label"></label>
-                    <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID"></select>
+                    <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
+                        <option>Select</option>
+                    </select>
                     <span asp-validation-for="CourseCategoryID" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -190,13 +215,37 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
-    <script src="~/lib/cropperjs-master/dist/cropper.js"></script>
+    @*<script src="~/lib/cropperjs-master/dist/cropper.js"></script>*@
    @*<script src="~/lib/croppie.min.js"></script>*@
     <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
     @*<script src="https://unpkg.com/jcrop"></script>*@
-    <script>
+<script>
         $(function () {
 
+            
+            $("#CourseImageWide").change(function () {
+                var files = $('#CourseImageWide')[0].files;
+                console.log(files[0]);
+                var formData = new FormData();
+
+                formData.append(files[0].name, files[0]);
+                $.ajax({
+                    url: '../../Courses/UploadWideCourseImage',
+                    type: 'POST',
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    complete: function (result) {
+                        $("#CourseWideImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+                        $('#imgWidePreview').attr("src", `../../images/Courses/Wide/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+                    }, error: function (ex) {
+
+                    }
+
+                });
+            });
             // $("#areaCkEditor").text("hello!");
             ClassicEditor
                 .create(document.querySelector('#areaDescription'))
@@ -280,7 +329,7 @@
                 var files = $('#CourseImage')[0].files;
                 console.log(files[0]);
                 var formData = new FormData();
-              
+
                 formData.append(files[0].name, files[0]);
                 $.ajax({
                     url: '../../Courses/UploadCourseImage',
@@ -290,46 +339,47 @@
                     contentType: false,
                     processData: false,
                     complete: function (result) {
-                        $("#imgCrop").attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
-                        $("#hiddenImageName").val($.parseJSON(JSON.stringify(result)).responseText);
-                        $('#cropModal').modal({ backdrop: "static", keyboard: false });
-                        console.log(result);
-                        var aspect = 1;
-                        var image = $('#imgCrop')[0];
-                        setTimeout(function () {
-                            if (aspect != "") {
-                                var cropper = new Cropper(image, {
-                                    preview: "#divPreview",
-                                    aspectRatio: aspect,
-                                    crop: function (e) {
-                                        $('#TxtX').val(e.detail.x);
-                                        $('#TxtY').val(e.detail.y);
-                                        $('#TxtW').val(e.detail.width);
-                                        $('#TxtH').val(e.detail.height);
+                        //$("#imgCrop").attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
+                        $("#CourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+                        //$('#cropModal').modal({ backdrop: "static", keyboard: false });
 
-                                    }
-                                });
-                            } else {
-                                var cropper = new Cropper(image, {
-                                    preview: "#divPreview",
-                                    crop: function (e) {
-                                        $('#TxtX').val(e.detail.x);
-                                        $('#TxtY').val(e.detail.y);
-                                        $('#TxtW').val(e.detail.width);
-                                        $('#TxtH').val(e.detail.height);
+                        $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+                        //var aspect = 1;
+                        //var image = $('#imgCrop')[0];
+                        //setTimeout(function () {
+                        //    if (aspect != "") {
+                        //        var cropper = new Cropper(image, {
+                        //            preview: "#divPreview",
+                        //            aspectRatio: aspect,
+                        //            crop: function (e) {
+                        //                $('#TxtX').val(e.detail.x);
+                        //                $('#TxtY').val(e.detail.y);
+                        //                $('#TxtW').val(e.detail.width);
+                        //                $('#TxtH').val(e.detail.height);
 
-                                    }
-                                });
+                        //            }
+                        //        });
+                        //    } else {
+                        //        var cropper = new Cropper(image, {
+                        //            preview: "#divPreview",
+                        //            crop: function (e) {
+                        //                $('#TxtX').val(e.detail.x);
+                        //                $('#TxtY').val(e.detail.y);
+                        //                $('#TxtW').val(e.detail.width);
+                        //                $('#TxtH').val(e.detail.height);
 
-                            }
-                        }, 2000);
+                        //            }
+                        //        });
+
+                        //    }
+                        //}, 2000);
 
 
                     }, error: function (ex) {
                         // console.log($.parseJSON(JSON.stringify(ex)).responseText);
-                        $("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
-                        $("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
-                        $("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                        //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                        //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                        //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
                     }
 
                 });
@@ -380,5 +430,5 @@
             //    $('#btnCrop').show();
             //};
         });
-    </script>
+</script>
     }

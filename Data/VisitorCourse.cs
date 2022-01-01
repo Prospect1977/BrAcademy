@@ -17,5 +17,6 @@ namespace BrAcademy.Data
         public int CourseID { get; set; }
 
         public DateTime InterestedDateTime { get; set; }
+        public string Question { get; set; }
     }
 }

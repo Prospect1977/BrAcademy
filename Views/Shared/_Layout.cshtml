@@ -2,6 +2,7 @@
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/assets/css/custom.css" />
 
-    
+
 </head>
 <body>
     <header>
@@ -63,32 +64,8 @@
                                 </a>
 
                                 <ul class="category corner-triangle top-right is-hidden pb-0" style="">
-                                    <li class="all-category-devided mb-0 p-0" style="border-top: none;">
-                                        <a href="course-grid.html" class="py-2"><span>الدبلومات الفنية التخصصية</span></a>
-                                        <a href="course-list.html" class="py-2"><span>الإدارة والقيادة وتطوير الذات</span></a>
-                                        <a href="course-details.html" class="py-2"><span>الإبتكار والتحول الرقمي</span></a>
-                                        <a href="compare.html" class="py-2"><span>الأمن السيبراني وأمن المعلومات </span></a>
-                                        <a href="instructor.html" class="py-2"><span>المشتريات والمخازن اللوجيستية</span></a>
-                                        <a href="my_courses.html" class="py-2"><span>الصيانة والتشغيل والهندسة الفنية</span></a>
-                                        <a href="purchase_history.html" class="py-2"><span>النفط والغاز</span></a>
-                                        <a href="cart.html" class="py-2"><span>الهندسة الكهربائية</span></a>
-                                        <a href="wishlist.html" class="py-2"><span>المراجعة والتدقيق والرقابة المصرفية</span></a>
-                                        <a href="lesson.html" class="py-2"><span>المحاسبة والمالية </span></a>
-                                        <a href="user_profile.html" class="py-2"><span>المحاسبة والمالية</span></a>
-                                        <a href="user_credentials.html" class="py-2"><span>الموارد البشرية والجدارات والتدريب</span></a>
+                                    <li id="liCategories" class="all-category-devided mb-0 p-0" style="border-top: none;">
 
-                                        <a href="login.html" class="py-2"><span>القانوني والقضائي </span></a>
-                                        <a href="sign_up.html" class="py-2"><span>إدارة المشاريع والعقود </span></a>
-                                        <a href="login.html" class="py-2"><span>إدارة المشتريات وسلسلة التوريد</span></a>
-                                        <a href="sign_up.html" class="py-2"><span>الأمن والسلامة والصحة المهنية والبيئية</span></a>
-                                        <a href="login.html" class="py-2"><span>العلاقات العامة والإعلام الرقمي</span></a>
-                                        <a href="sign_up.html" class="py-2"><span>العقود والمناقصات</span></a>
-                                        <a href="login.html" class="py-2"><span>تكنولوجيا المعلومات</span></a>
-                                        <a href="sign_up.html" class="py-2"><span>البنوك والتأمين والخدمات المالية</span></a>
-                                        <a href="login.html" class="py-2"><span>تخطيط الصيانة وإدارة الأصول</span></a>
-                                        <a href="sign_up.html" class="py-2"><span>النقل والعمليات اللوجيستية</span></a>
-                                        <a href="login.html" class="py-2"><span>إدارة المكاتب والسكرتارية التنفيذية</span></a>
-                                        <a href="sign_up.html" class="py-2"><span>القطاع الأمني</span></a>
 
 
                                     </li>
@@ -101,29 +78,37 @@
 
 
 
-                    @if (SignInManager.IsSignedIn(User))
-
-                    {
-                        @if (User.IsInRole("Admin"))
-                        {
 
 
-                            {
-                                <ul class="navbar-nav" style="color:black">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" style="color:black" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
-                                            Admin Tools
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="top: 53px;">
-                                            <a class="dropdown-item" href="~/Courses/CoursesAdmin">Courses</a>
-                                            @*<a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>*@
-                                        </div>
-                                    </li>
-                                </ul>
-                            }
-                        }
-                    }
+
+
+                
+                    <ul class="navbar-nav" style="color:black">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" style="color:black" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                                Admin Tools
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="top: 53px;">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a class="dropdown-item" href="~/CourseCategories/Index">Course Categories</a>
+                                    <a class="dropdown-item" href="~/Courses/CoursesAdmin">Courses</a>
+                                    <a class="dropdown-item" href="~/Carousels">Carousel</a>
+                                }
+                                @if (User.IsInRole("Admin") || User.IsInRole("Revisor"))
+                                {
+                                    <a class="dropdown-item" href="~/Courses/ReviseVisitors">Visitors</a>
+                                }
+
+
+
+                            </div>
+
+                        </li>
+                    </ul>
+                    
+
+
 
                     <partial name="_LoginPartial" />
 
@@ -517,57 +502,71 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/utilities.js"></script>
+    <script src="~/lib/jquery.cookie.js"></script>
     <script>
         $(document).ready(function () {
-            if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                if ($(window).width() >= 840) {
-                    $("a.has-popover").webuiPopover({
-                        trigger: "hover",
-                        animation: "pop",
-                        placement: "horizontal",
-                        delay: {
-                            show: 500,
-                            hide: null,
-                        },
-                        width: 330,
-                    });
-                } else {
-                    $("a.has-popover").webuiPopover({
-                        trigger: "hover",
-                        animation: "pop",
-                        placement: "vertical",
-                        delay: {
-                            show: 100,
-                            hide: null,
-                        },
-                        width: 335,
-                    });
-                    //$(".user").hide();
-                }
-            }
+            //if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            //    if ($(window).width() >= 840) {
+            //        $("a.has-popover").webuiPopover({
+            //            trigger: "hover",
+            //            animation: "pop",
+            //            placement: "horizontal",
+            //            delay: {
+            //                show: 500,
+            //                hide: null,
+            //            },
+            //            width: 330,
+            //        });
+            //    } else {
+            //        $("a.has-popover").webuiPopover({
+            //            trigger: "hover",
+            //            animation: "pop",
+            //            placement: "vertical",
+            //            delay: {
+            //                show: 100,
+            //                hide: null,
+            //            },
+            //            width: 335,
+            //        });
+            //        //$(".user").hide();
+            //    }
+            //}
 
-            if ($(".course-carousel")[0]) {
-                $(".course-carousel").slick({
-                    dots: false,
-                    infinite: false,
-                    speed: 300,
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    swipe: false,
-                    touchMove: false,
-                    responsive: [
-                        { breakpoint: 840, settings: { slidesToShow: 3, slidesToScroll: 3 } },
-                        { breakpoint: 620, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-                        { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-                    ],
-                });
-            }
+            //if ($(".course-carousel")[0]) {
+            //    $(".course-carousel").slick({
+            //        dots: false,
+            //        infinite: false,
+            //        speed: 300,
+            //        slidesToShow: 4,
+            //        slidesToScroll: 4,
+            //        swipe: false,
+            //        touchMove: false,
+            //        responsive: [
+            //            { breakpoint: 840, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+            //            { breakpoint: 620, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+            //            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+            //        ],
+            //    });
+            //}
 
-            if ($(".top-istructor-slick")[0]) {
-                $(".top-istructor-slick").slick({
-                    dots: false,
+            //if ($(".top-istructor-slick")[0]) {
+            //    $(".top-istructor-slick").slick({
+            //        dots: false,
+            //    });
+            //}
+
+            $.get("../../Home/CourseCategoriesMenu", function (result) {
+
+
+                var cats = $.parseJSON(result);
+                $(cats).each(function (i, item) {
+                    var liItem = $(`<a href = "../../CourseCategories/CategoryDetails/${item.Id}" class="py-2" > <span>${item.CategoryName}</span></a >`);
+                    $("#liCategories").append(liItem);
                 });
-            }
+            });
+
+
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

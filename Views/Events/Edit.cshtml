@@ -1,0 +1,76 @@
+﻿@model BrAcademy.Data.Event
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@functions{
+    public static string FormatDate(DateTime D)
+    {
+        return $"{D.Month}/{D.Day}/{D.Year}";
+    }
+}
+<div class="container">
+    <h1>@ViewBag.CourseName</h1>
+
+    <h4>Event</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CourseID" />
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input type="text" autocomplete="off" name="StartDate" value="@FormatDate(Model.StartDate)" id="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="DisplayShortenedDate" /> @Html.DisplayNameFor(model => model.DisplayShortenedDate)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input type="text" name="EndDate" value="@FormatDate(Model.EndDate)" id="EndDate" autocomplete="off" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CountryID" class="control-label"></label>
+                    <select asp-for="CountryID" class="form-control2" asp-items="ViewBag.Countries">
+                        <option>  Select</option>
+                    </select>
+                    <span asp-validation-for="CountryID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="HomePage" /> @Html.DisplayNameFor(model => model.HomePage)
+                    </label>
+                </div>
+
+                <hr />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="CourseEvents" asp-route-Id="@Model.CourseID">Back to List</a>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $("#StartDate,#EndDate").datepicker();
+
+    </script>
+}

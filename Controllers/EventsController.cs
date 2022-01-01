@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace BrAcademy.Controllers
 {
-   
-    [Authorize (Roles="Admin")]
+
+    [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db;
@@ -18,81 +20,58 @@ namespace BrAcademy.Controllers
         {
             this.db = db;
         }
-       
+
         public ActionResult CourseEvents(int? id)
         {
+            ViewData["CourseId"] = id;
             ViewData["CourseName"] = db.Courses.Find(id).CourseName;
-            List<Event> model = db.Events.Where(m => m.CourseID == id).OrderByDescending(m => m.StartDate).ToList();
+            IEnumerable<Event> model = db.Events.Include("Country").Where(m => m.CourseID == id).OrderByDescending(m => m.StartDate);
+            ViewData["CountryID"] = new SelectList(db.Countries, "Id", "CountryNameEnglish");
             return View(model);
         }
+        public ActionResult Create(int? CourseId)
+        {
+            ViewData["CourseId"] = CourseId;
+            ViewData["CourseName"] = db.Courses.Find(CourseId).CourseName;
+            ViewData["Countries"] = new SelectList(db.Countries, "Id", "CountryNameEnglish");
+            return View();
+        }
 
-        //// GET: HomeController1/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Event model)
+        {
+            db.Events.Add(model);
+            db.SaveChanges();
+            return RedirectToAction(nameof(CourseEvents), new { Id = model.CourseID });
+        }
+        [HttpPost]
+        public ActionResult Delete(int Id)
+        {
 
-        //// GET: HomeController1/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+            Event Event = db.Events.Find(Id);
+            int CourseID = Event.CourseID;
+            db.Events.Remove(Event);
+            db.SaveChanges();
+            //return RedirectToAction(nameof(CourseEvents),new { Id = CourseID });
+            return Ok();
+        }
 
-        //// POST: HomeController1/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: HomeController1/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: HomeController1/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: HomeController1/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: HomeController1/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        public ActionResult Edit(int Id)
+        {
+            Event Ev = db.Events.Find(Id);
+            ViewData["CourseName"] = db.Courses.Find(Ev.CourseID).CourseName;
+            ViewData["Countries"] = new SelectList(db.Countries, "Id", "CountryNameEnglish", Ev.CountryID);
+            return View(Ev);
+        }
+        [HttpPost]
+        public ActionResult Edit(Event model)
+        {
+            db.Update(model);
+            db.SaveChanges();
+            Event ev = db.Events.Find(model.Id);
+            return RedirectToAction(nameof(CourseEvents), new { Id = ev.CourseID });
+        }
+       
     }
 }

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BrAcademy.Data.VisitorCourse>
+@{
+    ViewData["Title"] = "ReviseVisitors";
+}
+<div class="container-xl">
+    <h1>ReviseVisitors</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Course
+                </th>
+                <th>
+                    Visitor
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Enquiry
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @BrAcademy.Data.TransferDate.ToStandardArabicDate(item.InterestedDateTime)
+                    </td>
+                    <td>
+                        @item.Visitor.Country.CountryNameEnglish
+                    </td>
+                    <td>
+                        @item.Course.CourseName
+                    </td>
+                    <td>
+                        @item.Visitor.Name
+                    </td>
+                    <td>
+                        @item.Visitor.PhoneNumber
+                    </td>
+                    <td>
+                        <a href="mailto:@item.Visitor.Email">
+                            @item.Visitor.Email
+                        </a>
+                       
+                    </td>
+                    <td>
+                        @item.Question
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{ 
+<script type="text/javascript">
+    $(".table").dataTable();
+</script>
+}

@@ -1,0 +1,117 @@
+﻿@model BrAcademy.Data.Carousel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <h1>Create</h1>
+
+    <h4>CarouselVM</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" checked="checked" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="SortIndex" class="control-label"></label>
+                        <input asp-for="SortIndex" class="form-control" />
+                        <span asp-validation-for="SortIndex" class="text-danger"></span>
+                    </div>*@
+                <input type="hidden" asp-for="SortIndex">
+                <div class="form-group">
+                    <label asp-for="CustomText" class="control-label"></label>
+                    <input asp-for="CustomText" class="form-control" />
+                    <span asp-validation-for="CustomText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomUrl" class="control-label"></label>
+                    <input asp-for="CustomUrl" class="form-control" />
+                    <span asp-validation-for="CustomUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomImageUrl" class="control-label"></label>
+                    <input type="file" class="form-control" id="uploadCustomImage" />
+                    <input type="hidden" asp-for="CustomImageUrl" />
+                    <img id="imgPreviewCustomUrl" style="display:none;width:100%">
+                    <span asp-validation-for="CustomImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoriesList" class="form-control2">
+                        @*<option value="0">Select</option>*@
+                        <option>Select</option>
+                    </select>
+                    <img id="imgPreviewCategory" style="display:none;width:100%">
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseId" class="control-label"></label>
+
+                    <select asp-for="CourseId" asp-items="ViewBag.CoursesList" class="form-control2">
+                        @*<option value="0">Select</option>*@
+                        <option>Select</option>
+                    </select>
+                    <img id="imgPreviewCourse" style="display:none;width:100%">
+                    <span asp-validation-for="CourseId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+
+        $("#uploadCustomImage").change(function () {
+            var files = $('#uploadCustomImage')[0].files;
+            console.log(files[0]);
+            var formData = new FormData();
+
+            formData.append(files[0].name, files[0]);
+            $.ajax({
+                url: '../../Carousels/UploadCarouselImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+                    $("#CustomImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+                    $('#imgPreviewCustomUrl').attr("src", `../../images/Carousels/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+                }, error: function (ex) {
+
+                }
+
+            });
+        });
+        $("#CourseId").change(function () {
+            $.get("../../Carousels/CourseImage", { Id: $(this).val() }, function (url) {
+                $("#imgPreviewCourse").attr("src", "../../images/Courses/Wide/" + url);
+                $("#imgPreviewCourse").show();
+
+            });
+        });
+        $("#CategoryId").change(function () {
+            $.get("../../Carousels/CategoryImage", { Id: $(this).val() }, function (url) {
+                $("#imgPreviewCategory").attr("src", "../../images/Categories/Wide/" + url);
+                $("#imgPreviewCategory").show();
+            });
+        });
+    </script>
+}

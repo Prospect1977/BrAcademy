@@ -11,7 +11,7 @@
     <h4>Course</h4>
     <hr />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -20,20 +20,22 @@
                     <span asp-validation-for="CourseName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>*@
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                   
+
                     <textarea id="editor" asp-for="Description">
                          
                      </textarea>
                 </div>
                 <div class="form-group">
                     <label asp-for="CourseCategoryID" class="control-label"></label>
-                    <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID"></select>
+                    <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
+                        <option>Select</option>
+                    </select>
 
                 </div>
                 <div class="form-group">
@@ -41,16 +43,30 @@
                     <input asp-for="Duration1" class="form-control" />
                     <span asp-validation-for="Duration1" class="text-danger"></span>
                 </div>
-<div class="form-group">
+                <div class="form-group">
                     <label asp-for="Duration2" class="control-label"></label>
                     <input asp-for="Duration2" class="form-control" />
                     <span asp-validation-for="Duration2" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CourseImageUrl" class="control-label"></label>
-                   
+                    @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseImageUrl" />
+                   
+                        <img id="imgPreview" style="display:none;width:100%" />
+                   
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseWideImageUrl" class="control-label"></label>
+
+                    <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
+                    <input type="hidden" asp-for="CourseWideImageUrl" />
+                   
+                    
+                        <img id="imgWidePreview" style="display:none;width:100%" />
+                   
                 </div>
                 <div class="form-group">
                     <label asp-for="Review" class="control-label"></label>
@@ -78,33 +94,60 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
     <script src="~/js/CreateCourse.js"></script>
-<script type="text/javascript">
-    $("#CourseImage").change(function () {
-        var files = $('#CourseImage')[0].files;
-        console.log(files[0]);
-        var formData = new FormData();
+    <script type="text/javascript">
 
-        formData.append(files[0].name, files[0]);
-        $.ajax({
-            url: '../../Courses/UploadCourseImage',
-            type: 'POST',
-            data: formData,
-            dataType: "json",
-            contentType: false,
-            processData: false,
-            complete: function (result) {
-               // $("#imgCrop").attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
-                $("#hiddenImageName").val($.parseJSON(JSON.stringify(result)).responseText);
-                console.log(result);
-               
-            }, error: function (ex) {
-                // console.log($.parseJSON(JSON.stringify(ex)).responseText);
-                $("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
-                $("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
-                $("#cropModal").modal({ backdrop: "static ", keyboard: false });
-            }
 
+        $("#CourseImageWide").change(function () {
+            var files = $('#CourseImageWide')[0].files;
+            console.log(files[0]);
+            var formData = new FormData();
+
+            formData.append(files[0].name, files[0]);
+            $.ajax({
+                url: '../../Courses/UploadWideCourseImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+                    $("#CourseWideImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+                    $('#imgWidePreview').attr("src", `../../images/Courses/Wide/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+                }, error: function (ex) {
+
+                }
+
+            });
         });
-    });
-</script>
+        $("#CourseImage").change(function () {
+            var files = $('#CourseImage')[0].files;
+            console.log(files[0]);
+            var formData = new FormData();
+
+            formData.append(files[0].name, files[0]);
+            $.ajax({
+                url: '../../Courses/UploadCourseImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+                   
+                    $("#CourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+                   
+
+                    $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+                   
+                }, error: function (ex) {
+                    // console.log($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                }
+
+            });
+        });
+    </script>
 }

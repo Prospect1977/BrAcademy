@@ -49,7 +49,20 @@ namespace BrAcademy.Data
             int year = EngDate.Year;
             return $"{day}-{month}-{year}";
         }
-
+        public static string ToStandardArabicDate(DateTime EngDate)
+        {
+            int day = EngDate.Day;
+            string month = GetArabicMonth( EngDate.Month);
+            int year = EngDate.Year;
+            return $"{day}/{EngDate.Month}/{year}";
+        }
+        public static string ToArabicDateShortened(DateTime EngDate)
+        {
+            int day = EngDate.Day;
+            string month = GetArabicMonth(EngDate.Month);
+            int year = EngDate.Year;
+            return $"{month}-{year}";
+        }
         private static string GetArabicMonth(int m)
         {
             switch (m)

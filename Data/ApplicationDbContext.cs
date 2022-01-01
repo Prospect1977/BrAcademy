@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using BrAcademy.Models;
 
 namespace BrAcademy.Data
 {
@@ -22,6 +23,8 @@ namespace BrAcademy.Data
        public DbSet<Visitor> Visitors { get; set; }
        public DbSet<VisitorCourse> VisitorCourses { get; set; }
        public DbSet<VisitorCourseSpeech> VisitorCourseSpeeches { get; set; }
+       public DbSet<Carousel> Carousels { get; set; }
+       public DbSet<BrAcademy.Models.CarouselVM> CarouselVM { get; set; }
 
     }
 }

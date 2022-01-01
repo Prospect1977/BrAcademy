@@ -63,8 +63,7 @@ if ($("div").hasClass("course-sidebar")) {
 $(window).scroll(function () {
 	if (checkWindowWidth(1200)) {
 		var scrollTop = $(window).scrollTop();
-		var offsetBottom =
-			footer.offset().top - (margin * 2 + courseSidebar.height());
+		var offsetBottom =	footer.offset().top - (margin * 2 + courseSidebar.height());
 		if (scrollTop > offsetTop && courseSidebar.hasClass("natural")) {
 			courseSidebar.removeClass("natural").addClass("fixed").css("top", margin);
 			courseHeader

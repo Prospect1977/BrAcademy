@@ -15,19 +15,20 @@ namespace BrAcademy.Data
         [Required]
         public int CourseID { get; set; }
 
-        [Required]
+        
         public String Description { get; set; }
         [Required]
         [Display(Name ="Start Date")]
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public Boolean DisplayShortenedDate { get; set; }
+         public DateTime EndDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         [ForeignKey("CountryID")]
         public Country Country { get; set; }
         [Required]
         public int CountryID { get; set; }
-
+        public Boolean HomePage { get; set; }
 
     }
 }

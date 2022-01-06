@@ -32,5 +32,6 @@ namespace BrAcademy.Models.Courses
         public float Review { get; set; }
 
         public int CountReviewers { get; set; }
+        public string Code { get; set; }
     }
 }

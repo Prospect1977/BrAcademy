@@ -1183,10 +1183,11 @@ homepage styles
 .course-box-wrap a:hover{
     text-decoration: none;
 }
-.course-box{
+.course-box {
     position: relative;
     background: #fff;
     border-radius: 10px 10px 10px 10px;
+    border: 1px solid #e9e9e9;
 }
 .course-box:before,
 .course-box:after{

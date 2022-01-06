@@ -20,7 +20,7 @@ namespace BrAcademy.Controllers
         {
             this.db = db;
         }
-
+       
         public ActionResult CourseEvents(int? id)
         {
             ViewData["CourseId"] = id;
@@ -29,6 +29,7 @@ namespace BrAcademy.Controllers
             ViewData["CountryID"] = new SelectList(db.Countries, "Id", "CountryNameEnglish");
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(int? CourseId)
         {
             ViewData["CourseId"] = CourseId;
@@ -36,7 +37,7 @@ namespace BrAcademy.Controllers
             ViewData["Countries"] = new SelectList(db.Countries, "Id", "CountryNameEnglish");
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Event model)
@@ -45,6 +46,7 @@ namespace BrAcademy.Controllers
             db.SaveChanges();
             return RedirectToAction(nameof(CourseEvents), new { Id = model.CourseID });
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Delete(int Id)
         {
@@ -56,7 +58,7 @@ namespace BrAcademy.Controllers
             //return RedirectToAction(nameof(CourseEvents),new { Id = CourseID });
             return Ok();
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
             Event Ev = db.Events.Find(Id);
@@ -64,6 +66,7 @@ namespace BrAcademy.Controllers
             ViewData["Countries"] = new SelectList(db.Countries, "Id", "CountryNameEnglish", Ev.CountryID);
             return View(Ev);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(Event model)
         {

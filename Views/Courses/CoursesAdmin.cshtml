@@ -33,6 +33,9 @@
                 <th></th>
                 <th>Order</th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Code)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.CourseName)
                 </th>
                 <th>
@@ -55,7 +58,7 @@
                     @Html.DisplayNameFor(model => model.Review)
                 </th>
                 <th>
-                    #Reviewers
+                    views
                 </th>
                 <th></th>
             </tr>
@@ -63,61 +66,67 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr data-id="@item.Id">
-                    <td>
-                        <i class="fa fa-sort" style="cursor:grab"></i>
-                    </td>
-                    <td>
-                        <span class="spanSortIndex">@item.SortIndex</span>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>*@
-                    <td>
+            <tr data-id="@item.Id">
+                <td>
+                    <i class="fa fa-sort" style="cursor:grab"></i>
+                </td>
+                <td>
+                    <span class="spanSortIndex">@item.SortIndex</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>*@
+                <td>
+                    <a href="~/CourseCategories/CategoryDetails/@item.CourseCategoryID">
                         @Html.DisplayFor(modelItem => item.CourseCategory.CategoryName)
-                    </td>
+                    </a>
+                   
+                </td>
 
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Duration1)
-                    </td>
-                    <td>
-                        @*@Html.DisplayFor(modelItem => item.Active)*@
-                        <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i>
-                    </td>
-                    <td>
-                        <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
-                    </td>
-                    <td style="width:230px">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration1)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Active)*@
+                    <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                </td>
+                <td>
+                    <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                </td>
+                <td style="width:230px">
 
-                        @if (@item.CourseImageUrl != null)
-                        {
-                            <div class="divImage" style="z-index:@(5000-@item.Id)">
-                                <img src="~/images/Courses/@item.CourseImageUrl" />
-                            </div>
-                        }
-
-
+                    @if (@item.CourseImageUrl != null)
+                    {
+                        <div class="divImage" style="z-index:@(5000-@item.Id)">
+                            <img src="~/images/Courses/@item.CourseImageUrl" />
+                        </div>
+                    }
 
 
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Review)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CountReviewers)
-                    </td>
-                    <td style="width:100px">
-                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit text-primary"></i></a> |
-                        <a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-info-circle text-warning"></i></a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash text-danger"></i></a>
-                    </td>
-                </tr>
+
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountReviewers)
+                </td>
+                <td style="width:100px">
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit text-primary"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-info-circle text-warning"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash text-danger"></i></a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -125,7 +134,7 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $(".table").DataTable();
+            $(".table").DataTable({paging: false});
             $(".table").sortable({
                 update: function (event, ui) {
                     var orderList = "";

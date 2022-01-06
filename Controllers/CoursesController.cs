@@ -25,7 +25,7 @@ using System.Text.Json;
 
 namespace BrAcademy.Controllers
 {
-    [Authorize(Roles = "Revisor,Admin")]
+
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -41,8 +41,8 @@ namespace BrAcademy.Controllers
         }
         public IActionResult ReviseVisitors()
         {
-            IEnumerable<VisitorCourse> model = _context.VisitorCourses.Include(m => m.Visitor).Include(m => m.Visitor.Country).Include(m=>m.Course).OrderByDescending(m => m.InterestedDateTime);
-            return  View(model);
+            IEnumerable<VisitorCourse> model = _context.VisitorCourses.Include(m => m.Visitor).Include(m => m.Visitor.Country).Include(m => m.Course).OrderByDescending(m => m.InterestedDateTime);
+            return View(model);
         }
         // GET: Courses
         [Authorize(Roles = "Admin")]
@@ -54,7 +54,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "Admin")]
+       
         public async Task<IActionResult> Details(int? id)
         {
 
@@ -194,8 +194,9 @@ namespace BrAcademy.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
+
         public int SaveUserData(int VisitorId, string CountryCode, string Name, string PhoneNumber, string Email, string WorksAt, string Question, int CourseId)
         {
             Visitor Visitor;
@@ -205,9 +206,17 @@ namespace BrAcademy.Controllers
             }
             else
             {
-                Visitor = new Visitor();
-                Visitor.RegisteredOn = DateTime.Now;
-                _context.Visitors.Add(Visitor);
+                if (_context.Visitors.Any(m => m.Email == Email))
+                {
+                    Visitor = _context.Visitors.FirstOrDefault(m => m.Email == Email);
+                }
+                else
+                {
+                    Visitor = new Visitor();
+                    Visitor.RegisteredOn = DateTime.Now;
+                    _context.Visitors.Add(Visitor);
+                }
+
             }
             int CountryId = _context.Countries.SingleOrDefault(m => m.Alias == CountryCode).Id;
             Visitor.CountryID = CountryId;
@@ -233,7 +242,7 @@ namespace BrAcademy.Controllers
             return Visitor.Id;
 
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet]
         public string GetUserData(int VisitorId)
         {
@@ -243,7 +252,7 @@ namespace BrAcademy.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Course course,string ReturnToCoursePage)
+        public async Task<IActionResult> Edit(int id, Course course, string ReturnToCoursePage)
         {
             if (id != course.Id)
             {
@@ -292,14 +301,14 @@ namespace BrAcademy.Controllers
                 }
                 if (ReturnToCoursePage == "true")
                 {
-                    return RedirectToAction(nameof(CourseDetails), new {id = id });
+                    return RedirectToAction(nameof(CourseDetails), new { id = id });
                 }
                 return RedirectToAction(nameof(CoursesAdmin));
 
                 // return Ok();
             }
             ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
-           
+
             return View(course);
         }
 

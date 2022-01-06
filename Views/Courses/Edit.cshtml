@@ -24,9 +24,21 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="CourseName" class="control-label"></label>
                     <input asp-for="CourseName" class="form-control" />
                     <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseCategoryID" class="control-label"></label>
+                    <select asp-for="CourseCategoryID" style="direction:rtl" class="form-control2" asp-items="ViewBag.CourseCategoryID">
+                        <option>Select</option>
+                    </select>
+                    <span asp-validation-for="CourseCategoryID" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
@@ -41,7 +53,7 @@
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseImageUrl" />
-                    @if (Model.CourseImageUrl!=null)
+                    @if (Model.CourseImageUrl != null)
                     {
                         <img id="imgPreview" src="~/images/Courses/@Model.CourseImageUrl" style="width:100%" />
                     }
@@ -53,10 +65,10 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CourseWideImageUrl" class="control-label"></label>
-                   
+
                     <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseWideImageUrl" />
-                    @if (Model.CourseWideImageUrl!=null)
+                    @if (Model.CourseWideImageUrl != null)
                     {
                         <img id="imgWidePreview" src="~/images/Courses/Wide/@Model.CourseWideImageUrl" style="width:100%" />
                     }
@@ -66,13 +78,7 @@
                     }
 
                 </div>
-                <div class="form-group">
-                    <label asp-for="CourseCategoryID" class="control-label"></label>
-                    <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
-                        <option>Select</option>
-                    </select>
-                    <span asp-validation-for="CourseCategoryID" class="text-danger"></span>
-                </div>
+
                 <div class="form-group">
                     <label asp-for="Active" class="control-label"></label>
                     <input type="checkbox" asp-for="Active" />

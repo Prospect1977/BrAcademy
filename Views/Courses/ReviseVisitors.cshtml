@@ -41,7 +41,10 @@
                         @item.Visitor.Country.CountryNameEnglish
                     </td>
                     <td>
-                        @item.Course.CourseName
+                        <a href="~/Courses/CourseDetails/@item.CourseID">
+                            @item.Course.CourseName
+                        </a>
+                       
                     </td>
                     <td>
                         @item.Visitor.Name
@@ -65,6 +68,11 @@
 </div>
 @section Scripts{ 
 <script type="text/javascript">
-    $(".table").dataTable();
+    $(".table").dataTable(
+        {
+            "order": [[0, "desc"], [1, "asc"]],
+
+        }
+    );
 </script>
 }

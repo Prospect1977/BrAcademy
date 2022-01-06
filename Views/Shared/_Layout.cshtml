@@ -82,31 +82,37 @@
 
 
 
-                
+
                     <ul class="navbar-nav" style="color:black">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" style="color:black" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
-                                Admin Tools
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="top: 53px;">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <a class="dropdown-item" href="~/CourseCategories/Index">Course Categories</a>
-                                    <a class="dropdown-item" href="~/Courses/CoursesAdmin">Courses</a>
-                                    <a class="dropdown-item" href="~/Carousels">Carousel</a>
-                                }
-                                @if (User.IsInRole("Admin") || User.IsInRole("Revisor"))
-                                {
-                                    <a class="dropdown-item" href="~/Courses/ReviseVisitors">Visitors</a>
-                                }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link dropdown-toggle" href="#" style="color:black" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    Admin Tools
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="top: 53px;">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="dropdown-item" href="~/CourseCategories/Index">Course Categories</a>
+                                        <a class="dropdown-item" href="~/Courses/CoursesAdmin">Courses</a>
+                                        <a class="dropdown-item" href="~/Carousels">Carousel</a>
+                                    }
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Revisor"))
+                                    {
+                                        <a class="dropdown-item" href="~/Courses/ReviseVisitors">Visitors</a>
+                                    }
+                                </div>
+                            }
 
 
 
-                            </div>
+
+
 
                         </li>
                     </ul>
-                    
+
 
 
 

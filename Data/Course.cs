@@ -14,7 +14,7 @@ namespace BrAcademy.Data
         [Required]
         [StringLength(200)]
         public string CourseName { get; set; }
-        [Required]
+       
         [StringLength(5000)]
         public string Description { get; set; }
         [ForeignKey("CourseCategoryID")]
@@ -22,8 +22,6 @@ namespace BrAcademy.Data
         [Required]
         [DisplayName("Category")]
         public int CourseCategoryID { get; set; }
-        [Required]
-        
         public string Duration1 { get; set; }
         public string Duration2 { get; set; }
         [DisplayName("Image")]
@@ -37,6 +35,8 @@ namespace BrAcademy.Data
 
         public Boolean Active { get; set; }
         public int SortIndex { get; set; }
+        [MaxLength(25)]
+        public string Code { get; set; }
         public Boolean HomePage { get; set; }
         public Boolean FlgDelete { get; set; }
     }

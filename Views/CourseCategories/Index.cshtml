@@ -99,7 +99,7 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $(".table").DataTable();
+            $(".table").DataTable({ paging: false });
             $(".table").sortable({
                 update: function (event, ui) {
                     var orderList = "";

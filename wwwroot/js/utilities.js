@@ -380,16 +380,9 @@ function PleaseWait(action, message) {
         } else {
             message = "Please wait"
         }
-        var pathPrefix = "";
-        if ($('#HiddenFileDepth').val() == 1) {
-            pathPrefix = "../";
-        }
-        if ($('#HiddenFileDepth').val() == 2) {
-            pathPrefix = "../../";
-        }
         $('#pleaseWait').detach();
         var element = $('<div id="pleaseWait" style="margin:auto;position:absolute;left:50%;border-radius:7px;border:1px solid lightgray;vertical-align:middle;padding:10px;box-shadow: 0 0 10px #ccc4cc;z-index: 100;background-color: white">' +
-            '<img src="' + pathPrefix + 'images/PleaseWait_Gray.gif" /><span style="margin-left:5px">' + message + '</span>' +
+            '<img src="../../images/PleaseWait_Gray.gif" /><span style="margin-left:5px">' + message + '</span>' +
         '</div>').appendTo('body').show();
         element.css("top", $(window).scrollTop() + $(window).height() / 2);
     }

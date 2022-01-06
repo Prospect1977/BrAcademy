@@ -95,6 +95,10 @@ namespace BrAcademy.Data.Migrations
                     b.Property<int?>("CarouselVMId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Code")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<int>("CountReviewers")
                         .HasColumnType("int");
 
@@ -113,12 +117,10 @@ namespace BrAcademy.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Duration1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Duration2")

@@ -9,6 +9,7 @@ using BrAcademy.Data;
 using BrAcademy.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BrAcademy.Controllers
 {
@@ -47,7 +48,7 @@ namespace BrAcademy.Controllers
             return View(carouselVM);
         }
 
-        // GET: Carousels/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             //IEnumerable<Course> CoursesList= db.Courses.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
@@ -63,6 +64,7 @@ namespace BrAcademy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Carousel carousel)
         {
             //if (ModelState.IsValid)
@@ -86,6 +88,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Carousels/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -127,6 +130,7 @@ namespace BrAcademy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Carousel carousel)
         {
             if (id != carousel.Id)
@@ -143,6 +147,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Carousels/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -161,6 +166,7 @@ namespace BrAcademy.Controllers
         }
 
         // POST: Carousels/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -176,6 +182,7 @@ namespace BrAcademy.Controllers
             return db.Carousels.Any(e => e.Id == id);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult UploadCarouselImage()
         {
             try
@@ -196,7 +203,7 @@ namespace BrAcademy.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public void OrderCarouselsList(string CarouselsList)
         {
             var list = CarouselsList.Split(",");
@@ -211,6 +218,7 @@ namespace BrAcademy.Controllers
             db.SaveChanges();
 
         }
+       
         [HttpGet]
         public string CourseImage(int id)
         {

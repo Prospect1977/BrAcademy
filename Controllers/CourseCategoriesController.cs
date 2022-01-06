@@ -9,6 +9,7 @@ using BrAcademy.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using BrAcademy.Models.Categories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BrAcademy.Controllers
 {
@@ -21,6 +22,7 @@ namespace BrAcademy.Controllers
             this.db = db;
             _env = env;
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult UploadCategoryImage()
         {
@@ -42,7 +44,8 @@ namespace BrAcademy.Controllers
                 return BadRequest(ex.Message);
             }
         }
- [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         public IActionResult UploadWideCategoryImage()
         {
             try
@@ -70,6 +73,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: CourseCategories/Details/5
+      
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -88,6 +92,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: CourseCategories/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -96,6 +101,7 @@ namespace BrAcademy.Controllers
         // POST: CourseCategories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseCategory courseCategory)
@@ -120,6 +126,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: CourseCategories/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -157,6 +164,7 @@ namespace BrAcademy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, CourseCategory courseCategory)
         {
             if (id != courseCategory.Id)
@@ -188,6 +196,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: CourseCategories/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -206,6 +215,7 @@ namespace BrAcademy.Controllers
         }
 
         // POST: CourseCategories/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -220,6 +230,7 @@ namespace BrAcademy.Controllers
         {
             return db.CourseCategories.Any(e => e.Id == id);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult OrderCategoriesList(string CategoryList)
         {

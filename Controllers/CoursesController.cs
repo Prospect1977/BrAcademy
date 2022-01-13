@@ -54,7 +54,7 @@ namespace BrAcademy.Controllers
         }
 
         // GET: Courses/Details/5
-       
+
         public async Task<IActionResult> Details(int? id)
         {
 
@@ -370,127 +370,215 @@ namespace BrAcademy.Controllers
             model.RelatedCourses = _context.Courses.Where(m => m.CourseCategoryID == CategoryID && m.Id != id && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddBulk(int? id)
+        {
+            CourseCategory MyCategory;
+            if (id > 0)
+            {
+                MyCategory = _context.CourseCategories.Find(id);
+            }
+            else
+            {
+                int firstIndex = _context.CourseCategories.Min(m => m.SortIndex);
+                MyCategory = _context.CourseCategories.FirstOrDefault(m => m.SortIndex == firstIndex);
+            }
+            ViewData["CategoriesList"] = new SelectList(_context.CourseCategories.Where(m => m.Active).OrderBy(m => m.SortIndex), "Id", "CategoryName", id);
+            return View(MyCategory);
+        }
+        public string CoursesByCategory(int Id)
+        {
+            IEnumerable<Course> Courses = _context.Courses.Where(m => m.CourseCategoryID == Id).OrderBy(m => m.SortIndex);
+            return JsonSerializer.Serialize(Courses);
+        }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public int CoursesFromCSV(int CategoryId, string CoursesList)
+        {
+            int lastSortIndex = _context.Courses.Max(m => m.SortIndex);
+            List<CsvCourse> Records = JsonSerializer.Deserialize<List<CsvCourse>>(CoursesList);
+            int count = 0;
+            foreach (CsvCourse c in Records)
+            {
+                Course MyCourse = new Course();
+                if (_context.Courses.Any(m => m.Code == c.Code))
+                {
+                    continue;
+                }
+                count += 1;
+                MyCourse.Code = c.Code;
+                MyCourse.CourseName = c.Name;
+                MyCourse.Active = true;
+                MyCourse.CourseCategoryID = CategoryId;
+                MyCourse.Duration1 = "من الأحد إلى الخميس";
+                MyCourse.Duration2 = "اسبوع واحد";
+                Random rnd = new Random();
+                int rev = rnd.Next(3, 6); // creates a number between 4 and 5
+                MyCourse.Review = rev;
+                int revCount = rnd.Next(25, 65);
+                MyCourse.CountReviewers = revCount;
+                lastSortIndex += 1;
+                MyCourse.SortIndex = lastSortIndex;
+                _context.Courses.Add(MyCourse);
+            }
+            _context.SaveChanges();
+            return count;
+        }
 
-        //[HttpPost]
-        //public IActionResult CropCourseImage_NotWorking(string ImageName, int width, int height, int x, int y)
+        protected class CsvCourse
+        {
+            public string Code { get; set; }
+            public string Name { get; set; }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public int EventsFromCSV(string EventsList)
+        {
 
-        //{
-        // string ImageUrl = Request.QueryString("url");
-        // string NewFileName;
-        //if (ImageUrl.EndsWith("jpeg"))
-        //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 5) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
-        //else
-        //    NewFileName = ImageUrl.Substring(0, ImageUrl.Length - 4) + "_Modified" + Path.GetExtension(Server.MapPath(ImageUrl));
+            List<CsvEvent> Records = JsonSerializer.Deserialize<List<CsvEvent>>(EventsList);
+            int count = 0;
+            foreach (CsvEvent e in Records)
+            {
 
+                if (!_context.Courses.Any(m => m.Code == e.Code))
+                {
+                    continue;
+                }
 
+                int CourseID = _context.Courses.Single(m => m.Code == e.Code).Id;
+                if (!string.IsNullOrEmpty(e.Date_1))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_1);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_1).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_2))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_2);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_2).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_3))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_3);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_3).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_4))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_4);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_4).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_5))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_5);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_5).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_6))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_6);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_6).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_7))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_7);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_7).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_8))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_8);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_8).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_9))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_9);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_9).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_10))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_10);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_10).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+                if (!string.IsNullOrEmpty(e.Date_11))
+                {
+                    Event MyEvent = new Event();
+                    MyEvent.CourseID = CourseID;
+                    MyEvent.StartDate = Convert.ToDateTime(e.Date_11);
+                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_11).Id;
+                    _context.Events.Add(MyEvent);
+                    count += 1;
+                }
+               
 
+            }
+            _context.SaveChanges();
+            return count;
+        }
+        protected class CsvEvent
+        {
+            public string Code { get; set; }
+            public string Date_1 { get; set; }
+            public string Date_2 { get; set; }
+            public string Date_3 { get; set; }
+            public string Date_4 { get; set; }
+            public string Date_5 { get; set; }
+            public string Date_6 { get; set; }
+            public string Date_7 { get; set; }
+            public string Date_8 { get; set; }
+            public string Date_9 { get; set; }
+            public string Date_10 { get; set; }
+            public string Date_11 { get; set; }
 
+            public string City_1 { get; set; }
+            public string City_2 { get; set; }
+            public string City_3 { get; set; }
+            public string City_4 { get; set; }
+            public string City_5 { get; set; }
+            public string City_6 { get; set; }
+            public string City_7 { get; set; }
+            public string City_8 { get; set; }
+            public string City_9 { get; set; }
+            public string City_10 { get; set; }
+            public string City_11 { get; set; }
 
-
-        //var file = Path.Combine(_env.WebRootPath, "images", "Courses", ImageName);
-
-        //using (System.Drawing.Image image = System.Drawing.Image.FromFile(file))
-        //{
-
-
-        //    image.Save("bar.jpg");
-        //}
-
-
-        //using (var inStream)
-        //using (var outStream = new MemoryStream())
-        //using (var image = Image.Load(inStream, out IImageFormat format))
-        //{
-        //    image.Mutate(
-        //        i => i.Resize(width, height)
-        //              .Crop(new Rectangle(x, y, cropWidth, cropHeight)));
-
-        //    image.Save(outStream, format);
-        //}
-
-
-
-
-        //Console.WriteLine($"Loading {file}");
-        //using (FileStream pngStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-        //using (var image = new Bitmap(pngStream))
-        //{
-        //    var resized = new Bitmap(width, height);
-        //    using (var graphics = Graphics.FromImage(resized))
-        //    {
-        //        graphics.CompositingQuality = CompositingQuality.HighSpeed;
-        //        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        //        graphics.CompositingMode = CompositingMode.SourceCopy;
-        //        graphics.DrawImage(image, 0, 0, width, height);
-        //        resized.Save(file);
-        //        Console.WriteLine($"Saving resized-{file} thumbnail");
-        //        return Ok();
-        //    }
-        //}
-        //    return Ok();
-
-        //}
-
-
-
-
-
-        //[HttpPost]
-        //public IActionResult CropCourseImage(string filename, IFormFile blob)
-        //{
-        //    try
-        //    {
-        //        using (var image = Image.Load(blob.OpenReadStream()))
-        //        {
-        //            string uniqueFileName = Guid.NewGuid().ToString();
-        //           // var path = Path.Combine(_env.WebRootPath, "images", "Courses", uniqueFileName.Substring(0, 5) + "_" + file.FileName);
-        //            string systemFileExtenstion = filename.Substring(filename.LastIndexOf('.'));
-
-
-        //            var newfileName180 = filename+"_" +uniqueFileName.Substring(0, 5);
-        //            var filepath160 = Path.Combine(_env.WebRootPath, "images", "Courses", newfileName180);
-        //            image.Mutate(x => x.Resize(600, 600));
-        //            image.Save(filepath160);
-
-        //            //var newfileName200 = GenerateFileName("Photo_200_200_", systemFileExtenstion);
-        //            //var filepath200 = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images")).Root + $@"\{newfileName200}";
-        //            //image.Mutate(x => x.Resize(200, 200));
-        //            //image.Save(filepath200);
-
-        //            //var newfileName32 = GenerateFileName("Photo_32_32_", systemFileExtenstion);
-        //            //var filepath32 = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images")).Root + $@"\{newfileName32}";
-        //            //image.Mutate(x => x.Resize(32, 32));
-        //            //image.Save(filepath32);
-
-        //        }
-
-        //        return Json(new { Message = "OK" });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Json(new { Message = "ERROR" });
-        //    }
-        //}
-        //public string GenerateFileName(string fileTypeName, string fileextenstion)
-        //{
-        //    if (fileTypeName == null) throw new ArgumentNullException(nameof(fileTypeName));
-        //    if (fileextenstion == null) throw new ArgumentNullException(nameof(fileextenstion));
-        //    return $"{fileTypeName}_{DateTime.Now:yyyyMMddHHmmssfff}_{Guid.NewGuid():N}{fileextenstion}";
-        //}
-        //[HttpPost]
-        //public IActionResult SaveCroppedImage()
-        //{
-        //    string base64 = Request.Form["imgCropped"];
-        //    byte[] bytes = Convert.FromBase64String(base64.Split(',')[1]);
-        //    var newfileName = Guid.NewGuid().ToString()+".jpg";
-        //    string filePath = Path.Combine(_env.WebRootPath, "images", "Courses", newfileName);
-        //    using (FileStream stream = new FileStream(filePath, FileMode.Create))
-        //    {
-        //        stream.Write(bytes, 0, bytes.Length);
-        //        stream.Flush();
-        //    }
-        //    return Ok();
-        //}
+        }
     }
 }

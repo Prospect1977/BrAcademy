@@ -15,16 +15,19 @@
         padding: 15px 10px !important;
         text-align: right;
     }
+
     .shift24 {
         top: -24px
     }
+
     #sidebar ul li a:hover, #sidebar ul li.active > a:hover {
         color: #fff;
         background: #962c66;
         border-bottom: 1px solid #962c66;
     }
+
     #sidebar {
-        right:-15px;
+        right: -15px;
     }
 </style>
 <div class="bg-gray">
@@ -37,12 +40,12 @@
                     <div class="course-header-wrap">
                         <h1 class="title" style="position: relative; top: 10px; color: white; text-align: right;">
                             @if (User.IsInRole("Admin"))
-            {
-                <a href="~/CourseCategories/Edit/@Model.CourseCategory.Id?ReturnToCategoryPage=true">
-                    <i class="fa fa-edit"></i>
-                </a>
-            }
-                        @Model.CourseCategory.CategoryName
+                            {
+                                <a href="~/CourseCategories/Edit/@Model.CourseCategory.Id?ReturnToCategoryPage=true">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            }
+                            @Model.CourseCategory.CategoryName
                         </h1>
 
                     </div>
@@ -86,15 +89,33 @@
                             <div class="course-box-wrap slick-active col-sm-6 col-md-4" tabindex="0" data-slick-index="3" aria-hidden="false">
                                 <a asp-action="CourseDetails" asp-controller="Courses" asp-route-id="@Course.Id">
                                     <div class="course-box">
-                                        @if (Course.CourseImageUrl != null)
-                                        {
-                                            <div class="course-image" style="text-align:center">
+                                        
+                                        <div class="course-image" style="text-align:center">
+                                            @if (@Course.CourseImageUrl != null)
+                                            {
                                                 <img src="~/images/Courses/@Course.CourseImageUrl" alt="@Course.CourseName" asp-append-version="true" class="img-fluid">
-                                            </div>
-                                        }
+                                               
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/Course.png"  asp-append-version="true" class="img-fluid">
+                                            }
+
+                                        </div>
+                                      
 
                                         <div class="course-details">
+                                            @*@if (@Course.CourseImageUrl != null)
+                                                {*@
                                             <h5 class="title" style="text-align: right;">@Course.CourseName</h5>
+                                            @*}
+                                                else
+                                                {
+                                                    <div style="height:283px">
+                                                        <h2 class="title" style="text-align: right;">@Course.CourseName</h2>
+                                                    </div>
+                                                }*@
+
                                             <div class="rating" style="text-align: right;">
                                                 <img class="imgRate" src="~/images/Stars/@(String.Format("{0:0.0}", Course.Review)).png" style="width:83px" />
 
@@ -106,12 +127,19 @@
                                             </div>
                                             <div class="d-flex text-dark" style="direction: rtl;">
                                                 <div class="">
-                                                    <i class="far fa-clock text-14px"></i>
-                                                    <span class="text-muted text-12px">@Course.Duration1</span>
+                                                    @if (@Course.Duration1 != null)
+                                                    {
+                                                        <i class="far fa-clock text-14px"></i>
+                                                        <span class="text-muted text-12px">@Course.Duration1</span>
+                                                    }
+
                                                 </div>
                                                 <div class="ms-3">
-                                                    <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                                    @if (@Course.Duration2 != null)
+                                                    {
+                                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
                                                     <span class="text-muted text-12px">@Course.Duration2</span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

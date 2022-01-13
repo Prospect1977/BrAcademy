@@ -1,0 +1,126 @@
+﻿@model BrAcademy.Data.CourseCategory
+
+@{
+    ViewData["Title"] = "AddBulk";
+}
+<div class="container-xl">
+    <h2>AddBulk</h2>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <select id="dropCategoryList" class="form-control2" asp-items="ViewBag.CategoriesList"></select><br /><br />
+            <input id="fileUpload" type="file" class="form-control" /><br />
+            <a id="btnExecute" class="btn btn-primary">Add as list of Courses</a>
+            <a id="btnExecuteEvents" class="btn btn-primary">Add as a list of Events</a>
+        </div>
+    </div>
+
+    <hr />
+
+    <table id="tblCourses" class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Rate</th>
+                <th>Reviews</th>
+                <th>Active</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+@section Scripts{
+    <script src="~/lib/jquery.csv.min.js"></script>
+    <script type="text/javascript">
+        $("#dropCategoryList").change(function () {
+            rebuildTable();
+        });
+        rebuildTable();
+        function rebuildTable() {
+            $("#tblCourses tbody").empty();
+            $.get("../../Courses/CoursesByCategory", { Id: $("#dropCategoryList").val() }, function (result) {
+                // console.log(result);
+                var Courses = $.parseJSON(result);
+                $(Courses).each(function (i, c) {
+                    var $tr = $(`<tr data-id="${c.Id}">`).appendTo("#tblCourses tbody");
+                    $(`<td>${c.Code}</td>`).appendTo($tr);
+                    $(`<td> <a href="../../Courses/CourseDetails/${c.Id}">${c.CourseName}</a></td>`).appendTo($tr);
+                    $(`<td>${c.Review}</td>`).appendTo($tr);
+                    $(`<td>${c.CountReviewers}</td>`).appendTo($tr);
+                    $(`<td>${c.Active ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>"}</td>`).appendTo($tr);
+                    $(`<td><a target="parent" class="hyperEdit" href="../../Courses/Edit/${c.Id}"><i class="fa fa-edit text-primary"></i> |
+        <a target="parent" class="hyperDelete" href="../../Courses/delete/${c.Id}"><i class="fa fa-trash text-danger"></i>
+</td>`).appendTo($tr);
+                });
+            });
+        }
+
+
+        $("#btnExecute").click(function () {
+            var $uploadHandler = $('#fileUpload');
+
+            if (!$uploadHandler.val().length) {
+                alert("No file has been chosen!");
+                return false;
+            }
+            const reader = new FileReader();
+            $("#btnExecute").prop("disabled", true);
+            reader.onload = function () {
+                var data = $.csv.toObjects(reader.result);
+
+                console.log(JSON.stringify(data));
+
+                PleaseWait("show");
+                $.post("../../Courses/CoursesFromCSV", { CategoryId: $("#dropCategoryList").val(), CoursesList: JSON.stringify(data) }, function (count) {
+                    PleaseWait("hide");
+                    $uploadHandler.val("");
+                    alert(count + " Courses have been added Successfully under: " + $("#dropCategoryList option:selected").text());
+                }).error(function (e) {
+                    alert(ajaxErrorMessage(e));
+                    PleaseWait("hide");
+
+                });
+            }
+
+            reader.readAsText($uploadHandler[0].files[0]);
+
+        });
+        $("#btnExecuteEvents").click(function () {
+            var $uploadHandler = $('#fileUpload');
+
+            if (!$uploadHandler.val().length) {
+                alert("No file has been chosen!");
+                return false;
+            }
+            const reader = new FileReader();
+            $("#btnExecuteEvents").prop("disabled", true);
+            reader.onload = function () {
+                var data = $.csv.toObjects(reader.result);
+
+                console.log(JSON.stringify(data));
+
+                PleaseWait("show");
+                $.post("../../Courses/EventsFromCSV", { EventsList: JSON.stringify(data) }, function (count) {
+                    PleaseWait("hide");
+                    $uploadHandler.val("");
+                    alert(count + " Events have been added Successfully!");
+                }).error(function (e) {
+                    alert(ajaxErrorMessage(e));
+                    PleaseWait("hide");
+
+                });
+            }
+
+            reader.readAsText($uploadHandler[0].files[0]);
+
+        });
+
+
+
+    </script>
+}

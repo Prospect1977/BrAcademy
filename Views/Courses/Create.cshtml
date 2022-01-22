@@ -19,16 +19,16 @@
                     <input asp-for="Code" class="form-control" />
                     <span asp-validation-for="Code" class="text-danger"></span>
                 </div>
-<div class="form-group">
+                <div class="form-group">
                     <label asp-for="CourseName" class="control-label"></label>
                     <input asp-for="CourseName" class="form-control" />
                     <span asp-validation-for="CourseName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <input asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>*@
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>*@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
 
@@ -58,9 +58,9 @@
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseImageUrl" />
-                   
-                        <img id="imgPreview" style="display:none;width:100%" />
-                   
+
+                    <img id="imgPreview" style="display:none;width:100%" />
+
 
                 </div>
                 <div class="form-group">
@@ -68,10 +68,15 @@
 
                     <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseWideImageUrl" />
-                   
-                    
-                        <img id="imgWidePreview" style="display:none;width:100%" />
-                   
+
+
+                    <img id="imgWidePreview" style="display:none;width:100%" />
+
+                </div>
+                <div class="form-group">
+                    <label  class="control-label">Coming Soon</label>
+                    <input type="checkbox" asp-for="@Model.IsComingSoon" />
+
                 </div>
                 <div class="form-group">
                     <label asp-for="Review" class="control-label"></label>

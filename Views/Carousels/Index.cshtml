@@ -67,7 +67,7 @@
                         @Html.DisplayFor(modelItem => item.SortIndex)
                     </td>
                     <td>
-                        <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                        <a class="hyperSwitchActive" style="cursor:pointer">  <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i></a>
                     </td>
 
                     <td>
@@ -143,5 +143,13 @@
         axis: "y"
     }
     );
+    $(".hyperSwitchActive").click(function () {
+        var $this = $(this);
+        PleaseWait("show");
+        $.post("../../Carousels/SwitchActive", { id: $(this).closest("tr").attr("data-id") }, function () {
+            $this.find("i").toggleClass("fa-check").toggleClass("fa-times").toggleClass("text-danger").toggleClass("text-success");
+            PleaseWait("hide");
+        });
+    });
 </script>
 }

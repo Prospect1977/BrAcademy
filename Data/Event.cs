@@ -28,7 +28,7 @@ namespace BrAcademy.Data
         public Country Country { get; set; }
         [Required]
         public int CountryID { get; set; }
-        public Boolean HomePage { get; set; }
+       
 
     }
 }

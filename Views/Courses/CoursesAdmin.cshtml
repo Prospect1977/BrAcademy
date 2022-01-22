@@ -86,7 +86,7 @@
                     <a href="~/CourseCategories/CategoryDetails/@item.CourseCategoryID">
                         @Html.DisplayFor(modelItem => item.CourseCategory.CategoryName)
                     </a>
-                   
+
                 </td>
 
 
@@ -96,10 +96,10 @@
                 </td>
                 <td>
                     @*@Html.DisplayFor(modelItem => item.Active)*@
-                    <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                    <a class="hyperSwitchActive" style="cursor:pointer">  <i class="@(item.Active?"fa fa-check text-success":"fa fa-times text-danger")"></i></a>
                 </td>
                 <td>
-                    <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
+                    <a class="hyperSwitchHome" style="cursor:pointer"> <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i></a>
                 </td>
                 <td style="width:230px">
 
@@ -154,6 +154,22 @@
                 axis: "y"
             }
             )
+        });
+        $(".hyperSwitchActive").click(function () {
+            var $this = $(this);
+            PleaseWait("show");
+            $.post("../../Courses/SwitchActive", { id: $(this).closest("tr").attr("data-id") }, function () {
+                $this.find("i").toggleClass("fa-check").toggleClass("fa-times").toggleClass("text-danger").toggleClass("text-success");
+                PleaseWait("hide");
+            });
+        });
+$(".hyperSwitchHome").click(function () {
+            var $this = $(this);
+            PleaseWait("show");
+            $.post("../../Courses/SwitchHome", { id: $(this).closest("tr").attr("data-id") }, function () {
+                $this.find("i").toggleClass("fa-check").toggleClass("fa-times").toggleClass("text-danger").toggleClass("text-success");
+                PleaseWait("hide");
+            });
         });
     </script>
 }

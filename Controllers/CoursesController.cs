@@ -409,7 +409,7 @@ namespace BrAcademy.Controllers
                 count += 1;
                 MyCourse.Code = c.Code;
                 MyCourse.CourseName = c.Name;
-                MyCourse.Active = true;
+                MyCourse.Active = false;
                 MyCourse.CourseCategoryID = CategoryId;
                 MyCourse.Duration1 = "من الأحد إلى الخميس";
                 MyCourse.Duration2 = "اسبوع واحد";
@@ -551,6 +551,21 @@ namespace BrAcademy.Controllers
             }
             _context.SaveChanges();
             return count;
+        }
+        [HttpPost]
+        public Boolean SwitchActive(int id)
+        {
+            Course Course = _context.Courses.Find(id);
+            Course.Active = !Course.Active;
+            _context.SaveChanges();
+            return Course.Active;
+        }
+        public Boolean SwitchHome(int id)
+        {
+            Course Course = _context.Courses.Find(id);
+            Course.HomePage = !Course.HomePage;
+            _context.SaveChanges();
+            return Course.HomePage;
         }
         protected class CsvEvent
         {

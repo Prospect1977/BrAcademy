@@ -22,7 +22,7 @@
             <tr>
                 <th>Description</th>
                 <th>Country</th>
-                <th>HomePage</th>
+                
                 <th>Starts</th>
                 <th>Ends</th>
                 <th>Actions</th>
@@ -40,9 +40,7 @@
                         <img style="height:21px;margin-right:5px;" src="@FlagPath(@item.Country.FlagURL)" />
                         <span>@item.Country.CountryNameEnglish</span>
                     </td>
-                    <td>
-                        <i class="@(item.HomePage?"fa fa-check text-success":"fa fa-times text-danger")"></i>
-                    </td>
+                   
 
                     @if (@item.DisplayShortenedDate)
                     {

@@ -229,6 +229,12 @@ namespace BrAcademy.Controllers
         {
             return AppCodes.GetCategoryWideImage(db, id);
         }
-
+        [HttpPost]
+        public void SwitchActive(int id)
+        {
+            Carousel Carousel = db.Carousels.Find(id);
+            Carousel.Active = !Carousel.Active;
+            db.SaveChanges();
+        }
     }
 }

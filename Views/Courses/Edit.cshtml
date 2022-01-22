@@ -53,14 +53,21 @@
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseImageUrl" />
-                    @if (Model.CourseImageUrl != null)
-                    {
-                        <img id="imgPreview" src="~/images/Courses/@Model.CourseImageUrl" style="width:100%" />
-                    }
-                    else
-                    {
-                        <img id="imgPreview" style="display:none;width:100%" />
-                    }
+
+                    <div id="divImgPreview" style="position:relative;display:@(Model.CourseImageUrl != null?"block":"none")">
+                        @if (Model.CourseImageUrl != null)
+                        {
+                            <img id="imgPreview" src="~/images/Courses/@Model.CourseImageUrl" style="width:100%" />
+                        }
+                        else
+                        {
+                            <img id="imgPreview" style="width:100%;" />
+                        }
+                        <a id="hyperDeleteImg" class="text-danger" style="position:absolute;right:5px;top:5px;cursor:pointer"><i class="fa fa-trash"></i></a>
+                    </div>
+
+
+
 
                 </div>
                 <div class="form-group">
@@ -68,14 +75,18 @@
 
                     <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="CourseWideImageUrl" />
-                    @if (Model.CourseWideImageUrl != null)
-                    {
-                        <img id="imgWidePreview" src="~/images/Courses/Wide/@Model.CourseWideImageUrl" style="width:100%" />
-                    }
-                    else
-                    {
-                        <img id="imgWidePreview" style="display:none;width:100%" />
-                    }
+
+                    <div id="divImgWidePreview" style="position:relative;display:@(Model.CourseWideImageUrl != null?"block":"none")">
+                        @if (Model.CourseWideImageUrl != null)
+                        {
+                            <img id="imgWidePreview" src="~/images/Courses/Wide/@Model.CourseWideImageUrl" style="width:100%" />
+                        }
+                        else
+                        {
+                            <img id="imgWidePreview" style="width:100%" />
+                        }
+                        <a id="hyperDeleteWideImg" class="text-danger" style="position:absolute;right:5px;top:5px;cursor:pointer"><i class="fa fa-trash"></i></a>
+                    </div>
 
                 </div>
 
@@ -100,7 +111,11 @@
                     <input asp-for="Duration2" class="form-control" />
                     <span asp-validation-for="Duration2" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Coming Soon</label>
+                    <input type="checkbox" asp-for="@Model.IsComingSoon" />
 
+                </div>
                 <div class="form-group">
                     <label asp-for="Review" class="control-label"></label>
                     <input asp-for="Review" class="form-control" />
@@ -227,7 +242,14 @@
     @*<script src="https://unpkg.com/jcrop"></script>*@
 <script>
         $(function () {
-
+            $("#hyperDeleteImg").click(function () {
+                $(this).closest("div").hide();
+                $("#CourseImageUrl").val("");
+            })
+            $("#hyperDeleteWideImg").click(function () {
+                $(this).closest("div").hide();
+                $("#CourseWideImageUrl").val("");
+            })
             
             $("#CourseImageWide").change(function () {
                 var files = $('#CourseImageWide')[0].files;
@@ -245,7 +267,7 @@
                     complete: function (result) {
                         $("#CourseWideImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
                         $('#imgWidePreview').attr("src", `../../images/Courses/Wide/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
-
+                        $('#imgWidePreview').closest("div").show();
                     }, error: function (ex) {
 
                     }
@@ -349,7 +371,8 @@
                         $("#CourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
                         //$('#cropModal').modal({ backdrop: "static", keyboard: false });
 
-                        $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+                        $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
+                        $('#imgPreview').closest("div").show();
                         //var aspect = 1;
                         //var image = $('#imgCrop')[0];
                         //setTimeout(function () {

@@ -32,7 +32,7 @@ namespace BrAcademy.Controllers
             IndexVM model = new IndexVM();
             model.HomeCourses = db.Courses.Where(m => m.HomePage == true && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             model.CourseCategories = db.CourseCategories.Where(m => m.Active == true).OrderBy(m => m.SortIndex).ToList();
-            model.Events = db.Events.Include("Course").Include("Country").Where(m => m.StartDate >= DateTime.Now && m.HomePage == true).OrderBy(m => m.StartDate).ToList();
+            model.Events = db.Events.Include("Course").Include("Country").Where(m => m.Course.IsComingSoon && m.StartDate >= DateTime.Now && m.Course.Active).OrderBy(m => m.StartDate).Take(1).ToList();
             model.Carousels = db.Carousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
             return View(model);
         }

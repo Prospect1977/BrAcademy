@@ -39,5 +39,6 @@ namespace BrAcademy.Data
         public string Code { get; set; }
         public Boolean HomePage { get; set; }
         public Boolean FlgDelete { get; set; }
+        public Boolean IsComingSoon { get; set; }
     }
 }

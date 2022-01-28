@@ -652,3 +652,57 @@ function  expiredServiceMessage(OrgID, ServiceDescription) {
     }
 })(jQuery);
 
+
+function ToArabicDate(AraDate)
+{
+    var day = AraDate.split("/")[0];
+    var month = GetArabicMonth(parseInt(AraDate.split("/")[1]));
+    var year = AraDate.split("/")[2];
+    return `${day}-${month}-${year}`;
+}
+
+
+ function GetArabicMonth(m)
+{
+    switch (m) {
+        case 1:
+            return "يناير";
+            break;
+        case 2:
+            return "فبراير";
+            break;
+        case 3:
+            return "مارس";
+            break;
+        case 4:
+            return "ابريل";
+            break;
+        case 5:
+            return "مايو";
+            break;
+        case 6:
+            return "يونيو";
+            break;
+        case 7:
+            return "يوليو";
+            break;
+        case 8:
+            return "اغسطس";
+            break;
+        case 9:
+            return "سبتمبر";
+            break;
+        case 10:
+            return "اكتوبر";
+            break;
+        case 11:
+            return "نوفمبر";
+            break;
+        case 12:
+            return "ديسمبر";
+            break;
+        default:
+            return "خطأ";
+
+    }
+}

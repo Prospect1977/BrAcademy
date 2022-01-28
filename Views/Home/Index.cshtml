@@ -19,8 +19,9 @@
     .hyperCategory:hover img {
         opacity: 1 !important;
     }
-    .ui-menu-item, ui-menu-item div{
-        text-align:right;
+
+    .ui-menu-item, ui-menu-item div {
+        text-align: right;
     }
 </style>
 
@@ -304,11 +305,13 @@
             <div class="col">
                 <h3 class="course-carousel-title mb-4" style="direction: rtl;">
                     دورات تدريبية ستُعقد قريباً
+                    <input type="hidden" id="hiddenComingSoon" value="@ViewBag.UpComingCourses" />
                 </h3>
             </div>
-            <div class="row" style="direction:rtl">
+            <div class="row" style="direction:rtl" id="divComingSoon">
 
-                @foreach (var item in Model.Events)
+
+                @*@foreach (var item in Model.Events)
                 {
                     <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
                         <div class="course-box">
@@ -361,7 +364,7 @@
                         </div>
 
                     </div>
-                }
+                }*@
 
             </div>
 
@@ -522,6 +525,7 @@
 
 @section Scripts{
     <script>
+
         var border_bottom = $(".home-banner-wrap").height() + 242;
         $(".cropped-home-banner").css("border-bottom", border_bottom + "px solid #f1f7f8");
 
@@ -536,7 +540,7 @@
                 minLength: 1,
                 delay: 500,
                 select: function (event, ui) {
-                    
+
                     if (ui.item.type == "Course") {
                         window.location.href = "../../Courses/CourseDetails/" + ui.item.ID;
                     } else {
@@ -547,6 +551,57 @@
 
 
 
+        });
+
+
+
+        console.log($("#hiddenComingSoon").val());
+        var events = $.parseJSON($("#hiddenComingSoon").val());
+        $(events).each(function (i, item) {
+            var $box = $(` <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                                        <div class="course-box">
+                                            <a href="../../Courses/CourseDetails/${item.Id}" >
+                                                <div class="course-image" style="text-align:center">
+                                                    <img src="../../images/Courses/${item.CourseImageUrl}" alt="${item.CourseName}" class="img-fluid">
+                                                </div>
+                                                <div class="course-details">
+                                                    <h5 class="title" style="text-align: right;">${item.CourseName}</h5>
+                                                    <div class="rating" style="text-align: right;">
+                                                        <img src="../../images/Stars/${parseFloat(item.Review).toFixed(1)}.png" style="width:83px" />
+
+
+                                                        <div class="d-inline-block" style="float: left;">
+                                                            <span class="text-dark ms-1 text-15px" style="float: right;">${parseFloat(item.Review).toFixed(1)}</span>
+                                                            <span class="text-dark text-12px text-muted ms-2">(${item.CountReviewers})</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex text-dark" style="direction: rtl;">
+                                                        <div class="${item.Event == null?"hidden":""}">
+                                                            <i class="far fa-clock text-14px"></i>
+                                                            <span class="text-muted text-12px">
+
+                                                                  ${item.Event!=null?ToArabicDate(moment(item.Event.StartDate).format("DD/M/Y")):""}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex text-dark" style="direction: rtl;">
+                                                        <div class="ms-3">
+                                                            <i class="far fa-list-alt text-14px"></i>
+                                                            <span class="text-muted text-12px">${item.Duration1} (${item.Duration2})</span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex text-dark " style="direction: rtl;position:relative;display:${item.Event != null ? "block" : "none !important"}">
+                                                        <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : ${item.Event != null ?item.Event.CountryNameEnglish:""}</span>
+                                                        <img src="${item.Event != null ? item.Event.FlagURL.replace("~", "") : ""}" class="${item.Event != null?"":"hidden"}" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                        </div>
+
+                                    </div>`);
+            $box.appendTo("#divComingSoon");
         });
     </script>
 }

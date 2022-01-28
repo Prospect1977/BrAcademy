@@ -32,7 +32,19 @@ namespace BrAcademy.Controllers
             IndexVM model = new IndexVM();
             model.HomeCourses = db.Courses.Where(m => m.HomePage == true && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             model.CourseCategories = db.CourseCategories.Where(m => m.Active == true).OrderBy(m => m.SortIndex).ToList();
-            model.Events = db.Events.Include("Course").Include("Country").Where(m => m.Course.IsComingSoon && m.StartDate >= DateTime.Now && m.Course.Active).OrderBy(m => m.StartDate).Take(1).ToList();
+            model.Events = db.Events.Include("Course").Include("Country").Where(m => m.Course.IsComingSoon && m.StartDate >= DateTime.Now && m.Course.Active).OrderBy(m => m.StartDate).Distinct().ToList();
+            ViewData["UpComingCourses"] = JsonSerializer.Serialize(db.Courses.Where(m => m.IsComingSoon && m.Active).Select(m => new
+            {
+                m.CourseName,
+                m.Id,
+                m.CourseImageUrl,
+                m.Review,
+                m.CountReviewers,
+                m.Duration1,
+                m.Duration2,
+                Event = (from e in db.Events where e.CourseID == m.Id && e.StartDate >= DateTime.Now select e).Select(m=>new { m.StartDate, m.Country.CountryNameEnglish,m.Country.FlagURL }).OrderBy(m => m.StartDate).FirstOrDefault()
+            }));
+            
             model.Carousels = db.Carousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
             return View(model);
         }

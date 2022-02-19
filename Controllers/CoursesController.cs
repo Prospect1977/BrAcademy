@@ -413,6 +413,7 @@ namespace BrAcademy.Controllers
                 MyCourse.CourseCategoryID = CategoryId;
                 MyCourse.Duration1 = "من الأحد إلى الخميس";
                 MyCourse.Duration2 = "اسبوع واحد";
+                MyCourse.DescriptionDirection = "rtl";
                 Random rnd = new Random();
                 int rev = rnd.Next(3, 6); // creates a number between 4 and 5
                 MyCourse.Review = rev;
@@ -449,102 +450,200 @@ namespace BrAcademy.Controllers
                 int CourseID = _context.Courses.Single(m => m.Code == e.Code).Id;
                 if (!string.IsNullOrEmpty(e.Date_1))
                 {
+                    try
+                    {
+
                     Event MyEvent = new Event();
                     MyEvent.CourseID = CourseID;
                     MyEvent.StartDate = Convert.ToDateTime(e.Date_1);
                     MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_1).Id;
                     _context.Events.Add(MyEvent);
                     count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                       
+                    }
+                
                 }
                 if (!string.IsNullOrEmpty(e.Date_2))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_2);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_2).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_2);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_2).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_3))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_3);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_3).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_3);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_3).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_4))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_4);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_4).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_4);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_4).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_5))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_5);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_5).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_5);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_5).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                     
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_6))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_6);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_6).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_6);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_6).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                      
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_7))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_7);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_7).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_7);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_7).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                     
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_8))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_8);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_8).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_8);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_8).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                      
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_9))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_9);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_9).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_9);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_9).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                       
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_10))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_10);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_10).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_10);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_10).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                      
+                    }
                 }
                 if (!string.IsNullOrEmpty(e.Date_11))
                 {
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_11);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_11).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                    try
+                    {
+
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_11);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_11).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
                
 

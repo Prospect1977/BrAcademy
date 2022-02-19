@@ -40,5 +40,7 @@ namespace BrAcademy.Data
         public Boolean HomePage { get; set; }
         public Boolean FlgDelete { get; set; }
         public Boolean IsComingSoon { get; set; }
+        [StringLength(3)]
+        public string DescriptionDirection { get; set; }
     }
 }

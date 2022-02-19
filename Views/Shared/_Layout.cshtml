@@ -107,7 +107,7 @@
                             }
 
 
-
+                           
 
 
 
@@ -119,100 +119,7 @@
 
                     <partial name="_LoginPartial" />
 
-                    @*<div class="wishlist-box menu-icon-box" id="wishlist_items">
-                            <div class="icon">
-                                <a href=""><i class="far fa-heart"></i></a>
-                                <span class="number">3</span>
-                            </div>
-                            <div class="dropdown course-list-dropdown corner-triangle top-right">
-                                <div class="list-wrapper">
-                                    <div class="item-list">
-                                        <ul>
-                                            <li>
-                                                <div class="item clearfix">
-                                                    <div class="item-image">
-                                                        <a href="">
-                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_4.jpg" alt="" class="img-fluid">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-details">
-                                                        <a href="course-details.html">
-                                                            <div class="course-name">Character Art School: Complete Character Drawing Course</div>
-                                                            <div class="instructor-name">
-                                                                By John David , By Olivia Emily
-                                                            </div>
-
-                                                            <div class="item-price">
-                                                                <span class="current-price">$70</span>
-                                                            </div>
-                                                        </a>
-                                                        <button type="button" onclick="handleCartItems(this)" class="addedToCart">
-                                                            Added to cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="item clearfix">
-                                                    <div class="item-image">
-                                                        <a href="">
-                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_5.jpg" alt="" class="img-fluid">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-details">
-                                                        <a href="course-details.html">
-                                                            <div class="course-name">The Complete Sketch 5 Course - Design Apps &amp; Websites 2021</div>
-                                                            <div class="instructor-name">
-                                                                By John David
-                                                            </div>
-
-                                                            <div class="item-price">
-                                                                <span class="current-price">$90</span>
-                                                            </div>
-                                                        </a>
-                                                        <button type="button" onclick="handleCartItems(this)" class="addedToCart">
-                                                            Added to cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="item clearfix">
-                                                    <div class="item-image">
-                                                        <a href="">
-                                                            <img src="~/assets/images/uploads/thumbnails/course_thumbnails/course_thumbnail_default_7.jpg" alt="" class="img-fluid">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-details">
-                                                        <a href="course-details.html">
-                                                            <div class="course-name">UI/UX design with Adobe XD: Design &amp; Prototype a Mobile App</div>
-                                                            <div class="instructor-name">
-                                                                By John David
-                                                            </div>
-
-                                                            <div class="item-price">
-                                                                <span class="current-price">$199</span>
-                                                            </div>
-                                                        </a>
-                                                        <button type="button" onclick="handleCartItems(this)" class="">
-                                                            Add to cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropdown-footer">
-                                        <a href="wishlist.html">Go to wishlist</a>
-                                    </div>
-                                </div>
-                                <div class="empty-box text-center d-none">
-                                    <p>Your wishlist is empty.</p>
-                                    <a href="">Explore courses</a>
-                                </div>
-                            </div>
-                        </div>*@
-
+                  
                     <div class="cart-box menu-icon-box" id="cart_items">
 
 
@@ -563,7 +470,9 @@
             //        dots: false,
             //    });
             //}
-
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $("#navbarDropdownMenuLink,[aria-labelledby=navbarDropdownMenuLink],.nav-item.user").hide();
+            }
             $.get("../../Home/CourseCategoriesMenu", function (result) {
 
 

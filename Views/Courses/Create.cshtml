@@ -36,6 +36,16 @@
                          
                      </textarea>
                 </div>
+
+                <div class="form-group">
+                    <label asp-for="DescriptionDirection" class="control-label"></label>
+
+                    <select asp-for="DescriptionDirection">
+                        <option value="rtl">Arabic</option>
+                        <option value="ltr">English</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="CourseCategoryID" class="control-label"></label>
                     <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
@@ -74,7 +84,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label  class="control-label">Coming Soon</label>
+                    <label class="control-label">Coming Soon</label>
                     <input type="checkbox" asp-for="@Model.IsComingSoon" />
 
                 </div>

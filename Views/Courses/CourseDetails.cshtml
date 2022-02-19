@@ -139,7 +139,7 @@
                 <div class="col-lg-8 radius-10 mt-4 bg-white p-30-40" style="direction: rtl;">
                     @if (Model.Course.Description != null)
                     {
-                        <div class="description-box view-more-parent expanded" style="padding-bottom:10px; border-bottom:1px solid lightgray;margin-bottom:25px">
+                        <div class="description-box view-more-parent expanded" style="padding-bottom:10px; border-bottom:1px solid lightgray;margin-bottom:25px;direction:@Model.Course.DescriptionDirection">
 
                             @Html.Raw(Model.Course.Description)
                         </div>
@@ -177,7 +177,7 @@
                                         <td>
                                             @if (ev.Description != null)
                                             {
-                                                <span> ev.Description</span>
+                                                <span> @ev.Description</span>
                                             }
                                             else
                                             {
@@ -200,11 +200,12 @@
                             <div style="background-color: #444444; direction: rtl; color: white; height: 50px; padding: 8px;">
                                 <h4>دورات ذات صلة</h4>
                             </div>
-                            <div style="direction:rtl">
+                            <div class="row" style="direction:rtl">
                                 @foreach (BrAcademy.Data.Course RelCourse in Model.RelatedCourses)
                                 {
+                                <div class="col-12 col-sm-6">
                                     <a asp-action="CourseDetails" asp-route-id="@RelCourse.Id" asp-controller="Courses" style="vertical-align:top">
-                                        <div style="width:49%;padding:5px;display:inline-block" class="hyperCategory">
+                                        <div  style="padding:5px;display:inline-block" class="hyperCategory">
                                             <div class="divRelCourse" style="border:1px solid lightgray;border-radius:5px;padding:5px">
                                                 <div class="divCourseText" style="display: inline-block; @(RelCourse.CourseImageUrl!=null?"width: 67%":"width:100%"); color: #4e4e4e">
                                                     <h5>
@@ -226,6 +227,7 @@
                                             </div>
                                         </div>
                                     </a>
+                                </div>
                                 }
                             </div>
                         </div>

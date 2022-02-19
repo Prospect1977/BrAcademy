@@ -183,7 +183,7 @@
         <h3 class="course-carousel-title my-4" style="direction: rtl;">
             المجالات التدريبية
         </h3>
-        <div class="row justify-content-center" style="direction:rtl">
+        <div class="row" style="direction:rtl">
             @foreach (var item in Model.CourseCategories)
             {
 
@@ -192,7 +192,7 @@
                 {
 
 
-                    <div class="course-box-wrap slick-active col-md-6 col-lg-4 col-xl-3 mb-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <div class="course-box-wrap slick-active col-6 col-lg-4 col-xl-3 mb-3" tabindex="0" data-slick-index="3" aria-hidden="false">
                         <a href="~/CourseCategories/CategoryDetails/@item.Id" class="hyperCategory">
                             <div class="course-box bg-gray" style="border: 1px solid #cccdcd;">
 
@@ -210,7 +210,7 @@
                 }
                 else
                 {
-                    <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                    <div class="col-6 col-lg-4 col-xl-3 mb-3">
                         <a href="~/CourseCategories/CategoryDetails/@item.Id" class="top-categories" style="direction: rtl;">
                             <div class="category-title">
                                 @item.CategoryName
@@ -309,62 +309,7 @@
                 </h3>
             </div>
             <div class="row" style="direction:rtl" id="divComingSoon">
-
-
-                @*@foreach (var item in Model.Events)
-                {
-                    <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
-                        <div class="course-box">
-                            <a href="~/Courses/CourseDetails/@item.CourseID" class="" tabindex="0">
-                                <div class="course-image" style="text-align:center">
-                                    <img src="~/images/Courses/@item.Course.CourseImageUrl" alt="@item.Course.CourseName" class="img-fluid">
-                                </div>
-                                <div class="course-details">
-                                    <h5 class="title" style="text-align: right;">@item.Course.CourseName</h5>
-                                    <div class="rating" style="text-align: right;">
-                                        <img src="~/images/Stars/@(String.Format("{0:0.0}", item.Course.Review)).png" style="width:83px" />
-
-
-                                        <div class="d-inline-block" style="float: left;">
-                                            <span class="text-dark ms-1 text-15px" style="float: right;">@(String.Format("{0:0.0}", item.Course.Review))</span>
-                                            <span class="text-dark text-12px text-muted ms-2">(@item.Course.CountReviewers Reviews)</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex text-dark" style="direction: rtl;">
-                                        <div class="">
-                                            <i class="far fa-clock text-14px"></i>
-                                            <span class="text-muted text-12px">
-                                                @if (@item.DisplayShortenedDate)
-                                                {
-                                                    @BrAcademy.Data.TransferDate.ToArabicDateShortened(@item.StartDate)
-                                                }
-                                                else
-                                                {
-                                                    @BrAcademy.Data.TransferDate.ToArabicDate(@item.StartDate)
-                                                }
-
-
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex text-dark" style="direction: rtl;">
-                                        <div class="ms-3">
-                                            <i class="far fa-list-alt text-14px"></i>
-                                            <span class="text-muted text-12px">@item.Course.Duration1 (@item.Course.Duration2)</span>
-
-                                        </div>
-                                    </div>
-                                    <div class="d-flex text-dark" style="direction: rtl;position:relative">
-                                        <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : @item.Country.CountryNameEnglish</span>
-                                        <img src="@FlagPath(item.Country.FlagURL)" style="height: 16px; position: absolute; left: 10px; top: 8px;">
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-
-                    </div>
-                }*@
+@*handled on the javascript code*@
 
             </div>
 
@@ -553,7 +498,7 @@
 
         });
 
-
+        //--------------------------------------------------coming soon section--------------------------------------------------------------------
 
         console.log($("#hiddenComingSoon").val());
         var events = $.parseJSON($("#hiddenComingSoon").val());
@@ -603,5 +548,6 @@
                                     </div>`);
             $box.appendTo("#divComingSoon");
         });
+         //-------------------------------------------------- end coming soon section--------------------------------------------------------------------
     </script>
 }

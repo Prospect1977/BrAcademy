@@ -25,10 +25,10 @@
                     <span asp-validation-for="CourseName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
 
@@ -36,6 +36,16 @@
                          
                      </textarea>
                 </div>
+
+                <div class="form-group">
+                    <label asp-for="DescriptionDirection" class="control-label"></label>
+
+                    <select asp-for="DescriptionDirection">
+                        <option value="rtl">Arabic</option>
+                        <option value="ltr">English</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="CourseCategoryID" class="control-label"></label>
                     <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
@@ -64,6 +74,16 @@
 
                 </div>
                 <div class="form-group">
+                    <label asp-for="FullWidthCourseImageUrl" class="control-label"></label>
+                    @*<input asp-for="CourseImageUrl" class="form-control" />*@
+                    <input type="file" id="FullWidthCourseImage" accept="image/*" class="form-control" />
+                    <input type="hidden" asp-for="FullWidthCourseImageUrl" />
+
+                    <img id="FullWidthImgPreview" style="display:none;width:100%" />
+
+
+                </div>
+                <div class="form-group">
                     <label asp-for="CourseWideImageUrl" class="control-label"></label>
 
                     <input type="file" id="CourseImageWide" accept="image/*" class="form-control" />
@@ -74,7 +94,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label  class="control-label">Coming Soon</label>
+                    <label class="control-label">Coming Soon</label>
                     <input type="checkbox" asp-for="@Model.IsComingSoon" />
 
                 </div>
@@ -130,6 +150,11 @@
 
             });
         });
+
+
+
+
+
         $("#CourseImage").change(function () {
             var files = $('#CourseImage')[0].files;
             console.log(files[0]);
@@ -144,12 +169,12 @@
                 contentType: false,
                 processData: false,
                 complete: function (result) {
-                   
+
                     $("#CourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
-                   
+
 
                     $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
-                   
+
                 }, error: function (ex) {
                     // console.log($.parseJSON(JSON.stringify(ex)).responseText);
                     //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
@@ -159,5 +184,39 @@
 
             });
         });
+        
+        $("#FullWidthCourseImage").change(function () {
+            var files = $('#FullWidthCourseImage')[0].files;
+            console.log(files[0]);
+            var formData = new FormData();
+
+            formData.append(files[0].name, files[0]);
+            $.ajax({
+                url: '../../Courses/UploadFullWidthCourseImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+
+                    $("#FullWidthCourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+
+
+                    $('#FullWidthImgPreview').attr("src", `../../images/Courses/FullWidth/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+                }, error: function (ex) {
+                    // console.log($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                }
+
+            });
+        });
+
+
+
+
     </script>
 }

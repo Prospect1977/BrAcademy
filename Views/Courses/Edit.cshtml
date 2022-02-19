@@ -49,6 +49,14 @@
                     @*<span asp-validation-for="Description" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
+                    <label asp-for="DescriptionDirection" class="control-label">Description Language</label>
+
+                    <select asp-for="DescriptionDirection" class="form-control">
+                        <option value="rtl">Arabic</option>
+                        <option value="ltr">English</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label asp-for="CourseImageUrl" class="control-label"></label>
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
                     <input type="file" id="CourseImage" accept="image/*" class="form-control" />
@@ -68,6 +76,23 @@
 
 
 
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullWidthCourseImageUrl" class="control-label"></label>
+                    @*<input asp-for="CourseImageUrl" class="form-control" />*@
+                    <input type="file" id="FullWidthCourseImage" accept="image/*" class="form-control" />
+                    <input type="hidden" asp-for="FullWidthCourseImageUrl" />
+
+                    
+                    @if (Model.CourseImageUrl != null)
+                    {
+                        <img id="FullWidthImgPreview" src="~/images/Courses/FullWidth/@Model.FullWidthCourseImageUrl" style="width:100%" />
+                    }
+                    else
+                    {
+                        <img id="FullWidthImgPreview" style="width:100%;" />
+                    }
 
                 </div>
                 <div class="form-group">
@@ -459,5 +484,34 @@
             //    $('#btnCrop').show();
             //};
         });
+    $("#FullWidthCourseImage").change(function () {
+        var files = $('#FullWidthCourseImage')[0].files;
+        console.log(files[0]);
+        var formData = new FormData();
+
+        formData.append(files[0].name, files[0]);
+        $.ajax({
+            url: '../../Courses/UploadFullWidthCourseImage',
+            type: 'POST',
+            data: formData,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            complete: function (result) {
+
+                $("#FullWidthCourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+
+
+                $('#FullWidthImgPreview').attr("src", `../../images/Courses/FullWidth/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+            }, error: function (ex) {
+                // console.log($.parseJSON(JSON.stringify(ex)).responseText);
+                //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
+            }
+
+        });
+    });
 </script>
     }

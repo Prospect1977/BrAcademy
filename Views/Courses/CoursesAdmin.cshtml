@@ -77,7 +77,9 @@
                     @Html.DisplayFor(modelItem => item.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
+                    <a href="~/Courses/CourseDetails/@item.Id">
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                        </a>
                 </td>
                 @*<td>
             @Html.DisplayFor(modelItem => item.Description)

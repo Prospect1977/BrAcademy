@@ -26,7 +26,10 @@ namespace BrAcademy.Data
         public string Duration2 { get; set; }
         [DisplayName("Image")]
         public string CourseImageUrl { get; set; }
-        [DisplayName("Wide Image")]
+        [DisplayName("Full Width Image")]
+public string FullWidthCourseImageUrl { get; set; }
+        
+[DisplayName("Wide Image")]
         public string CourseWideImageUrl { get; set; }
         [Range(1,5,ErrorMessage="Please enter a valid number from 1 to 5")]
         public float Review { get; set; }
@@ -40,5 +43,7 @@ namespace BrAcademy.Data
         public Boolean HomePage { get; set; }
         public Boolean FlgDelete { get; set; }
         public Boolean IsComingSoon { get; set; }
+        [StringLength(3)]
+        public string DescriptionDirection { get; set; }
     }
 }

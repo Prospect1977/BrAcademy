@@ -28,15 +28,16 @@
     .ui-menu-item, ui-menu-item div {
         text-align: right;
     }
-    #hyperCourseCategory{
-        color:white;
-        text-decoration:underline;
 
+    #hyperCourseCategory {
+        color: white;
+        text-decoration: underline;
     }
-    #hyperCourseCategory:hover {
-        color:blue;
-        text-shadow:0 0 5px white;
-    }
+
+        #hyperCourseCategory:hover {
+            color: blue;
+            text-shadow: 0 0 5px white;
+        }
 </style>
 
 
@@ -55,7 +56,7 @@
                                 <a href="~/Courses/Edit/@Model.Course.Id?ReturnToCoursePage=true"><i class="fa fa-edit"></i></a>
                             }
                         </h1>
-                        
+
 
 
                         <div class="rating-row">
@@ -75,7 +76,7 @@
                                     @Model.Course.Duration1
                                     @if (Model.Course.Duration2 != null)
                                     {<span>(@Model.Course.Duration2)</span>}
-                                    
+
                                 </span>
                                 <br>
                                 @functions {

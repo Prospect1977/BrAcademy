@@ -165,7 +165,7 @@ namespace BrAcademy.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, CourseCategory courseCategory)
+        public async Task<IActionResult> Edit(int id, CourseCategory courseCategory,string ReturnToCategoryPage)
         {
             if (id != courseCategory.Id)
             {
@@ -178,9 +178,18 @@ namespace BrAcademy.Controllers
                 {
                     db.Update(courseCategory);
                     await db.SaveChangesAsync();
+                    if (ReturnToCategoryPage == "true")
+                    {
+                        return RedirectToAction(nameof(CategoryDetails), new { id = id });
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    if (ReturnToCategoryPage == "true")
+                    {
+                        return RedirectToAction(nameof(CategoryDetails), new { id = id });
+                    }
+
                     if (!CourseCategoryExists(courseCategory.Id))
                     {
                         return NotFound();

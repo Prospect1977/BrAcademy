@@ -1,0 +1,137 @@
+﻿@model BrAcademy.Data.Post
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style type="text/css">
+    .imgPreview{
+        border:1px solid gray;
+        height:50px;
+        margin-right:5px;
+        position:relative;
+        display:inline-block;
+    }
+    .deleteImg {
+        position: absolute;
+        color: white;
+        text-shadow: 0 0 5px #020202;
+        top: 0;
+        right: 5px;
+    }
+</style>
+<div class="container">
+    <h1>Create</h1>
+
+    <h4>Post</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CourseId" class="control-label">Course</label>
+                    <input type="text" id="txtSearchCourse" class="form-control"  dir="rtl"/>
+                    <input type="hidden" asp-for="CourseId" class="form-control" />
+                    <input type="hidden" id="hiddenAllCourses" value="@ViewData["AllCourses"]" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="3" dir="rtl" class="form-control" ></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DataDate" class="control-label"></label>
+                    <input asp-for="DataDate" class="form-control" />
+                    
+                </div>
+               <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Images</label>
+                    <input id="uploadImages" type="file" multiple class="form-control" accept="image/*" />
+                    <input type="hidden" id="ImagesUrls" name="ImagesUrls" />
+                    <div id="divImgPreview"></div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+    ClassicEditor
+        .create(document.querySelector('#Description'), {
+            language: {
+                ui: 'en',
+                content: 'ar'
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    $('#txtSearchCourse').autocomplete({
+        source: $.parseJSON($("#hiddenAllCourses").val()),
+        minLength: 2,
+        delay: 500,
+        select: function (event, ui) {
+           $('#CourseId').val(ui.item.ID);
+
+        }
+    });
+    $("#uploadImages").change(function () {
+        var files = $('#uploadImages')[0].files;
+        //console.log(files[0]);
+        $("#divImgPreview").empty();
+        var imagesOutputList = '';
+        for (i = 0; i < files.length; i++) {
+            var formData = new FormData();
+            formData.append(files[i].name, files[i]);
+            PleaseWait("show");
+            $.ajax({
+                url: '../../Posts/UploadPostImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+                    imagesOutputList += `${$.parseJSON(JSON.stringify(result)).responseText},`;
+                    var imgPreview = $(`<div class="imgPreview" data-name="${$.parseJSON(JSON.stringify(result)).responseText}">
+    <img style="height:100%" src="../../images/Posts/Icons/${$.parseJSON(JSON.stringify(result)).responseText}"/>
+<a class="deleteImg"><span class="fa fa-times"></span></a>
+</div>`);
+                    $("#divImgPreview").append(imgPreview);
+                    console.log($.parseJSON(JSON.stringify(result)).responseText);
+                    PleaseWait("hide");
+                    $("#ImagesUrls").val(imagesOutputList);
+                }, error: function (ex) {
+                    //alert(ajaxErrorMessage(ex));
+                }
+
+            });
+        }
+    });
+    $("#divImgPreview").on("click", ".deleteImg", function () {
+        $(this).closest(".imgPreview").remove();
+        var imagesOutputList = '';
+        $(".imgPreview").each(function () {
+            imagesOutputList += $(this).attr("data-name") + ",";
+        });
+        $("#ImagesUrls").val(imagesOutputList);
+    });
+
+</script>
+}

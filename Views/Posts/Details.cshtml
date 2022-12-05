@@ -1,0 +1,70 @@
+﻿@model BrAcademy.Data.Post
+
+@{
+    ViewData["Title"] = "Details";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+
+<div class="container-sm" style="min-height:750px">
+    <div class="card" style="width: 60%;margin:10px auto;clear:both">
+        <div class="fotorama" data-nav="thumbs" data-fit="contain" data-width="100%" data-height="500px" data-allowfullscreen="true" style="background-color:#d9d9d9">
+            @foreach(var image in Model.PostImages)
+            {
+               <a href="~/images/Posts/Images/@image.ImageUrl"><img src="~/images/Posts/Icons/@image.ImageUrl" /></a> 
+            }
+
+
+
+        </div>
+        
+        <div class="card-body">
+            @if (@Model.Course.DescriptionDirection == "rtl")
+            {
+                <div style="height:25px">
+                    <a href="~/Courses/CourseDetails/@Model.CourseId"><h5 class="card-title" style="float:right">@Model.Course.CourseName</h5></a>
+                    <span class="text-black-50" style="float:left">@Model.DataDate?.ToString("dd-MMM-yyyy")</span>
+                </div>
+            }
+            else
+            {
+                <div style="height:25px">
+                    <a href="~/Courses/CourseDetails/@Model.CourseId"><h5 class="card-title" style="float:left">@Model.Course.CourseName</h5></a>
+                    <span class="text-black-50" style="float:right">@Model.DataDate?.ToString("dd-MMM-yyyy")</span>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <hr />
+                <div dir="rtl">
+                    @Html.Raw(@Model.Description)
+                </div>
+                
+                
+            }
+
+            @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+    <script type="text/javascript">
+
+        $('.fotorama').each(function (i, obj) {
+            var $fotoramaDiv = $(obj).fotorama({
+                click: false,
+                allowfullscreen: 'native',
+            });
+            // 2. Get the API object.
+            var fotorama = $fotoramaDiv.data('fotorama');
+            $(obj).dblclick(function () {
+                fotorama.requestFullScreen();
+
+            });
+        });
+
+        </script>
+}
+        
+

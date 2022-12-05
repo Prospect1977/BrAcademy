@@ -1,5 +1,5 @@
-﻿var gws = "../WebServices/gws.asmx/";
-var googleMapsKey = "AIzaSyBITblKLZ3VExzxdrB37GBBTUmqRi6VFHY";
+﻿
+
 function getQstring(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regexS = "[\\?&]" + name + "=([^&#]*)";

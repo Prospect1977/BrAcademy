@@ -24,7 +24,11 @@ namespace BrAcademy.Data
        public DbSet<VisitorCourse> VisitorCourses { get; set; }
        public DbSet<VisitorCourseSpeech> VisitorCourseSpeeches { get; set; }
        public DbSet<Carousel> Carousels { get; set; }
+        public DbSet<OwlCarousel> OwlCarousels { get; set; }
        public DbSet<BrAcademy.Models.CarouselVM> CarouselVM { get; set; }
+       public DbSet<Post> Posts { get; set; }
+       public DbSet<PostImage> PostImages { get; set; }
+      
 
     }
 }

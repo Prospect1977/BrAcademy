@@ -14,7 +14,7 @@ namespace BrAcademy.Data
         [Required]
         [StringLength(200)]
         public string CourseName { get; set; }
-       
+
         [StringLength(5000)]
         public string Description { get; set; }
         [ForeignKey("CourseCategoryID")]
@@ -27,11 +27,11 @@ namespace BrAcademy.Data
         [DisplayName("Image")]
         public string CourseImageUrl { get; set; }
         [DisplayName("Full Width Image")]
-public string FullWidthCourseImageUrl { get; set; }
-        
-[DisplayName("Wide Image")]
+        public string FullWidthCourseImageUrl { get; set; }
+
+        [DisplayName("Wide Image")]
         public string CourseWideImageUrl { get; set; }
-        [Range(1,5,ErrorMessage="Please enter a valid number from 1 to 5")]
+        [Range(1, 5, ErrorMessage = "Please enter a valid number from 1 to 5")]
         public float Review { get; set; }
 
         public int CountReviewers { get; set; }

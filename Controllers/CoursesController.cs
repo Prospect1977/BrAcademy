@@ -41,15 +41,24 @@ namespace BrAcademy.Controllers
         }
         public IActionResult ReviseVisitors()
         {
-            IEnumerable<VisitorCourse> model = _context.VisitorCourses.Include(m => m.Visitor).Include(m => m.Visitor.Country).Include(m => m.Course).OrderByDescending(m => m.InterestedDateTime);
+            IEnumerable<VisitorCourse> model = _context.VisitorCourses.Include(m => m.Visitor).Include(m => m.Visitor.Country).Include(m => m.Course).OrderByDescending(m => m.InterestedDateTime).ThenBy(m => m.Visitor.Country.CountryNameEnglish);
             return View(model);
         }
         // GET: Courses
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CoursesAdmin()
+        public async Task<IActionResult> CoursesAdmin(int? id)
         {
-            var applicationDbContext = _context.Courses.Include(c => c.CourseCategory).OrderBy(m => m.SortIndex);
-
+            var applicationDbContext = _context.Courses.Where(m => m.CourseCategoryID == id).Include(c => c.CourseCategory).OrderBy(m => m.SortIndex);
+            if (id == 0)
+            {
+                //
+applicationDbContext = _context.Courses.Include(c => c.CourseCategory).OrderBy(m => m.SortIndex);
+            }else if (id == null)
+            {
+id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
+            }
+            ViewBag.Categories = new SelectList(_context.CourseCategories.OrderBy(m => m.SortIndex), "Id", "CategoryName", id);
+            
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -78,9 +87,9 @@ namespace BrAcademy.Controllers
 
         // GET: Courses/Create
         [Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        public IActionResult Create(int CategoryID=0)
         {
-            ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName");
+            ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", CategoryID);
             return View();
         }
         [Authorize(Roles = "Admin")]
@@ -105,9 +114,9 @@ namespace BrAcademy.Controllers
 
                 _context.Add(course);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(CoursesAdmin));
+                return RedirectToAction(nameof(CoursesAdmin),new { id = course.CourseCategoryID });
             }
-            ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
+            //ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
             //return View(course);
             return Ok();
         }
@@ -286,27 +295,7 @@ namespace BrAcademy.Controllers
             {
                 try
                 {
-                    //if (course.CourseImageUrl != null)
-                    //{
-                    //    string pic = Path.GetFileName(File.FileName);
-                    //    string path = System.IO.Path.Combine(
-                    //    Server.MapPath("~/images/profile"), pic);
-                    //    // file is uploaded
-                    //    File.SaveAs(path);
-
-                    //    // save the image path path to the database or you can send image 
-                    //    // directly to database
-                    //    // in-case if you want to store byte[] ie. for DB
-                    //    using (MemoryStream ms = new MemoryStream())
-                    //    {
-                    //        file.InputStream.CopyTo(ms);
-                    //        byte[] array = ms.GetBuffer();
-                    //    }
-
-                    //}
-
-
-
+                  
 
                     _context.Update(course);
                     await _context.SaveChangesAsync();
@@ -326,7 +315,7 @@ namespace BrAcademy.Controllers
                 {
                     return RedirectToAction(nameof(CourseDetails), new { id = id });
                 }
-                return RedirectToAction(nameof(CoursesAdmin));
+                return RedirectToAction(nameof(CoursesAdmin), new { id = course.CourseCategoryID });
 
                 // return Ok();
             }
@@ -362,9 +351,10 @@ namespace BrAcademy.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var course = await _context.Courses.FindAsync(id);
+            var CategoryID = course.CourseCategoryID;
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(CoursesAdmin));
+            return RedirectToAction(nameof(CoursesAdmin),new { id =CategoryID});
         }
 
         private bool CourseExists(int id)

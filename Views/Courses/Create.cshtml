@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
 
-                    <textarea id="editor" asp-for="Description">
+                    <textarea id="editor" asp-for="Description" class="cke_rtl" dir="rtl">
                          
                      </textarea>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <label asp-for="CourseCategoryID" class="control-label"></label>
                     <select asp-for="CourseCategoryID" class="form-control2" asp-items="ViewBag.CourseCategoryID">
-                        <option>Select</option>
+                        <option value="0">Select</option>
                     </select>
 
                 </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Coming Soon</label>
-                    <input type="checkbox" asp-for="@Model.IsComingSoon" />
+                    <input type="checkbox" asp-for="IsComingSoon" />
 
                 </div>
                 <div class="form-group">

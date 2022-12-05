@@ -28,6 +28,15 @@
     .ui-menu-item, ui-menu-item div {
         text-align: right;
     }
+    #hyperCourseCategory{
+        color:white;
+        text-decoration:underline;
+
+    }
+    #hyperCourseCategory:hover {
+        color:blue;
+        text-shadow:0 0 5px white;
+    }
 </style>
 
 
@@ -46,13 +55,7 @@
                                 <a href="~/Courses/Edit/@Model.Course.Id?ReturnToCoursePage=true"><i class="fa fa-edit"></i></a>
                             }
                         </h1>
-                        @if (Model.Course.Code != null)
-                        {
-                            <div>
-                                كود الدورة:
-                                @Model.Course.Code
-                            </div>
-                        }
+                        
 
 
                         <div class="rating-row">
@@ -109,6 +112,7 @@
 
                             </a>
                         </div>
+
                         <div class="course-sidebar-text-box">
 
                             <!-- WISHLIST BUTTON -->
@@ -136,110 +140,118 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 radius-10 mt-4 bg-white p-30-40" >
+                <div class="col-lg-8 radius-10 mt-4 bg-white p-30-40">
+                    @if (Model.Course.Code != null)
+                    {
+                        <div class="h3" style="text-align: right; direction: rtl;">
+                            كود الدورة:
+                            @Model.Course.Code
+                        </div>
+                    }
 
-                                           @if(Model.Course.FullWidthCourseImageUrl!=null){
+                    @if (Model.Course.FullWidthCourseImageUrl != null)
+                    {
                         <img src="../../images/Courses/FullWidth/@Model.Course.FullWidthCourseImageUrl" style="width:100%" />
-                            }
-                       
+                    }
+
 
 
 
 
                     @if (Model.Course.Description != null)
                     {
-                    <div class="description-box view-more-parent expanded" style="padding-bottom:10px; border-bottom:1px solid lightgray;margin-bottom:25px;direction:@Model.Course.DescriptionDirection">
+                        <div class="description-box view-more-parent expanded" style="padding-bottom:10px; border-bottom:1px solid lightgray;margin-bottom:25px;direction:@Model.Course.DescriptionDirection">
 
-                        @Html.Raw(Model.Course.Description)
-                    </div>
+                            @Html.Raw(Model.Course.Description)
+                        </div>
                     }
                     @if (Model.Events.Count > 0)
                     {
-                    <table class="table table-bordered table-striped" style="direction:rtl">
-                        <thead>
-                            <tr style="background-color:dimgray;color:white">
-                                <th>التاريخ</th>
-                                <th>محل الانعقاد</th>
-                                <th>ملاحظات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (BrAcademy.Data.Event ev in Model.Events)
+                        <table class="table table-bordered table-striped" style="direction:rtl">
+                            <thead>
+                                <tr style="background-color:dimgray;color:white">
+                                    <th>التاريخ</th>
+                                    <th>محل الانعقاد</th>
+                                    <th>ملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (BrAcademy.Data.Event ev in Model.Events)
                                 {
 
 
-                            <tr>
-                                <td>
-                                    @if (ev.DisplayShortenedDate)
+                                    <tr>
+                                        <td>
+                                            @if (ev.DisplayShortenedDate)
                                             {
-                                    <span style="margin-right:12px"> @BrAcademy.Data.TransferDate.ToArabicDateShortened(ev.StartDate)</span>
+                                                <span style="margin-right:12px"> @BrAcademy.Data.TransferDate.ToArabicDateShortened(ev.StartDate)</span>
                                             }
                                             else
                                             {
-                                    @BrAcademy.Data.TransferDate.ToArabicDate(ev.StartDate)
+                                                @BrAcademy.Data.TransferDate.ToArabicDate(ev.StartDate)
                                             }
-                                </td>
-                                <td>
-                                    <img src="@FlagPath(ev.Country.FlagURL)" style="height:20px;" />
-                                    @ev.Country.CountryNameEnglish
-                                </td>
-                                <td>
-                                    @if (ev.Description != null)
+                                        </td>
+                                        <td>
+                                            <img src="@FlagPath(ev.Country.FlagURL)" style="height:20px;" />
+                                            @ev.Country.CountryNameEnglish
+                                        </td>
+                                        <td>
+                                            @if (ev.Description != null)
                                             {
-                                    <span> @ev.Description</span>
+                                                <span> @ev.Description</span>
                                             }
                                             else
                                             {
-                                    <span>
-                                        ----------------------
-                                    </span>
+                                                <span>
+                                                    ----------------------
+                                                </span>
                                             }
-                                </td>
+                                        </td>
 
-                            </tr>
+                                    </tr>
                                 }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
                     }
 
                     @if (Model.RelatedCourses.Count > 0)
                     {
-                    <div>
-                        <div style="background-color: #444444; direction: rtl; color: white; height: 50px; padding: 8px;">
-                            <h4>دورات ذات صلة</h4>
-                        </div>
-                        <div class="row" style="direction:rtl">
-                            @foreach (BrAcademy.Data.Course RelCourse in Model.RelatedCourses)
-                                {
-                            <div class="col-12 col-sm-6">
-                                <a asp-action="CourseDetails" asp-route-id="@RelCourse.Id" asp-controller="Courses" style="vertical-align:top">
-                                    <div style="padding:5px;display:inline-block" class="hyperCategory">
-                                        <div class="divRelCourse" style="border:1px solid lightgray;border-radius:5px;padding:5px">
-                                            <div class="divCourseText" style="display: inline-block; @(RelCourse.CourseImageUrl!=null?"width: 67%":"width:100%"); color: #4e4e4e">
-                                                <h5>
-                                                    @RelCourse.CourseName
-                                                </h5>
-
-                                            </div>
-                                            @if (RelCourse.CourseImageUrl != null)
-                                                {
-                                            <div class="divCourseimage" style="display:inline-block;width:30%;padding:5px;vertical-align:top">
-                                                <div style="border:1px solid lightgray;padding:3px">
-                                                    <img src="~/images/Courses/@RelCourse.CourseImageUrl" alt="@RelCourse.CourseName" style="width:100%" />
-                                                </div>
-
-                                            </div>
-                                                }
-
-
-                                        </div>
-                                    </div>
-                                </a>
+                        <div>
+                            <div style="background-color: #444444; direction: rtl; color: white; height: 50px; padding: 8px;">
+                                <h4>دورات اخرى في <a id="hyperCourseCategory" href="~/CourseCategories/CategoryDetails/@Model.Course.CourseCategoryID">@Model.CourseCategory</a></h4>
                             </div>
+                            <div class="row" style="direction:rtl">
+                                @foreach (BrAcademy.Data.Course RelCourse in Model.RelatedCourses)
+                                {
+                                    <div class="col-12 col-sm-6">
+                                        <a asp-action="CourseDetails" asp-route-id="@RelCourse.Id" asp-controller="Courses" style="vertical-align:top">
+                                            <div style="padding:5px;display:inline-block" class="hyperCategory">
+                                                <div class="divRelCourse" style="border:1px solid lightgray;border-radius:5px;padding:5px">
+                                                    <div class="divCourseText" style="display: inline-block; @(RelCourse.CourseImageUrl!=null?"width: 67%":"width:100%"); color: #4e4e4e">
+                                                        <h5>
+                                                            @RelCourse.CourseName
+                                                        </h5>
+
+                                                    </div>
+                                                    @if (RelCourse.CourseImageUrl != null)
+                                                    {
+                                                        <div class="divCourseimage" style="display:inline-block;width:30%;padding:5px;vertical-align:top">
+                                                            <div style="border:1px solid lightgray;padding:3px">
+                                                                <img src="~/images/Courses/@RelCourse.CourseImageUrl" alt="@RelCourse.CourseName" style="width:100%" />
+                                                            </div>
+
+                                                        </div>
+                                                    }
+
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 }
+                            </div>
                         </div>
-                    </div>
                     }
 
 
@@ -259,7 +271,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
                     <a id="btnClose" style="cursor:pointer">
                         <span aria-hidden="true">&times;</span>
                     </a>

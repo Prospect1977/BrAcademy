@@ -1,0 +1,166 @@
+﻿@model IEnumerable<BrAcademy.Data.Post>
+
+@{
+    ViewData["Title"] = "Gallery";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+
+<div class="container-sm" style="padding:10px">
+    @*<input type="hidden" id="hiddenAllImages" value="@ViewBag.images" />*@
+
+    @foreach (var item in Model)
+    {
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+            <div class="card" style="margin:20px auto" id="@item.Id">
+                <div class="fotorama" data-id="@item.Id" data-nav="thumbs" data-fit="contain" data-width="100%" data-height="400px" data-allowfullscreen="true" style="background-color:#d9d9d9">
+                    @foreach (var image in item.PostImages)
+                    {
+                    <a href="~/images/Posts/Images/@image.ImageUrl"><img src="~/images/Posts/Icons/@image.IconUrl" /></a>
+                    }
+
+
+
+                </div>
+
+                <div class="card-body">
+                    @if (@item.Course.DescriptionDirection == "rtl")
+                    {
+                        <div style="height:25px">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="~/Posts/Edit/@item.Id"><span class="fa fa-edit" style="float: right; line-height: 25px; margin-left: 5px;"></span></a>
+                            }
+                            <a class="hyperCourse" href="~/Courses/CourseDetails/@item.CourseId"><h6 class="card-title" style="float:right">@item.Course.CourseName</h6></a>
+                            @*<a class="hyperCourse" href="~/CourseCategories/CategoryDetails/@item.Course.CourseCategoryID"><h6 class="card-title" style="float:right">@item.Course.CourseName</h6></a>*@
+                            <a class="hyperShare" data-id="@item.Id" title="share" style="cursor: pointer; float: right; line-height: 25px; margin-right: 10px; color: #0d6efd;"><span class="fa fa-share-alt"></span></a>
+                            <br />
+                        </div>
+                        @*<span style="float:right" id="spanPubDate">Pub Date: @item.PublishDate.ToString("dd-MMM-yyyy HH:mm")</span>*@
+                        @*<span style="float:right" class="spanPubDate">@item.PublishDate</span>*@
+                        <div class="text-black-50" style="text-align:right;clear:both;font-size:14px">
+
+                            <span style="float:right">@item.DataDate?.ToString("dd-MMM-yyyy")</span>
+                            @if (item.EndDate != null)
+                            {<b style="float:right">&nbsp;إلى&nbsp;</b>}
+                            <span style="float:right">@item.EndDate?.ToString("dd-MMM-yyyy")</span>
+                            <br style="clear:both" />
+                        </div>
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <hr />
+                            <div dir="rtl">
+                                @Html.Raw(item.Description)
+                            </div>
+
+
+                        }
+                    }
+                    else
+                    {
+                        <div style="height:25px">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="~/Posts/Edit/@item.Id"><span class="fa fa-edit" style="float: left; line-height: 25px; margin-right: 5px;"></span></a>
+                            }
+                            <a class="hyperCourse" href="~/Courses/CourseDetails/@item.CourseId"><h6 class="card-title" style="float:left">@item.Course.CourseName</h6></a>
+                            @*<a class="hyperCourse" href="~/CourseCategories/CategoryDetails/@item.Course.CourseCategoryID"><h6 class="card-title" style="float:left">@item.Course.CourseName</h6></a>*@
+                            <a class="hyperShare" data-id="@item.Id" title="share" style="cursor: pointer; float: left; line-height: 25px; margin-left: 10px; color: #0d6efd;"><span class="fa fa-share-alt"></span></a>
+                            <br />
+
+                        </div>
+                        <div class="text-black-50" style="text-align:left;clear:both;font-size:14px">
+                            <span style="float:left">@item.DataDate?.ToString("dd-MMM-yyyy")</span>
+                            @if (item.EndDate != null)
+                            {<b style="float:left">&nbsp;TO&nbsp;</b>}
+                            <span style="float:left">@item.EndDate?.ToString("dd-MMM-yyyy")</span>
+                            <br style="clear:both" />
+                        </div>
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <hr />
+                            <div dir="ltr">
+                                @Html.Raw(item.Description)
+                            </div>
+
+
+                        }
+
+                    }
+
+
+                    @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+            }
+    <div class="modal fade" id="modalShare" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 420px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Share Link</h5>
+                    <a data-dismiss="modal" aria-label="Close" style="font-size:25px;line-height:0;cursor:pointer">
+                        <span aria-hidden="true" class="fa fa-close">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <input type="text" id="txtLink" class="form-control" style="width:389px;display:inline;margin-right:7px" />
+                        @*<a id="hyperCopyLink" style="cursor:pointer"><span class="fa fa-copy"></span></a>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+   
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+        <script type="text/javascript">
+            $(".hyperShare").click(function () {
+                $("#txtLink").val(`http://www.brightacademyeg.com/Posts/Gallery#${$(this).closest(".card").attr("id")}`);
+
+                $("#modalShare").modal({ keboard: false});
+            });
+            $('#modalShare').on('shown.bs.modal', function () {
+                $("#txtLink").select();
+            });
+            $("#hyperCopyLink").click(function () {
+                $("#txtLink").select();
+                navigator.clipboard.writeText($("#txtLink").val());
+            });
+
+            $('.fotorama').each(function (i, obj) {
+                var $fotoramaDiv = $(obj).fotorama({
+                    click: false,
+                    allowfullscreen: 'native',
+                });
+                // 2. Get the API object.
+                var fotorama = $fotoramaDiv.data('fotorama');
+                $(obj).dblclick(function () {
+                    fotorama.requestFullScreen();
+
+                });
+            });
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                shortenTextAdvanced(".hyperCourse h6", 46);
+            }
+            $(".spanPubDate").each(function () {
+                var myUtcDate = $(this).text();
+                const utcDate1 = new Date(myUtcDate);
+                console.log(utcDate1.toUTCString());
+
+                //const utcDate1 =- new Date(myUtcDate).getTimezoneOffset()/60;
+                //console.log(utcDate1);
+            });
+            
+
+        </script>
+    }

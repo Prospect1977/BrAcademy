@@ -23,6 +23,8 @@
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" name="ReturnToCoursePage" value="@(Context.Request.Query["ReturnToCoursePage"])"/>
+
                 <div class="form-group">
                     <label asp-for="Code" class="control-label"></label>
                     <input asp-for="Code" class="form-control" />
@@ -301,7 +303,11 @@
             });
             // $("#areaCkEditor").text("hello!");
             ClassicEditor
-                .create(document.querySelector('#areaDescription'))
+                .create(document.querySelector('#areaDescription'), {
+                    language: {
+                        ui: 'en',
+                        content: 'ar'
+                    }})
                 .catch(error => {
                     console.error(error);
                 });

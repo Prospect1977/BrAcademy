@@ -5,7 +5,7 @@
 
 }
 <div class="container" style="background-color:white;text-align:left">
-    <h2>@ViewBag.CourseName</h2>
+    <h4><a asp-action="CourseDetails" asp-controller="Courses" asp-route-id="@ViewBag.CourseId">@ViewBag.CourseName</a></h4>
     @functions {
         public static string FlagPath(string path)
         {

@@ -21,12 +21,17 @@
             transition: 0.2s ease-in-out;
         }
 </style>
-<div class="container" style="background-color:white">
-    <h3>Courses</h3>
+<div class="container" style="background-color:white;padding-top:10px">
+    <h4>Courses under Category:</h4>
+    <select id="dropCategories" asp-items="@ViewBag.Categories" class="form-control2" style="display: inline-block; width: 268px;">
+        <option value="0">Select</option>
+    </select>
+
 
     <p>
-        <a asp-action="Create">Create New</a>
+        <a id="hyperNewCourse" >Create New</a>
     </p>
+    
     <table class="table">
         <thead>
             <tr>
@@ -136,6 +141,9 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+          
+                $("#hyperNewCourse").attr("href", "../../Courses/Create?CategoryID=" + $("#dropCategories").val());
+
             $(".table").DataTable({paging: false});
             $(".table").sortable({
                 update: function (event, ui) {
@@ -172,6 +180,10 @@ $(".hyperSwitchHome").click(function () {
                 $this.find("i").toggleClass("fa-check").toggleClass("fa-times").toggleClass("text-danger").toggleClass("text-success");
                 PleaseWait("hide");
             });
-        });
+});
+
+        $("#dropCategories").change(function () {
+            window.location.href = `../../Courses/CoursesAdmin/${$("#dropCategories").val()}`;
+        })
     </script>
 }

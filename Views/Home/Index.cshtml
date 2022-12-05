@@ -4,7 +4,7 @@
     ViewData["Title"] = "Bright Egypt";
 }
 
-
+<link href="~/lib/owl/owl.carousel.min.css" rel="stylesheet" />
 <style type="text/css">
     .hyperCategory > div:hover {
         background-color: #982c68;
@@ -23,10 +23,51 @@
     .ui-menu-item, ui-menu-item div {
         text-align: right;
     }
+
+    .imgOwl {
+        border: 1px solid #cccdcd;
+        border-radius: 5px;
+        margin: 12px 0;
+    }
+
+    .owlText {
+        text-shadow: 0 0 5px black;
+        position: absolute;
+        bottom: 24px;
+        color: white;
+        opacity: .9;
+        margin: auto 0;
+        right: 15%;
+        left: 15%;
+    }
+
+    .owlTextMobile {
+        text-shadow: 0 0 5px black;
+        position: absolute;
+        bottom: 5px;
+        color: white;
+        opacity: .9;
+        margin: auto 0;
+        right: 5%;
+        left: 5%;
+        font-size: 16px;
+    }
+    .btn-purple {
+        background-color: #982c68;
+        color: white;
+        font-size: 16px;
+        border: 1px solid white;
+        margin-top: 10px;
+        box-shadow: 3px 3px 5px #2c2c2c;
+    }
+        .btn-purple:hover {
+            text-shadow:0 0 5px white;
+            color:white;
+        }
 </style>
 
 
-<section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
+<section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg?i=1');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
 
     <div class="container-xl">
         <div class="row">
@@ -53,31 +94,33 @@
 
 
 </section>
-<div class="container-xl" style="padding:0">
+<div class="container-xl" style="padding:0;display:none">
     <div style="height: 14px; background-color: #982c68;"></div>
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="background-color:gray">
-        @*<ol class="carousel-indicators">
+        <ol class="carousel-indicators">
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>*@
+            </ol>
         <div class="carousel-inner">
             @foreach (var item in Model.Carousels)
             {
 
 
-                @if (item.CustomImageUrl != null)
+            @if (item.CustomImageUrl != null)
                 {
 
-                    <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
-                        <a href="@item.CustomUrl">
-                            <img src="~/images/Carousels/@item.CustomImageUrl" asp-append-version="true" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h2 style="text-shadow:0 0 5px black">@item.CustomText</h2>
-
-                            </div>
-                        </a>
+            <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
+                <a href="@item.CustomUrl">
+                    <img src="~/images/Carousels/@item.CustomImageUrl" asp-append-version="true" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 style="text-shadow:0 0 5px black">@item.CustomText</h2>
                     </div>
+                    <div class="carousel-caption d-block d-md-none" style="padding-bottom:0">
+                        <h2 style="text-shadow:0 0 5px black;font-size:18px;margin-bottom:0">@item.CustomText</h2>
+                    </div>
+                </a>
+            </div>
 
                 }
                 else
@@ -85,54 +128,126 @@
                     if (item.CategoryId != null)
                     {
 
-                        <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
-                            <a href="~/CourseCategories/CategoryDetails/@item.CategoryId">
-                                <img src="~/images/Categories/Wide/@BrAcademy.Data.AppCodes.GetCategoryWideImage(db,(int)item.CategoryId)" asp-append-version="true" class="d-block w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h2 style="text-shadow:0 0 5px black">@BrAcademy.Data.AppCodes.CategoryNameById(db, (int)item.CategoryId)</h2>
-                                </div>
-                            </a>
+            <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
+                <a href="~/CourseCategories/CategoryDetails/@item.CategoryId">
+                    <img src="~/images/Categories/Wide/@BrAcademy.Data.AppCodes.GetCategoryWideImage(db,(int)item.CategoryId)" asp-append-version="true" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 style="text-shadow:0 0 5px black">@BrAcademy.Data.AppCodes.CategoryNameById(db, (int)item.CategoryId)</h2>
+                    </div>
+                    <div class="carousel-caption d-block d-md-none" style="padding-bottom:0">
+                        <h2 style="text-shadow:0 0 5px black;font-size:18px;margin-bottom:0">@BrAcademy.Data.AppCodes.CategoryNameById(db, (int)item.CategoryId)</h2>
+                    </div>
+                </a>
 
-                        </div>
+            </div>
 
                     }
                     else
                     {
 
-                        <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
-                            <a href="~/Courses/CourseDetails/@item.CourseId">
-                                <img src="~/images/Courses/Wide/@BrAcademy.Data.AppCodes.GetCourseWideImage(db,(int)item.CourseId)" asp-append-version="true" class="d-block w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h2 style="text-shadow:0 0 5px black">@BrAcademy.Data.AppCodes.CourseNameById(db, (int)item.CourseId)</h2>
+            <div class="carousel-item @(item.SortIndex==1?"active":"")" data-interval="3000" data-pause="false">
+                <a href="~/Courses/CourseDetails/@item.CourseId">
+                    <img src="~/images/Courses/Wide/@BrAcademy.Data.AppCodes.GetCourseWideImage(db,(int)item.CourseId)" asp-append-version="true" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 style="text-shadow:0 0 5px black">@BrAcademy.Data.AppCodes.CourseNameById(db, (int)item.CourseId)</h2>
 
-                                </div>
-                            </a>
-                        </div>
+                    </div>
+                    <div class="carousel-caption d-block d-md-none" style="padding-bottom:0">
+                        <h2 style="text-shadow:0 0 5px black;font-size:18px;margin-bottom:0">@BrAcademy.Data.AppCodes.CourseNameById(db, (int)item.CourseId)</h2>
+
+                    </div>
+                </a>
+            </div>
 
                     }
                 }
 
             }
         </div>
+        @if(Model.Carousels.ToList().Count>1){
         <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
-            @*<span class="carousel-control-prev-icon" aria-hidden="true"></span>*@
-            @*<span class="sr-only">Previous</span>*@
+
             <img src="~/assets/images/leftArrow.png" style="width:35px;text-shadow:0 0 5px #000" />
         </button>
         <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
-            @*<span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>*@
+           
             <img src="~/assets/images/rightArrow.png" style="width:35px;text-shadow:0 0 5px #000" />
 
         </button>
+        }
     </div>
 </div>
-<section class="home-fact-area">
-    <div class="container-lg" style="
-    direction: rtl;
-">
-        <div class="row" style="
-">
+                <div class="container-xl" style="border-top: 8px solid #982c68;padding:0">
+                    <div style="position:relative">
+                        @*<a href="">*@
+                            <img src="~/images/Carousels/NewBanner.jpg" style="width: 100%; border: 1px solid #ecd3e1;" asp-append-version="true" />
+                            <div style="position:absolute;right:32.5%;top:-8px">
+                                <a class="btn btn-purple" href="~/images/CompanyProfile.pdf" >بروفايل الشركة</a>
+                                <a class="btn btn-purple" href="~/Posts/Gallery" style="margin-right:5px">حفلات التخرج</a>
+                            </div>
+                       
+                        @*</a>*@
+                    </div>
+                    
+                </div>
+<div class="owl-carousel owl-theme owl-reponsive">
+
+
+    @foreach (var item in Model.OwlCarousels)
+    {
+
+
+    @if (item.CustomImageUrl != null)
+        {
+
+    <div style="position:relative;text-align:center;">
+        <a href="@item.CustomUrl">
+            <img class="imgOwl" src="~/images/OwlCarousels/@item.CustomImageUrl" asp-append-version="true" />
+            <h4 class="owlText d-none d-sm-inline">@item.CustomText</h4>
+            <h4 class="owlTextMobile d-sm-none">@item.CustomText</h4>
+
+        </a>
+
+    </div>
+
+        }
+        else
+        {
+            if (item.CategoryId != null)
+            {
+    <div style="position:relative;text-align:center;">
+        <a href="~/CourseCategories/CategoryDetails/@item.CategoryId">
+            <img class="imgOwl" src="~/images/Categories/@BrAcademy.Data.AppCodes.GetCategoryImage(db,(int)item.CategoryId)" asp-append-version="true" />
+            <h4 class="owlText d-none d-sm-inline">@BrAcademy.Data.AppCodes.CategoryNameById(db, (int)item.CategoryId)</h4>
+            <h4 class="owlTextMobile d-sm-none">@BrAcademy.Data.AppCodes.CategoryNameById(db, (int)item.CategoryId)</h4>
+        </a>
+
+    </div>
+
+            }
+            else
+            {
+    <div style="position:relative;text-align:center;">
+        <a href="~/Courses/CourseDetails/@item.CourseId">
+            <img class="imgOwl" src="~/images/Courses/@BrAcademy.Data.AppCodes.GetCourseImage(db,(int)item.CourseId)" asp-append-version="true" />
+            <h4 class="owlText d-none d-sm-inline">@BrAcademy.Data.AppCodes.CourseNameById(db, (int)item.CourseId)</h4>
+            <h4 class="owlTextMobile d-sm-none">@BrAcademy.Data.AppCodes.CourseNameById(db, (int)item.CourseId)</h4>
+        </a>
+
+    </div>
+
+            }
+        }
+
+    }
+
+
+</div>
+
+
+<section class="home-fact-area" style="margin-bottom:11px;">
+    <div class="container-lg" style="direction: rtl;">
+        <div class="row" style="">
             <div class="col-md-3 d-flex" style="">
                 <div class="home-fact-box mr-md-auto mr-auto" style="position: relative;">
                     <i class="fas fa-bullseye float-start" style="/* position: absolute; */"></i>
@@ -177,117 +292,7 @@
         </div>
     </div>
 </section>
-
-<section class="mb-5">
-    <div class="container-lg">
-        <h3 class="course-carousel-title my-4" style="direction: rtl;">
-            المجالات التدريبية
-        </h3>
-        <div class="row" style="direction:rtl">
-            @foreach (var item in Model.CourseCategories)
-            {
-
-
-                @if (item.CategoryImageUrl != null)
-                {
-
-
-                    <div class="course-box-wrap slick-active col-6 col-lg-4 col-xl-3 mb-3" tabindex="0" data-slick-index="3" aria-hidden="false">
-                        <a href="~/CourseCategories/CategoryDetails/@item.Id" class="hyperCategory">
-                            <div class="course-box bg-gray" style="border: 1px solid #cccdcd;">
-
-                                <div class="course-image" style="text-align:center">
-                                    <img src="~/images/Categories/@item.CategoryImageUrl" alt="@item.CategoryName" class="img-fluid">
-                                </div>
-                                <div class="course-details">
-                                    <h5 class="title" style="text-align: right;">@item.CategoryName</h5>
-                                </div>
-
-
-                            </div>
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="col-6 col-lg-4 col-xl-3 mb-3">
-                        <a href="~/CourseCategories/CategoryDetails/@item.Id" class="top-categories" style="direction: rtl;">
-                            <div class="category-title">
-                                @item.CategoryName
-                            </div>
-                        </a>
-                    </div>
-                }
-
-            }
-
-
-
-
-        </div>
-    </div>
-</section>
-
-<section class="course-carousel-area">
-    <div class="container-lg">
-        <div class="row">
-            <div class="col">
-                <h3 class="course-carousel-title mb-4" style="direction: rtl;">
-                    الدورات التدريبية الأكثر طلباً
-                </h3>
-            </div>
-            <div class="row" style="direction:rtl">
-
-
-                @foreach (var Course in Model.HomeCourses)
-                {
-                    <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
-                        <a asp-action="CourseDetails" asp-controller="Courses" asp-route-id="@Course.Id">
-                            <div class="course-box">
-
-                                <div class="course-image" style="text-align:center">
-                                    <img src="~/images/Courses/@Course.CourseImageUrl" alt="@Course.CourseName" asp-append-version="true" class="img-fluid">
-                                </div>
-                                <div class="course-details">
-                                    <h5 class="title" style="text-align: right;">@Course.CourseName</h5>
-                                    <div class="rating" style="text-align: right;">
-                                        <img class="imgRate" src="~/images/Stars/@(String.Format("{0:0.0}", Course.Review)).png" style="width:83px" />
-
-
-                                        <div class="d-inline-block" style="float: left;">
-                                            <span class="text-dark ms-1 text-15px" style="float: right;">@(String.Format("{0:0.0}", Course.Review))</span>
-                                            <span class="text-dark text-12px text-muted ms-2">(@Course.CountReviewers Reviews)</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex text-dark" style="direction: rtl;">
-                                        <div class="">
-                                            <i class="far fa-clock text-14px"></i>
-                                            <span class="text-muted text-12px">@Course.Duration1</span>
-                                        </div>
-                                        <div class="ms-3">
-                                            <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
-                                            <span class="text-muted text-12px">@Course.Duration2</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </a>
-                    </div>
-                }
-
-
-
-            </div>
-
-
-        </div>
-    </div>
-
-</section>
-
-<section class="course-carousel-area">
+<section class="course-carousel-area" style=" position: relative;margin-bottom:0">
     <div class="container-lg">
 
 
@@ -302,20 +307,140 @@
 
 
         <div class="row">
-            <div class="col">
-                <h3 class="course-carousel-title mb-4" style="direction: rtl;">
-                    دورات تدريبية ستُعقد قريباً
+
+            <div class="col" style=" background-color: #982c68; padding: 17px; line-height: 30px; vertical-align: middle; /* text-align: center; */ color: white; padding-top: 15px; height: 60px; font-family: math; ">
+                <h4 class="course-carousel-title mb-4" style="direction: rtl;/* text-shadow: 0 0 10px white; */">
+                    <i class="far fa-clock"></i>&nbsp;دورات تدريبية ستُعقد قريباً
                     <input type="hidden" id="hiddenComingSoon" value="@ViewBag.UpComingCourses" />
-                </h3>
+                </h4>
             </div>
-            <div class="row" style="direction:rtl" id="divComingSoon">
-@*handled on the javascript code*@
+
+
+            <div class="row" style="direction: rtl; position: relative; right: -12px; padding-top: 16px; background-color: #f6f6f6; border: 1px solid #d5d5d5; border-radius: 0;" id="divComingSoon">
+                @*handled on the javascript code*@
 
             </div>
 
         </div>
     </div>
 </section>
+<section class="course-carousel-area" style="margin-bottom:0 !important">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col" style=" background-color: #982c68; padding: 17px; line-height: 30px; vertical-align: middle; /* text-align: center; */ color: white; padding-top: 15px; height: 60px; font-family: math;">
+                <h4 class="course-carousel-title mb-4" style="direction: rtl;/* text-shadow: 0 0 10px white; */">
+                    <i class="far fa-bookmark"></i>&nbsp;المجالات التدريبية
+
+                </h4>
+            </div>
+        </div>
+        
+       
+        <div class="row" style="direction: rtl;  padding-top: 16px; background-color: #f6f6f6; border: 1px solid #d5d5d5;">
+            @foreach (var item in Model.CourseCategories)
+            {
+
+
+            @if (item.CategoryImageUrl != null)
+                {
+
+
+            <div class="course-box-wrap slick-active col-6 col-lg-4 col-xl-3 mb-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                <a href="~/CourseCategories/CategoryDetails/@item.Id" class="hyperCategory">
+                    <div class="course-box bg-gray" style="border: 1px solid #cccdcd;">
+
+                        <div class="course-image" style="text-align:center">
+                            <img src="~/images/Categories/@item.CategoryImageUrl" alt="@item.CategoryName" class="img-fluid">
+                        </div>
+                        <div class="course-details">
+                            <h5 class="title" style="text-align: right;">@item.CategoryName</h5>
+                        </div>
+
+
+                    </div>
+                </a>
+            </div>
+                }
+                else
+                {
+            <div class="col-6 col-lg-4 col-xl-3 mb-3">
+                <a href="~/CourseCategories/CategoryDetails/@item.Id" class="top-categories" style="direction: rtl;">
+                    <div class="category-title">
+                        @item.CategoryName
+                    </div>
+                </a>
+            </div>
+                }
+
+            }
+
+
+
+
+        </div>
+    </div>
+</section>
+
+<section class="course-carousel-area">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col" style=" background-color: #982c68; padding: 17px; line-height: 30px; vertical-align: middle; /* text-align: center; */ color: white; padding-top: 15px; height: 60px; font-family: math; ">
+                <h4 class="course-carousel-title mb-4" style="direction: rtl;/* text-shadow: 0 0 10px white; */">
+                    <i class="fas fa-bullseye"></i>&nbsp;الدورات التدريبية الأكثر طلباً
+                </h4>
+            </div>
+            <div class="row" style="direction: rtl; position: relative; right: -12px; padding-top: 16px; background-color: #f6f6f6; border: 1px solid #d5d5d5; border-radius: 0 0 5px 5px;">
+
+
+                @foreach (var Course in Model.HomeCourses)
+                {
+                <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
+                    <a asp-action="CourseDetails" asp-controller="Courses" asp-route-id="@Course.Id">
+                        <div class="course-box">
+
+                            <div class="course-image" style="text-align:center">
+                                <img src="~/images/Courses/@Course.CourseImageUrl" alt="@Course.CourseName" asp-append-version="true" class="img-fluid">
+                            </div>
+                            <div class="course-details">
+                                <h5 class="title" style="text-align: right;">@Course.CourseName</h5>
+                                <div class="rating" style="text-align: right;">
+                                    <img class="imgRate" src="~/images/Stars/@(String.Format("{0:0.0}", Course.Review)).png" style="width:83px" />
+
+
+                                    <div class="d-inline-block" style="float: left;">
+                                        <span class="text-dark ms-1 text-15px" style="float: right;">@(String.Format("{0:0.0}", Course.Review))</span>
+                                        <span class="text-dark text-12px text-muted ms-2">(@Course.CountReviewers Reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex text-dark" style="direction: rtl;">
+                                    <div class="">
+                                        <i class="far fa-clock text-14px"></i>
+                                        <span class="text-muted text-12px">@Course.Duration1</span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <i class="far fa-list-alt text-14px" style="margin-right: 15px;"></i>
+                                        <span class="text-muted text-12px">@Course.Duration2</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </a>
+                </div>
+                }
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+</section>
+
+
 
 <section class="featured-instructor" style="
     display: none;
@@ -469,8 +594,34 @@
 </div>
 
 @section Scripts{
+    <script src="~/lib/owl/owl.carousel.min.js"></script>
     <script>
 
+        var owl = $('.owl-carousel');
+        var owlItems = 4;
+
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            owlItems = 1;
+        }
+        owl.owlCarousel({
+            items: owlItems,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 1500,
+            autoplayHoverPause: true,
+            dots: false
+        });
+
+
+
+        //$('.play').on('click', function () {
+        //    owl.trigger('play.owl.autoplay', [1000])
+        //});
+        //$('.stop').on('click', function () {
+        //    owl.trigger('stop.owl.autoplay')
+        //})
         var border_bottom = $(".home-banner-wrap").height() + 242;
         $(".cropped-home-banner").css("border-bottom", border_bottom + "px solid #f1f7f8");
 
@@ -504,50 +655,50 @@
         var events = $.parseJSON($("#hiddenComingSoon").val());
         $(events).each(function (i, item) {
             var $box = $(` <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
-                                        <div class="course-box">
-                                            <a href="../../Courses/CourseDetails/${item.Id}" >
-                                                <div class="course-image" style="text-align:center">
-                                                    <img src="../../images/Courses/${item.CourseImageUrl}" alt="${item.CourseName}" class="img-fluid">
-                                                </div>
-                                                <div class="course-details">
-                                                    <h5 class="title" style="text-align: right;">${item.CourseName}</h5>
-                                                    <div class="rating" style="text-align: right;">
-                                                        <img src="../../images/Stars/${parseFloat(item.Review).toFixed(1)}.png" style="width:83px" />
+                                            <div class="course-box">
+                                                <a href="../../Courses/CourseDetails/${item.Id}" >
+                                                    <div class="course-image" style="text-align:center">
+                                                        <img src="../../images/Courses/${item.CourseImageUrl}" alt="${item.CourseName}" class="img-fluid">
+                                                    </div>
+                                                    <div class="course-details">
+                                                        <h5 class="title" style="text-align: right;">${item.CourseName}</h5>
+                                                        <div class="rating" style="text-align: right;">
+                                                            <img src="../../images/Stars/${parseFloat(item.Review).toFixed(1)}.png" style="width:83px" />
 
 
-                                                        <div class="d-inline-block" style="float: left;">
-                                                            <span class="text-dark ms-1 text-15px" style="float: right;">${parseFloat(item.Review).toFixed(1)}</span>
-                                                            <span class="text-dark text-12px text-muted ms-2">(${item.CountReviewers})</span>
+                                                            <div class="d-inline-block" style="float: left;">
+                                                                <span class="text-dark ms-1 text-15px" style="float: right;">${parseFloat(item.Review).toFixed(1)}</span>
+                                                                <span class="text-dark text-12px text-muted ms-2">(${item.CountReviewers})</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex text-dark" style="direction: rtl;">
+                                                            <div class="${item.Event == null ? "hidden" : ""}">
+                                                                <i class="far fa-clock text-14px"></i>
+                                                                <span class="text-muted text-12px">
+
+                                                                      ${item.Event != null ? ToArabicDate(moment(item.Event.StartDate).format("DD/M/Y")) : ""}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex text-dark" style="direction: rtl;">
+                                                            <div class="ms-3">
+                                                                <i class="far fa-list-alt text-14px"></i>
+                                                                <span class="text-muted text-12px">${item.Duration1} (${item.Duration2})</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex text-dark " style="direction: rtl;position:relative;display:${item.Event != null ? "block" : "none !important"}">
+                                                            <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : ${item.Event != null ? item.Event.CountryNameEnglish : ""}</span>
+                                                            <img src="${item.Event != null ? item.Event.FlagURL.replace("~", "") : ""}" class="${item.Event != null ? "" : "hidden"}" style="height: 16px; position: absolute; left: 10px; top: 8px;">
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex text-dark" style="direction: rtl;">
-                                                        <div class="${item.Event == null?"hidden":""}">
-                                                            <i class="far fa-clock text-14px"></i>
-                                                            <span class="text-muted text-12px">
+                                                </a>
 
-                                                                  ${item.Event!=null?ToArabicDate(moment(item.Event.StartDate).format("DD/M/Y")):""}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex text-dark" style="direction: rtl;">
-                                                        <div class="ms-3">
-                                                            <i class="far fa-list-alt text-14px"></i>
-                                                            <span class="text-muted text-12px">${item.Duration1} (${item.Duration2})</span>
+                                            </div>
 
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex text-dark " style="direction: rtl;position:relative;display:${item.Event != null ? "block" : "none !important"}">
-                                                        <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : ${item.Event != null ?item.Event.CountryNameEnglish:""}</span>
-                                                        <img src="${item.Event != null ? item.Event.FlagURL.replace("~", "") : ""}" class="${item.Event != null?"":"hidden"}" style="height: 16px; position: absolute; left: 10px; top: 8px;">
-                                                    </div>
-                                                </div>
-                                            </a>
-
-                                        </div>
-
-                                    </div>`);
+                                        </div>`);
             $box.appendTo("#divComingSoon");
         });
-         //-------------------------------------------------- end coming soon section--------------------------------------------------------------------
+             //-------------------------------------------------- end coming soon section--------------------------------------------------------------------
     </script>
 }

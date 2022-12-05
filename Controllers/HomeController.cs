@@ -46,6 +46,7 @@ namespace BrAcademy.Controllers
             }));
             
             model.Carousels = db.Carousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
+            model.OwlCarousels = db.OwlCarousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
             return View(model);
         }
         public string CourseCategoriesMenu()

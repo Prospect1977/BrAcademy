@@ -379,7 +379,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
             int CategoryID = model.Course.CourseCategoryID;
             model.CourseCategory = _context.CourseCategories.Find(CategoryID).CategoryName;
             DateTime today = DateTime.Now;
-            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate > today).Include("Country").OrderBy(m => m.StartDate).ToList();
+            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate > today && m.Active==true).Include("Country").OrderBy(m => m.StartDate).ToList();
             model.RelatedCourses = _context.Courses.Where(m => m.CourseCategoryID == CategoryID && m.Id != id && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             return View(model);
         }

@@ -42,6 +42,7 @@ namespace BrAcademy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Event model)
         {
+            model.Active = true;
             db.Events.Add(model);
             db.SaveChanges();
             return RedirectToAction(nameof(CourseEvents), new { Id = model.CourseID });
@@ -70,6 +71,7 @@ namespace BrAcademy.Controllers
         [HttpPost]
         public ActionResult Edit(Event model)
         {
+            model.Active = true;
             db.Update(model);
             db.SaveChanges();
             Event ev = db.Events.Find(model.Id);

@@ -90,7 +90,7 @@
                         </div>
 
                     </p>
-                    <img src="~/images/br.png" style="position:absolute;top: 0px;left: -2px;width: 75px;" />
+                    <img id="imgFlag" src="~/images/br.png" style="position:absolute;top: 0px;left: -2px;width: 75px;" />
                     <form class="" action="assets/images/home/search" method="get">
                         <div class="input-group">
                             <input id="txtSearch" dir="rtl" type="text" class="form-control" name="query" placeholder="إبحث عن الدورة التدريبية التي تناسب تخصصك" style="border: 1px solid gainsboro;">
@@ -576,8 +576,10 @@
     <script>
 
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            $("#imgFlag").css({"top": "-74px","left": "40%","width": "75px"});
             $("#divBannerSmall").show();
         } else {
+            $("#imgFlag").css({"top": "0px", "left": "-2px", "width": "75px"});
             $("#divBannerLarge").show();
         }
         var owl = $('#owlCompanies');
@@ -618,7 +620,7 @@
         });
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             $("#br").show();
-            $("#btnTrainingPlan").css({ "margin-top": "10px" });
+            $("#btnTrainingPlan").css({ "margin-top": "1px" });
             $("#btnTrainingPlan").closest("div").css("width", "100%");
         }
         var border_bottom = $(".home-banner-wrap").height() + 242;

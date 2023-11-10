@@ -47,7 +47,35 @@ namespace BrAcademy.Controllers
             
             model.Carousels = db.Carousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
             model.OwlCarousels = db.OwlCarousels.Where(m => m.Active == true).OrderBy(m => m.SortIndex);
+            List<RecentPost> RecentPosts = new List<RecentPost>();
+            RecentPost P0 = new RecentPost { Id = db.Posts.OrderByDescending(m=>m.DataDate).FirstOrDefault().Id, 
+                Icon = db.PostImages.Where(m=>m.PostId==db.Posts.OrderByDescending(m=>m.DataDate).FirstOrDefault().Id).FirstOrDefault().ImageUrl };
+            RecentPost P1 = new RecentPost { Id = db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count()-2).Take(1).FirstOrDefault().Id, 
+                Icon = db.PostImages.Where(m=>m.PostId== db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count() - 2).Take(1).FirstOrDefault().Id).FirstOrDefault().ImageUrl };
+ RecentPost P2 = new RecentPost { Id = db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count()-3).Take(1).FirstOrDefault().Id, 
+                Icon = db.PostImages.Where(m=>m.PostId== db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count() - 3).Take(1).FirstOrDefault().Id).FirstOrDefault().ImageUrl
+ };
+ RecentPost P3 = new RecentPost { Id = db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count()-4).Take(1).FirstOrDefault().Id, 
+                Icon = db.PostImages.Where(m=>m.PostId== db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count() - 4).Take(1).FirstOrDefault().Id).FirstOrDefault().ImageUrl
+ };
+ RecentPost P4 = new RecentPost { Id = db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count()-5).Take(1).FirstOrDefault().Id, 
+                Icon = db.PostImages.Where(m=>m.PostId== db.Posts.OrderBy(s => s.DataDate).Skip(db.Posts.Count() - 5).Take(1).FirstOrDefault().Id).FirstOrDefault().ImageUrl
+ };
+
+            RecentPosts.Add(P0);
+            RecentPosts.Add(P1);
+            RecentPosts.Add(P2);
+            RecentPosts.Add(P3);
+            RecentPosts.Add(P4);
+            ViewData["RecentPosts"] = RecentPosts.ToList();
+            ViewData["Companies"] = db.Companies.OrderBy(m => m.SortIndex).ToList();
+            ViewData["TrainingPlan"] = db.TrainingPlans.FirstOrDefault();
             return View(model);
+        }
+        public class RecentPost
+        {
+            public int Id { get; set; }
+            public string? Icon { get; set; }
         }
         public string CourseCategoriesMenu()
         {

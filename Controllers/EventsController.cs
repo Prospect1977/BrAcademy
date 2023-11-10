@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace BrAcademy.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db;
@@ -39,7 +39,7 @@ namespace BrAcademy.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       //[ValidateAntiForgeryToken]
         public ActionResult Create(Event model)
         {
             model.Active = true;

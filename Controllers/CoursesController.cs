@@ -283,7 +283,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Course course, string ReturnToCoursePage)
         {
             if (id != course.Id)
@@ -347,7 +347,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
         // POST: Courses/Delete/5
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var course = await _context.Courses.FindAsync(id);

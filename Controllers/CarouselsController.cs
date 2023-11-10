@@ -146,7 +146,7 @@ namespace BrAcademy.Controllers
 
         }
 
-        // GET: Carousels/Delete/5
+      //Carousels/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {

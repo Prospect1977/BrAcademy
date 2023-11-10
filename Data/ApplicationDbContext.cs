@@ -28,6 +28,8 @@ namespace BrAcademy.Data
        public DbSet<BrAcademy.Models.CarouselVM> CarouselVM { get; set; }
        public DbSet<Post> Posts { get; set; }
        public DbSet<PostImage> PostImages { get; set; }
+       public DbSet<Company> Companies { get; set; }
+       public DbSet<TrainingPlan> TrainingPlans { get; set; }
       
 
     }

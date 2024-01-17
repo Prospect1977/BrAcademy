@@ -52,13 +52,14 @@ namespace BrAcademy.Controllers
             if (id == 0)
             {
                 //
-applicationDbContext = _context.Courses.Include(c => c.CourseCategory).OrderBy(m => m.SortIndex);
-            }else if (id == null)
+                applicationDbContext = _context.Courses.Include(c => c.CourseCategory).OrderBy(m => m.SortIndex);
+            }
+            else if (id == null)
             {
-id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
+                id = _context.CourseCategories.OrderBy(m => m.SortIndex).Take(1).Single().Id;
             }
             ViewBag.Categories = new SelectList(_context.CourseCategories.OrderBy(m => m.SortIndex), "Id", "CategoryName", id);
-            
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -87,7 +88,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
 
         // GET: Courses/Create
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(int CategoryID=0)
+        public IActionResult Create(int CategoryID = 0)
         {
             ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", CategoryID);
             return View();
@@ -114,7 +115,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
 
                 _context.Add(course);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(CoursesAdmin),new { id = course.CourseCategoryID });
+                return RedirectToAction(nameof(CoursesAdmin), new { id = course.CourseCategoryID });
             }
             //ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
             //return View(course);
@@ -189,8 +190,8 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                 if (Request.Form.Files.Count != 0)
                 {
                     var file = Request.Form.Files[0];
-                    var path = Path.Combine(_env.WebRootPath, "images", "Courses","FullWidth");
-                   // path=Path.Combine(path,);
+                    var path = Path.Combine(_env.WebRootPath, "images", "Courses", "FullWidth");
+                    // path=Path.Combine(path,);
                     return Ok(UploadImage.Save(file, path));
                 }
                 else
@@ -295,7 +296,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
             {
                 try
                 {
-                  
+
 
                     _context.Update(course);
                     await _context.SaveChangesAsync();
@@ -354,7 +355,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
             var CategoryID = course.CourseCategoryID;
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(CoursesAdmin),new { id =CategoryID});
+            return RedirectToAction(nameof(CoursesAdmin), new { id = CategoryID });
         }
 
         private bool CourseExists(int id)
@@ -379,7 +380,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
             int CategoryID = model.Course.CourseCategoryID;
             model.CourseCategory = _context.CourseCategories.Find(CategoryID).CategoryName;
             DateTime today = DateTime.Now;
-            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate > today && m.Active==true).Include("Country").OrderBy(m => m.StartDate).ToList();
+            model.Events = _context.Events.Where(m => m.CourseID == id && m.StartDate > today && m.Active == true).Include("Country").OrderBy(m => m.StartDate).ToList();
             model.RelatedCourses = _context.Courses.Where(m => m.CourseCategoryID == CategoryID && m.Id != id && m.Active == true).OrderBy(m => m.SortIndex).ToList();
             return View(model);
         }
@@ -447,11 +448,72 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public int EventsFromCSV(string EventsList)
+        public async Task<IActionResult> EventsFromCSV(string EventsList)
         {
 
             List<CsvEvent> Records = JsonSerializer.Deserialize<List<CsvEvent>>(EventsList);
+           
+            //Adding Categories if not exist
+            int lastCatSortIndex = _context.CourseCategories.Max(m => m.SortIndex);
+            foreach (string e in Records.Select(m => m.Category).Distinct())
+            {
+                if (!_context.CourseCategories.Any(m => m.CategoryName == e))
+
+                {
+                    var NewCategory = new CourseCategory { CategoryName = e, Active = true, SortIndex = lastCatSortIndex + 1 };
+                    lastCatSortIndex++;
+                    _context.CourseCategories.Add(NewCategory);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+
+
+            //Adding Couses if not exist
+            int lastCourseSortIndex = _context.Courses.Max(m => m.SortIndex);
+            _context.Events.RemoveRange();
             int count = 0;
+            foreach (CsvEvent e in Records)
+            {
+                if (e.Code != "0")
+                {
+                    try
+                    {
+                        if (_context.Courses.Any(m => m.Code == e.Code))
+                        {
+                            var MyCourse = _context.Courses.FirstOrDefault(m => m.Code == e.Code);
+                            MyCourse.CourseName = e.CourseName;
+                        }
+                        else
+                        {
+                            var MyCourse = new Course();
+                            MyCourse.Code = e.Code;
+                            MyCourse.CourseName = e.CourseName;
+                            MyCourse.Active = true;
+                            MyCourse.CourseCategoryID = _context.CourseCategories.FirstOrDefault(m => m.CategoryName == e.Category).Id;
+                            MyCourse.Duration1 = "من الأحد إلى الخميس";
+                            MyCourse.Duration2 = "اسبوع واحد";
+                            MyCourse.DescriptionDirection = "rtl";
+                            Random rnd = new Random();
+                            int rev = rnd.Next(3, 6); // creates a number between 4 and 5
+                            MyCourse.Review = rev;
+                            int revCount = rnd.Next(25, 65);
+                            MyCourse.CountReviewers = revCount;
+                            lastCourseSortIndex += 1;
+                            MyCourse.SortIndex = lastCourseSortIndex;
+                            _context.Courses.Add(MyCourse);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+
+            }
+            _context.SaveChanges();
+
             foreach (CsvEvent e in Records)
             {
 
@@ -466,19 +528,19 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     try
                     {
 
-                    Event MyEvent = new Event();
-                    MyEvent.CourseID = CourseID;
-                    MyEvent.StartDate = Convert.ToDateTime(e.Date_1);
-                    MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_1).Id;
-                    _context.Events.Add(MyEvent);
-                    count += 1;
+                        Event MyEvent = new Event();
+                        MyEvent.CourseID = CourseID;
+                        MyEvent.StartDate = Convert.ToDateTime(e.Date_1);
+                        MyEvent.CountryID = _context.Countries.Single(m => m.CountryNameEnglish == e.City_1).Id;
+                        _context.Events.Add(MyEvent);
+                        count += 1;
                     }
                     catch (Exception)
                     {
 
-                       
+
                     }
-                
+
                 }
                 if (!string.IsNullOrEmpty(e.Date_2))
                 {
@@ -512,7 +574,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                        
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_4))
@@ -530,7 +592,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                        
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_5))
@@ -548,7 +610,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                     
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_6))
@@ -566,7 +628,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                      
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_7))
@@ -584,7 +646,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                     
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_8))
@@ -602,7 +664,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                      
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_9))
@@ -620,7 +682,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                       
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_10))
@@ -638,7 +700,7 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
                     catch (Exception)
                     {
 
-                      
+
                     }
                 }
                 if (!string.IsNullOrEmpty(e.Date_11))
@@ -658,11 +720,11 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
 
                     }
                 }
-               
+
 
             }
             _context.SaveChanges();
-            return count;
+            return Ok(count);
         }
         [HttpPost]
         public Boolean SwitchActive(int id)
@@ -682,6 +744,9 @@ id = _context.CourseCategories.OrderBy(m=>m.SortIndex).Take(1).Single().Id;
         protected class CsvEvent
         {
             public string Code { get; set; }
+            public string CourseName { get; set; }
+            public string Category { get; set; }
+            public string? Dummy { get; set; }
             public string Date_1 { get; set; }
             public string Date_2 { get; set; }
             public string Date_3 { get; set; }

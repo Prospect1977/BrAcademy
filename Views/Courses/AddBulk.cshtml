@@ -108,6 +108,7 @@
                 $.post("../../Courses/EventsFromCSV", { EventsList: JSON.stringify(data) }, function (count) {
                     PleaseWait("hide");
                     $uploadHandler.val("");
+                    console.log(count);
                     alert(count + " Events have been added Successfully!");
                 }).error(function (e) {
                     alert(ajaxErrorMessage(e));

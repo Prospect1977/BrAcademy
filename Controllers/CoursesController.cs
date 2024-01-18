@@ -448,49 +448,35 @@ namespace BrAcademy.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> EventsFromCSV(string EventsList)
+        public int EventsFromCSV(string EventsList)
         {
 
             List<CsvEvent> Records = JsonSerializer.Deserialize<List<CsvEvent>>(EventsList);
-           
-            //Adding Categories if not exist
-            int lastCatSortIndex = _context.CourseCategories.Max(m => m.SortIndex);
-            foreach (string e in Records.Select(m => m.Category).Distinct())
-            {
-                if (!_context.CourseCategories.Any(m => m.CategoryName == e))
-
-                {
-                    var NewCategory = new CourseCategory { CategoryName = e, Active = true, SortIndex = lastCatSortIndex + 1 };
-                    lastCatSortIndex++;
-                    _context.CourseCategories.Add(NewCategory);
-                }
-            }
-            await _context.SaveChangesAsync();
 
 
-
-            //Adding Couses if not exist
+           // Adding Couses if not exist
             int lastCourseSortIndex = _context.Courses.Max(m => m.SortIndex);
             _context.Events.RemoveRange();
-            int count = 0;
+
             foreach (CsvEvent e in Records)
             {
-                if (e.Code != "0")
+                if (e.Code != "#VALUE!")
                 {
                     try
                     {
+                       
                         if (_context.Courses.Any(m => m.Code == e.Code))
                         {
-                            var MyCourse = _context.Courses.FirstOrDefault(m => m.Code == e.Code);
-                            MyCourse.CourseName = e.CourseName;
+                            var MyCourse = _context.Courses.FirstOrDefault(m => m.Code == e.Code.Trim());
+                            MyCourse.CourseName = e.CourseName.Trim();
                         }
                         else
                         {
                             var MyCourse = new Course();
-                            MyCourse.Code = e.Code;
-                            MyCourse.CourseName = e.CourseName;
+                            MyCourse.Code = e.Code.Trim();
+                            MyCourse.CourseName = e.CourseName.Trim();
                             MyCourse.Active = true;
-                            MyCourse.CourseCategoryID = _context.CourseCategories.FirstOrDefault(m => m.CategoryName == e.Category).Id;
+                            MyCourse.CourseCategoryID =int.Parse(e.CategoryId);
                             MyCourse.Duration1 = "من الأحد إلى الخميس";
                             MyCourse.Duration2 = "اسبوع واحد";
                             MyCourse.DescriptionDirection = "rtl";
@@ -510,19 +496,21 @@ namespace BrAcademy.Controllers
                     }
                 }
 
-
             }
             _context.SaveChanges();
-
+                int count = 0;
             foreach (CsvEvent e in Records)
             {
 
-                if (!_context.Courses.Any(m => m.Code == e.Code))
+                //var csvCode = e.Code.Trim();
+                //          csvCode = csvCode.Split("/")[1] + "/" + csvCode.Split("/")[0];
+                          if (!_context.Courses.Any(m => m.Code ==e.Code ))
                 {
                     continue;
                 }
-
-                int CourseID = _context.Courses.Single(m => m.Code == e.Code).Id;
+               
+                int CourseID = _context.Courses.FirstOrDefault(m => m.Code == e.Code).Id;
+               
                 if (!string.IsNullOrEmpty(e.Date_1))
                 {
                     try
@@ -724,7 +712,7 @@ namespace BrAcademy.Controllers
 
             }
             _context.SaveChanges();
-            return Ok(count);
+            return count;
         }
         [HttpPost]
         public Boolean SwitchActive(int id)
@@ -746,7 +734,8 @@ namespace BrAcademy.Controllers
             public string Code { get; set; }
             public string CourseName { get; set; }
             public string Category { get; set; }
-            public string? Dummy { get; set; }
+            public string CategoryId { get; set; }
+            public string Dummy { get; set; }
             public string Date_1 { get; set; }
             public string Date_2 { get; set; }
             public string Date_3 { get; set; }
@@ -758,6 +747,7 @@ namespace BrAcademy.Controllers
             public string Date_9 { get; set; }
             public string Date_10 { get; set; }
             public string Date_11 { get; set; }
+            public string Date_12 { get; set; }
 
             public string City_1 { get; set; }
             public string City_2 { get; set; }
@@ -770,6 +760,7 @@ namespace BrAcademy.Controllers
             public string City_9 { get; set; }
             public string City_10 { get; set; }
             public string City_11 { get; set; }
+            public string City_12 { get; set; }
 
         }
     }

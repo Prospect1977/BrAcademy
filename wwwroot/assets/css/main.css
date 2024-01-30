@@ -1073,6 +1073,7 @@ homepage styles
     border-radius: 5px;
     color: #ffffff;
     padding: 6px 15px;
+    margin-bottom:3px;
 }
 .home-banner-wrap .btn:hover{
     background: #c33333;

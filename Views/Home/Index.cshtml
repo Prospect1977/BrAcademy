@@ -91,7 +91,7 @@
     }
 </style>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 <section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg?i=1');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
 
     <div class="container-xl">
@@ -610,11 +610,37 @@
         </div>
     </div>
 </div>
-
+@* <a id="video-link" data-fancybox href="https://youtu.be/lTcTyF6tvbY" style="display:none;"></a> *@
 @section Scripts{
     <script src="~/lib/owl/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <!-- Load the YouTube IFrame Player API -->
+    @* <script src="https://www.youtube.com/iframe_api"></script> *@
     <script>
 
+
+
+        function isMobileOrTablet() {
+            return /Mobi|Android|Tablet|iPad|iPhone/.test(navigator.userAgent);
+        }
+
+        if (!isMobileOrTablet()) {
+
+       
+            $.fancybox.open({
+                src: 'https://www.youtube.com/embed/lTcTyF6tvbY?autoplay=1',
+
+                type: 'iframe',
+                opts: {
+                    iframe: {
+                        css: {
+                            width: '75%',
+                            height: '75%'
+                        }
+                    }
+                }
+            });
+        }
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             $("#imgFlag").css({ "top": "-74px", "left": "40%", "width": "75px" });
             $("#divBannerSmall").show();

@@ -13,6 +13,9 @@
         height: 120%;
     }
 </style>
+@{
+    List<BrAcademy.Data.Course> ImagesOfSameCategory = ViewBag.ImagesOfSameCategory;
+}
 <div class="container" style="background-color:white">
     <h1>Edit</h1>
 
@@ -23,7 +26,7 @@
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
-                <input type="hidden" name="ReturnToCoursePage" value="@(Context.Request.Query["ReturnToCoursePage"])"/>
+                <input type="hidden" name="ReturnToCoursePage" value="@(Context.Request.Query["ReturnToCoursePage"])" />
 
                 <div class="form-group">
                     <label asp-for="Code" class="control-label"></label>
@@ -46,7 +49,7 @@
                     <label asp-for="Description" class="control-label"></label>
                     <textarea id="areaDescription" asp-for="Description" class="form-control">
 
- @Model.Description
+                        @Model.Description
 </textarea>
                     @*<span asp-validation-for="Description" class="text-danger"></span>*@
                 </div>
@@ -58,10 +61,14 @@
                         <option value="ltr">English</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="position:relative">
                     <label asp-for="CourseImageUrl" class="control-label"></label>
                     @*<input asp-for="CourseImageUrl" class="form-control" />*@
-                    <input type="file" id="CourseImage" accept="image/*" class="form-control" />
+                    <input type="file" id="CourseImage" style="display:inline-block" accept="image/*" class="form-control" />
+                    <button type="button" style="position:absolute;right:0" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Import
+                    </button>
+
                     <input type="hidden" asp-for="CourseImageUrl" />
 
                     <div id="divImgPreview" style="position:relative;display:@(Model.CourseImageUrl != null?"block":"none")">
@@ -86,7 +93,7 @@
                     <input type="file" id="FullWidthCourseImage" accept="image/*" class="form-control" />
                     <input type="hidden" asp-for="FullWidthCourseImageUrl" />
 
-                    
+
                     @if (Model.CourseImageUrl != null)
                     {
                         <img id="FullWidthImgPreview" src="~/images/Courses/FullWidth/@Model.FullWidthCourseImageUrl" style="width:100%" />
@@ -178,80 +185,80 @@
                 </div>
                 <div class="modal-body" style="height:500px">
 
-                    
-        <div id="divPreview" style="width:600px"></div>
-       
+
+                    <div id="divPreview" style="width:600px"></div>
+
 
 
                     <div style="width: 900px">
-            <div class="row">
-                <div class="col-md-7">
-                    <div>
-                        <img id="imgCrop" width="360" height="480" asp-append-version="true" />
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div>
+                                    <img id="imgCrop" width="360" height="480" asp-append-version="true" />
 
-                    </div>
-                </div>
-                <div class="col-md-4" style="margin-top:10px">
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="margin-top:10px">
 
-                    <div>
+                                <div>
 
 
-                        <div id="divPreview" style="width: 200px; height: 200px; border: 1px solid rgb(178,178,178); overflow: hidden; margin: 0 auto; text-align: center" class="img-preview">
+                                    <div id="divPreview" style="width: 200px; height: 200px; border: 1px solid rgb(178,178,178); overflow: hidden; margin: 0 auto; text-align: center" class="img-preview">
+                                    </div>
+
+
+
+                                    <table style="display: block">
+                                        <tr>
+                                            <td>
+                                                X
+                                            </td>
+                                            <td>
+                                                <input type="text" id="TxtX" name="TxtX" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Y
+                                            </td>
+                                            <td>
+                                                <input type="text" id="TxtY" name="TxtY" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                W
+                                            </td>
+                                            <td>
+
+                                                <input type="text" id="TxtW" name="width" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                H
+                                            </td>
+                                            <td>
+                                                <input type="text" id="TxtH" name="height" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <hr style="border-color:#dadada;margin:10px 0" />
+                                <div style="padding:10px;margin-bottom:10px">
+                                    <input type="button" class="btn btn-primary" value="Crop" id="BtnCrop" asp-action="CropCourseImage" asp-controller="Courses" />
+
+                                    <input type="hidden" id="hiddenImageName" name="ImageName" />
+                                    <input type="button" id="btnCancel" class="btn btn-danger" value="Skip Cropping" />
+                                </div>
+
+                            </div>
                         </div>
-
-
-
-                        <table style="display: block">
-                            <tr>
-                                <td>
-                                    X
-                                </td>
-                                <td>
-                                    <input type="text" id="TxtX" name="TxtX" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Y
-                                </td>
-                                <td>
-                                    <input type="text" id="TxtY" name="TxtY" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    W
-                                </td>
-                                <td>
-
-                                    <input type="text" id="TxtW" name="width" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    H
-                                </td>
-                                <td>
-                                    <input type="text" id="TxtH" name="height" />
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr style="border-color:#dadada;margin:10px 0" />
-                    <div style="padding:10px;margin-bottom:10px">
-                        <input type="button" class="btn btn-primary" value="Crop" id="BtnCrop" asp-action="CropCourseImage" asp-controller="Courses" />
-
-                        <input type="hidden" id="hiddenImageName" name="ImageName" />
-                        <input type="button" id="btnCancel" class="btn btn-danger" value="Skip Cropping" />
                     </div>
 
-                </div>
-            </div>
-        </div>
 
 
-                   
-                    
+
 
 
                 </div>
@@ -260,15 +267,70 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <select id="dropAllCategories" style="direction:rtl;margin-bottom:5px;border-color:#d5d5d5" class="form-control2" asp-items="ViewBag.CourseCategoryID">
+                        <option>إختر من القائمة</option>
+                        </select>
+                <div id="divImportImages" style="height:500px;border:1px solid 1px solid #d5d5d5;overflow-y:scroll;border-radius:5px;direction:rtl">
+                    @foreach (var Image in ImagesOfSameCategory)
+                    {
+                        <div class="divImportImageItem" data-imgname="@Image.CourseImageUrl" style="border-bottom:1px solid #d5d5d5">
+                            <img src="~/images/Courses/@Image.CourseImageUrl" style="height:100px;display:inline-block;margin-left:10px;"  />
+                            <p style="display:inline-block;width: 320px;vertical-align: top;">@Image.CourseName</p>
+                            </div>
+                    }
+                </div>
+            </div>
+           @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> *@
+        </div>
+    </div>
+</div>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
     @*<script src="~/lib/cropperjs-master/dist/cropper.js"></script>*@
-   @*<script src="~/lib/croppie.min.js"></script>*@
+    @*<script src="~/lib/croppie.min.js"></script>*@
     <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
     @*<script src="https://unpkg.com/jcrop"></script>*@
-<script>
+    <script>
         $(function () {
+            $("#divImportImages").on("click", ".divImportImageItem", function () {
+                var imageName = $(this).attr("data-imgname");
+                $("button.close").click();
+                $("#divImgPreview").show();
+                $("#imgPreview").attr("src", "/images/Courses/" + imageName);
+                $("#CourseImageUrl").val(imageName);
+            });
+            $("#dropAllCategories").change(function () { 
+                $("#divImportImages").empty();
+                var catId = $("#dropAllCategories").val();
+                $.get("../../Courses/GetCoursesInCategory", { id: catId }, function (result) {
+                    var items = $.parseJSON(JSON.stringify(result));
+                    console.log(result);
+                    $(items).each(function (i, item) {
+                        var $divItem = $(`<div class="divImportImageItem" data-imgname="${item.courseImageUrl}" style="border-bottom:1px solid #d5d5d5">
+                                                    <img src="/images/Courses/${item.courseImageUrl}" style="height:100px;display:inline-block;margin-left:10px;"  />
+                                                    <p style="display:inline-block;width: 320px;vertical-align: top;">${item.courseName}</p>
+                                    </div>`);
+                        $divItem.appendTo("#divImportImages");
+                    });
+                });
+            });
             $("#hyperDeleteImg").click(function () {
                 $(this).closest("div").hide();
                 $("#CourseImageUrl").val("");
@@ -277,7 +339,7 @@
                 $(this).closest("div").hide();
                 $("#CourseWideImageUrl").val("");
             })
-            
+
             $("#CourseImageWide").change(function () {
                 var files = $('#CourseImageWide')[0].files;
                 console.log(files[0]);
@@ -307,80 +369,12 @@
                     language: {
                         ui: 'en',
                         content: 'ar'
-                    }})
+                    }
+                })
                 .catch(error => {
                     console.error(error);
                 });
-            //$("#BtnCrop").click(function () {
-            //    $.post("../../Courses/CropCourseImage", {
-            //        ImageName: $("#hiddenImageName").val(), width: parseInt($('#TxtW').val()),
-            //        height: parseInt($('#TxtH').val()),
-            //        x: parseInt($('#TxtX').val()),
-            //        y: parseInt($('#TxtY').val())
-            //        )
-            //    }, function (result) {
-            //        alert("done!");
-            //    });
-            //});
-            //$("#BtnCrop").click(function () {
-            //    $.ajax({
-            //        url: "../../ Courses / CropCourseImage",
-            //        type: 'POST',
-            //        dataType: 'json',
-            //        data: { ImageName: $("#hiddenImageName"), width: parseInt($('#TxtW').val()), height: parseInt($('#TxtH').val()) },
-            //        cache: false,
-            //        processData: true
-            //    }).done(function () {
-            //        alert();
-            //    });
-            //});
 
-
-            //function readFile(input) {
-            //    if (input.files && input.files[0]) {
-            //        var reader = new FileReader();
-
-            //        reader.onload = function (e) {
-            //            $('.upload-demo').addClass('ready');
-            //            $uploadCrop.croppie('bind', {
-            //                url: e.target.result
-            //            }).then(function () {
-            //                console.log('jQuery bind complete');
-            //            });
-
-            //        }
-
-            //        reader.readAsDataURL(input.files[0]);
-            //    }
-            //    else {
-            //        swal("Sorry - you're browser doesn't support the FileReader API");
-            //    }
-            //}
-            //$uploadCrop = $('#upload-demo').croppie({
-            //    viewport: { width: 300, height: 300 },
-            //    boundary: { width: 600, height: 400 },
-            //    enableExif: true
-
-            //});
-
-
-
-
-
-            //$('#CourseImage').on('change', function () {
-            //    $('#cropModal').modal({ backdrop: "static" })
-            //    readFile(this);
-            //});
-            //$('.upload-result').on('click', function (ev) {
-            //    $uploadCrop.croppie('result', {
-            //        type: 'canvas',
-            //        size: 'viewport'
-            //    }).then(function (resp) {
-            //        popupResult({
-            //            src: resp
-            //        });
-            //    });
-            //});
 
 
             //---------------------------------------------My Green Line------------------------------------------------------------------------//
@@ -404,120 +398,45 @@
 
                         $('#imgPreview').attr("src", `../../images/Courses/${$.parseJSON(JSON.stringify(result)).responseText}`);
                         $('#imgPreview').closest("div").show();
-                        //var aspect = 1;
-                        //var image = $('#imgCrop')[0];
-                        //setTimeout(function () {
-                        //    if (aspect != "") {
-                        //        var cropper = new Cropper(image, {
-                        //            preview: "#divPreview",
-                        //            aspectRatio: aspect,
-                        //            crop: function (e) {
-                        //                $('#TxtX').val(e.detail.x);
-                        //                $('#TxtY').val(e.detail.y);
-                        //                $('#TxtW').val(e.detail.width);
-                        //                $('#TxtH').val(e.detail.height);
 
-                        //            }
-                        //        });
-                        //    } else {
-                        //        var cropper = new Cropper(image, {
-                        //            preview: "#divPreview",
-                        //            crop: function (e) {
-                        //                $('#TxtX').val(e.detail.x);
-                        //                $('#TxtY').val(e.detail.y);
-                        //                $('#TxtW').val(e.detail.width);
-                        //                $('#TxtH').val(e.detail.height);
-
-                        //            }
-                        //        });
-
-                        //    }
-                        //}, 2000);
 
 
                     }, error: function (ex) {
-                        // console.log($.parseJSON(JSON.stringify(ex)).responseText);
-                        //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
-                        //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
-                        //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
+
                     }
 
                 });
             });
-            //---------------------------------------------End My Green Line------------------------------------------------------------------------//
-
-
-            //    $('#CourseImage').change(function () {
-            //        $('#cropModal').modal({ backdrop: "static" })
-            //        $('#Image1').hide();
-            //        var reader = new FileReader();
-            //        reader.onload = function (e) {
-            //            $('#Image1').show();
-            //            $('#Image1').attr("src", e.target.result);
-            //            $('#Image1').Jcrop({
-            //                onChange: SetCoordinates,
-            //                onSelect: SetCoordinates
-            //            });
-            //        }
-            //        reader.readAsDataURL($(this)[0].files[0]);
-            //    });
-
-            //    $('#btnCrop').click(function () {
-            //        var x1 = $('#imgX1').val();
-            //        var y1 = $('#imgY1').val();
-            //        var width = $('#imgWidth').val();
-            //        var height = $('#imgHeight').val();
-            //        var canvas = $("#canvas")[0];
-            //        var context = canvas.getContext('2d');
-            //        var img = new Image();
-            //        img.onload = function () {
-            //            canvas.height = height;
-            //            canvas.width = width;
-            //            context.drawImage(img, x1, y1, width, height, 0, 0, width, height);
-            //            $('#imgCropped').val(canvas.toDataURL());
-            //            $('#btnUpload').show();
-            //        };
-            //        img.src = $('#Image1').attr("src");
-            //    });
-
-
-            //});
-            //function SetCoordinates(c) {
-            //    $('#imgX1').val(c.x);
-            //    $('#imgY1').val(c.y);
-            //    $('#imgWidth').val(c.w);
-            //    $('#imgHeight').val(c.h);
-            //    $('#btnCrop').show();
-            //};
-        });
-    $("#FullWidthCourseImage").change(function () {
-        var files = $('#FullWidthCourseImage')[0].files;
-        console.log(files[0]);
-        var formData = new FormData();
-
-        formData.append(files[0].name, files[0]);
-        $.ajax({
-            url: '../../Courses/UploadFullWidthCourseImage',
-            type: 'POST',
-            data: formData,
-            dataType: "json",
-            contentType: false,
-            processData: false,
-            complete: function (result) {
-
-                $("#FullWidthCourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
-
-
-                $('#FullWidthImgPreview').attr("src", `../../images/Courses/FullWidth/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
-
-            }, error: function (ex) {
-                // console.log($.parseJSON(JSON.stringify(ex)).responseText);
-                //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
-                //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
-                //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
-            }
 
         });
-    });
-</script>
-    }
+        $("#FullWidthCourseImage").change(function () {
+            var files = $('#FullWidthCourseImage')[0].files;
+            console.log(files[0]);
+            var formData = new FormData();
+
+            formData.append(files[0].name, files[0]);
+            $.ajax({
+                url: '../../Courses/UploadFullWidthCourseImage',
+                type: 'POST',
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                complete: function (result) {
+
+                    $("#FullWidthCourseImageUrl").val($.parseJSON(JSON.stringify(result)).responseText);
+
+
+                    $('#FullWidthImgPreview').attr("src", `../../images/Courses/FullWidth/${$.parseJSON(JSON.stringify(result)).responseText}`).show();
+
+                }, error: function (ex) {
+                    // console.log($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#imgPreview").attr("src", "/images/Courses/" + $.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#CourseImageUrl").val($.parseJSON(JSON.stringify(ex)).responseText);
+                    //$("#cropModal").modal({ backdrop: "static ", keyboard: false });
+                }
+
+            });
+        });
+    </script>
+}

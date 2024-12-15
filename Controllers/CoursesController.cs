@@ -22,6 +22,8 @@ using SixLabors.ImageSharp.Processing;
 using BrAcademy.Models.Courses;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json;
+using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace BrAcademy.Controllers
 {
@@ -137,9 +139,15 @@ namespace BrAcademy.Controllers
                 return NotFound();
             }
             ViewData["CourseCategoryID"] = new SelectList(_context.CourseCategories, "Id", "CategoryName", course.CourseCategoryID);
+            ViewData["ImagesOfSameCategory"] = _context.Courses.Where(m=>m.CourseCategoryID == course.CourseCategoryID&&m.CourseImageUrl!=null).OrderBy(m=>m.SortIndex).ToList();
+            
             return View(course);
         }
-
+        public List<Course> GetCoursesInCategory(int? id)
+        {
+            var CoursesList = _context.Courses.Where(m => m.CourseCategoryID == id && m.CourseImageUrl != null).OrderBy(m => m.SortIndex).ToList();
+            return CoursesList;
+        }
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -469,6 +477,7 @@ namespace BrAcademy.Controllers
                         {
                             var MyCourse = _context.Courses.FirstOrDefault(m => m.Code == e.Code.Trim());
                             MyCourse.CourseName = e.CourseName.Trim();
+                            MyCourse.CourseCategoryID=int.Parse(e.CategoryId);
                         }
                         else
                         {

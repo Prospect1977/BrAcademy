@@ -90,9 +90,12 @@
             border: 1px solid magenta;
     }
 </style>
-
+@{
+    Random rand = new Random();
+    int rnd = rand.Next(50);
+}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
-<section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg?i=1');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
+<section class="home-banner-area container-xl" id="home-banner-area" style="background-image: url('assets/images/system/home-banner2.jpg?i=@rnd');background-position: left;background-repeat: no-repeat;padding: 100px 0 75px;background-size: auto 100%;color: #fff;direction: rtl;">
 
     <div class="container-xl">
         <div class="row">

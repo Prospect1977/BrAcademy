@@ -75,20 +75,17 @@
         background-color: white;
         border-radius: 5px;
         padding: 3px 11px;
-       
         text-align: center;
         border: 1px solid #b74ab7;
-       
         color: #af60b9;
-      
         margin: 0 5px;
-       
     }
-    .btnTrainingPlan:hover{
+
+        .btnTrainingPlan:hover {
             box-shadow: 0 0 5px white;
             color: #a320b3;
             border: 1px solid magenta;
-    }
+        }
 </style>
 @{
     Random rand = new Random();
@@ -107,15 +104,32 @@
                         @*<a class="btn btn-primary btn-lg" href="home/about_us" style="border-color:white">بروفايل الشركة وسابقة الأعمال</a>*@
                         <div style="width:100%">
                             <a class="btn btn-primary btn-lg" href="~/images/CompanyProfile.pdf" style="border-color:white">بروفايل الشركة وسابقة الأعمال</a>&nbsp;
-                            <a class="btn btn-primary btn-lg" href="~/Posts/Gallery/" style="border-color:white">إحتفاليات التخريج</a>&nbsp;
+                            @* <a class="btn btn-primary btn-lg" href="~/Posts/Gallery/" style="border-color:white">إحتفاليات التخريج</a>&nbsp; *@
                             <br id="br" style="display:none" />
+                            <div style="margin-top:8px">
+                                <a href="~/images/Oil.pdf" style="border: 1px solid #982c68;border-radius:5px;display:inline-block;margin-left:5px;position:relative;height: 60px;width: 160px;overflow: hidden;">
+                                    <img src="~/images/OilIcon.jpg" style="height: 60px;position:absolute;right:0">
+                                    <div style="position:absolute;left:0;padding: 0 6px;direction:rtl;width: 100px;color: #982c68;text-align:right">
+                                        <span style="vertical-align:middle;font-size:14px">   النفط والغاز 2025</span>
+                                    </div>
+                                </a>
+                                <a href="~/images/Acc.pdf" style="border: 1px solid #982c68;border-radius:5px;display:inline-block;margin-left:5px;position:relative;height: 60px;width: 160px;overflow: hidden;">
+                                    <img src="~/images/AccIcon.png" style="height: 60px;position:absolute;right:0;text-align:right">
+                                    <div style="position:absolute;left:0;padding: 0 6px;direction:rtl;width: 100px;color: #982c68;text-align:right">
+                                        <span style="vertical-align:middle;font-size:14px">   القطاع المصرفي 2025</span>
+                                    </div>
+                                </a>
+                            </div>
+
+
+
                             @*<a id="btnTrainingPlan" class="btn btn-primary btn-lg" href="~/images/@ViewBag.TrainingPlan.FileUrl" style="border-color:white;">@ViewBag.TrainingPlan.ButtonCaption</a>&nbsp;*@
-                            <span id="divTrainingPlans_mobile">
+                           @*  <span id="divTrainingPlans_mobile">
                                 <a class="btn btn-primary btn-lg" href="~/images/Oil.pdf" style="border-color:white">دورات النفط والغاز 2024</a>
                                 <br />
                                 <a class="btn btn-primary btn-lg" href="~/images/Banker.pdf style="border-color:white">دورات القطاع المصرفي 2024</a>
 
-                            </span>
+                            </span> *@
 
                         </div>
 
@@ -194,17 +208,7 @@
 <div class="container-xl" style="border-top: 8px solid #982c68;padding:0;position:relative">
     <img src="~/assets/images/Banner_TrainingPlan.jpeg" style="width:100%" />
 
-    <div id="divTrainingPlans_desktop" style="position:absolute;top: 33px;right: 39%;font-size: 14px;direction: rtl;font-weight: bold;">
-        <a href="/images/Oil.pdf" class="btnTrainingPlan" style="">
-            الخطة التدريبية 2024
-            <br>
-            النفط والغاز
-        </a>
-        <a href="/images/Banker.pdf" class="btnTrainingPlan">
-            الخطة التدريبية 2024
-            <br>
-            القطاع المصرفي
-        </a>
+   
     </div>
 </div>
 
@@ -614,7 +618,7 @@
     </div>
 </div>
 @* <a id="video-link" data-fancybox href="https://youtu.be/lTcTyF6tvbY" style="display:none;"></a> *@
-@section Scripts{
+@section Scripts {
     <script src="~/lib/owl/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <!-- Load the YouTube IFrame Player API -->
@@ -629,15 +633,16 @@
 
         if (!isMobileOrTablet()) {
 
-       
-            $.fancybox.open({
-                src: 'https://www.youtube.com/embed/lTcTyF6tvbY?autoplay=1',
 
+            $.fancybox.open({
+                // src: 'https://www.youtube.com/embed/lTcTyF6tvbY?autoplay=1',//the main promo
+                src: 'https://www.youtube.com/embed/BORs5qZGp6E?autoplay=1',//happy new year
                 type: 'iframe',
                 opts: {
                     iframe: {
                         css: {
-                            width: '75%',
+                            width: '75%',//the main promo
+                            // width: '56%',//happy new year
                             height: '75%'
                         }
                     }
@@ -727,50 +732,50 @@
         var events = $.parseJSON($("#hiddenComingSoon").val());
         $(events).each(function (i, item) {
             var $box = $(` <div class="course-box-wrap slick-active col-sm-6 col-md-3" tabindex="0" data-slick-index="3" aria-hidden="false">
-                                                                                                            <div class="course-box">
-                                                                                                                <a href="../../Courses/CourseDetails/${item.Id}" >
-                                                                                                                    <div class="course-image" style="text-align:center">
-                                                                                                                        <img src="../../images/Courses/${item.CourseImageUrl}" alt="${item.CourseName}" class="img-fluid">
-                                                                                                                    </div>
-                                                                                                                    <div class="course-details">
-                                                                                                                        <h5 class="title" style="text-align: right;">${item.CourseName}</h5>
-                                                                                                                        <div class="rating" style="text-align: right;">
-                                                                                                                            <img src="../../images/Stars/${parseFloat(item.Review).toFixed(1)}.png" style="width:83px" />
+                                                                                                                            <div class="course-box">
+                                                                                                                                <a href="../../Courses/CourseDetails/${item.Id}" >
+                                                                                                                                    <div class="course-image" style="text-align:center">
+                                                                                                                                        <img src="../../images/Courses/${item.CourseImageUrl}" alt="${item.CourseName}" class="img-fluid">
+                                                                                                                                    </div>
+                                                                                                                                    <div class="course-details">
+                                                                                                                                        <h5 class="title" style="text-align: right;">${item.CourseName}</h5>
+                                                                                                                                        <div class="rating" style="text-align: right;">
+                                                                                                                                            <img src="../../images/Stars/${parseFloat(item.Review).toFixed(1)}.png" style="width:83px" />
 
 
-                                                                                                                            <div class="d-inline-block" style="float: left;">
-                                                                                                                                <span class="text-dark ms-1 text-15px" style="float: right;">${parseFloat(item.Review).toFixed(1)}</span>
-                                                                                                                                <span class="text-dark text-12px text-muted ms-2">(${item.CountReviewers})</span>
+                                                                                                                                            <div class="d-inline-block" style="float: left;">
+                                                                                                                                                <span class="text-dark ms-1 text-15px" style="float: right;">${parseFloat(item.Review).toFixed(1)}</span>
+                                                                                                                                                <span class="text-dark text-12px text-muted ms-2">(${item.CountReviewers})</span>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <div class="d-flex text-dark" style="direction: rtl;">
+                                                                                                                                            <div class="${item.Event == null ? "hidden" : ""}">
+                                                                                                                                                <i class="far fa-clock text-14px"></i>
+                                                                                                                                                <span class="text-muted text-12px">
+
+                                                                                                                                                      ${item.Event != null ? ToArabicDate(moment(item.Event.StartDate).format("DD/M/Y")) : ""}
+                                                                                                                                                </span>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <div class="d-flex text-dark" style="direction: rtl;">
+                                                                                                                                            <div class="ms-3">
+                                                                                                                                                <i class="far fa-list-alt text-14px"></i>
+                                                                                                                                                <span class="text-muted text-12px">${item.Duration1} (${item.Duration2})</span>
+
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <div class="d-flex text-dark " style="direction: rtl;position:relative;display:${item.Event != null ? "block" : "none !important"}">
+                                                                                                                                            <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : ${item.Event != null ? item.Event.CountryNameEnglish : ""}</span>
+                                                                                                                                            <img src="${item.Event != null ? item.Event.FlagURL.replace("~", "") : ""}" class="${item.Event != null ? "" : "hidden"}" style="height: 16px; position: absolute; left: 10px; top: 8px;">
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </a>
+
                                                                                                                             </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="d-flex text-dark" style="direction: rtl;">
-                                                                                                                            <div class="${item.Event == null ? "hidden" : ""}">
-                                                                                                                                <i class="far fa-clock text-14px"></i>
-                                                                                                                                <span class="text-muted text-12px">
 
-                                                                                                                                      ${item.Event != null ? ToArabicDate(moment(item.Event.StartDate).format("DD/M/Y")) : ""}
-                                                                                                                                </span>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="d-flex text-dark" style="direction: rtl;">
-                                                                                                                            <div class="ms-3">
-                                                                                                                                <i class="far fa-list-alt text-14px"></i>
-                                                                                                                                <span class="text-muted text-12px">${item.Duration1} (${item.Duration2})</span>
-
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <div class="d-flex text-dark " style="direction: rtl;position:relative;display:${item.Event != null ? "block" : "none !important"}">
-                                                                                                                            <span class="text-muted" style="font-size: 14px;margin-top: 7px;">محل الانعقاد : ${item.Event != null ? item.Event.CountryNameEnglish : ""}</span>
-                                                                                                                            <img src="${item.Event != null ? item.Event.FlagURL.replace("~", "") : ""}" class="${item.Event != null ? "" : "hidden"}" style="height: 16px; position: absolute; left: 10px; top: 8px;">
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </a>
-
-                                                                                                            </div>
-
-                                                                                                        </div>`);
+                                                                                                                        </div>`);
             $box.appendTo("#divComingSoon");
         });
-                                                                             //-------------------------------------------------- end coming soon section--------------------------------------------------------------------
+        //-------------------------------------------------- end coming soon section--------------------------------------------------------------------
     </script>
 }
